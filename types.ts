@@ -21,3 +21,7 @@ export interface Review {
   text: string;
   date: string;
 }
+
+export type SortOption = 'name-asc' | 'name-desc' | 'year-desc' | 'year-asc';
+
+export type Theme = 'light' | 'dark';

@@ -13,14 +13,16 @@ const LatestAdditions: React.FC<LatestAdditionsProps> = ({ products, onSelectPro
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h2 className="text-2xl font-bold text-white tracking-tight mb-6">Latest Additions</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" aria-labelledby="latest-additions-heading">
+      <h2 id="latest-additions-heading" className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight mb-6">Latest Additions</h2>
+      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} onSelectProduct={onSelectProduct} />
+          <li key={product.id}>
+            <ProductCard product={product} onSelectProduct={onSelectProduct} />
+          </li>
         ))}
-      </div>
-      <hr className="border-t-2 border-gray-700 mt-8" />
+      </ul>
+      <hr className="border-t-2 border-gray-200 dark:border-gray-700 mt-8" aria-hidden="true" />
     </section>
   );
 };
