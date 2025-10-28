@@ -52,7 +52,7 @@ export const products: Product[] = [
     category: 'Xbox',
     year: 2005,
     description: 'The second console in the Xbox series. It introduced Xbox Live, popularizing online multiplayer gaming, and had a vast library of acclaimed titles.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Xbox-360-Pro-w-controller.jpg/1280px-Xbox-360-Pro-w-controller.jpg',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Xbox-360-pro-console-set.png/1280px-Xbox-360-pro-console-set.png',
     links: [],
   },
   {
@@ -97,7 +97,7 @@ export const products: Product[] = [
     category: 'Xbox',
     year: 2013,
     description: 'The third generation Xbox console, positioned as an all-in-one entertainment system with a focus on media integration and the Kinect sensor.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Xbox-One-Console-w-Controller-L.jpg/1280px-Xbox-One-Console-w-Controller-L.jpg',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Microsoft-Xbox-One-console-and-controller.jpg/1280px-Microsoft-Xbox-One-console-and-controller.jpg',
     links: [],
   },
   {
@@ -152,7 +152,7 @@ export const products: Product[] = [
     category: 'Webcams',
     year: 2010,
     description: 'A high-definition webcam featuring a 1080p sensor, autofocus, and a high-fidelity microphone. It was designed for both personal and business video conferencing.',
-    imageUrl: 'https://i.ebayimg.com/images/g/A8UAAOSw~lVlB00X/s-l1600.jpg',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Microsoft_LifeCam_Studio.jpg/1280px-Microsoft_LifeCam_Studio.jpg',
     links: [],
   },
   {

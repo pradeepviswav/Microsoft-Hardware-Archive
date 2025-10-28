@@ -6,6 +6,8 @@ import CategoryFilter from './components/CategoryFilter';
 import ProductGrid from './components/ProductGrid';
 import ProductModal from './components/ProductModal';
 import LatestAdditions from './components/LatestAdditions';
+import ComparisonTray from './components/ComparisonTray';
+import ComparisonModal from './components/ComparisonModal';
 
 const initialReviews: Review[] = [
   {id: 1, productId: 13, author: 'Gamer_123', rating: 5, text: 'An absolute beast of a console. The load times are insane!', date: '2023-10-26'},
@@ -13,6 +15,8 @@ const initialReviews: Review[] = [
   {id: 3, productId: 13, author: 'CasualPlayer', rating: 4, text: 'Game Pass is a game-changer. So many titles to choose from.', date: '2023-11-01'},
   {id: 4, productId: 20, author: 'Audiophile', rating: 5, text: 'Noise cancellation is top-notch. Super comfortable for long listening sessions.', date: '2023-08-20'},
 ];
+
+const MAX_COMPARISON_ITEMS = 4;
 
 const App: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -25,11 +29,17 @@ const App: React.FC = () => {
     if (savedTheme) return savedTheme;
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
+  const [comparisonListIds, setComparisonListIds] = useState<number[]>([]);
+  const [isComparisonModalOpen, setIsComparisonModalOpen] = useState(false);
   const modalTriggerRef = useRef<HTMLElement | null>(null);
 
   const latestProducts = useMemo(() => {
     return [...products].sort((a, b) => b.id - a.id).slice(0, 4);
   }, []);
+  
+  const comparisonList = useMemo(() => {
+    return products.filter(p => comparisonListIds.includes(p.id));
+  }, [comparisonListIds]);
   
   useEffect(() => {
     const root = window.document.documentElement;
@@ -42,10 +52,9 @@ const App: React.FC = () => {
   }, [theme]);
   
   useEffect(() => {
-    // Restore focus to the triggering element when the modal is closed
     if (!selectedProduct && modalTriggerRef.current) {
       modalTriggerRef.current.focus();
-      modalTriggerRef.current = null; // Clear the ref
+      modalTriggerRef.current = null;
     }
   }, [selectedProduct]);
 
@@ -86,7 +95,6 @@ const App: React.FC = () => {
   }, [selectedCategory, searchQuery, sortOption]);
 
   const handleSelectProduct = (product: Product) => {
-    // Store the currently focused element before opening the modal
     modalTriggerRef.current = document.activeElement as HTMLElement;
     setSelectedProduct(product);
   };
@@ -113,6 +121,23 @@ const App: React.FC = () => {
     return reviews.filter(r => r.productId === selectedProduct.id);
   }, [reviews, selectedProduct]);
 
+  const handleToggleComparison = (productId: number) => {
+    setComparisonListIds(prevIds => {
+      if (prevIds.includes(productId)) {
+        return prevIds.filter(id => id !== productId);
+      }
+      if (prevIds.length < MAX_COMPARISON_ITEMS) {
+        return [...prevIds, productId];
+      }
+      alert(`You can only compare up to ${MAX_COMPARISON_ITEMS} products at a time.`);
+      return prevIds;
+    });
+  };
+
+  const handleClearComparison = () => {
+    setComparisonListIds([]);
+  };
+
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen text-gray-900 dark:text-white font-sans">
       <Header theme={theme} onThemeToggle={handleThemeToggle} />
@@ -125,14 +150,39 @@ const App: React.FC = () => {
         sortOption={sortOption}
         onSortChange={setSortOption}
       />
-      <LatestAdditions products={latestProducts} onSelectProduct={handleSelectProduct} />
-      <ProductGrid products={filteredProducts} onSelectProduct={handleSelectProduct} />
+      <LatestAdditions
+        products={latestProducts}
+        onSelectProduct={handleSelectProduct}
+        comparisonListIds={comparisonListIds}
+        onToggleComparison={handleToggleComparison}
+      />
+      <ProductGrid
+        products={filteredProducts}
+        onSelectProduct={handleSelectProduct}
+        comparisonListIds={comparisonListIds}
+        onToggleComparison={handleToggleComparison}
+      />
       {selectedProduct && (
          <ProductModal
             product={selectedProduct}
             onClose={handleCloseModal}
             reviews={reviewsForSelectedProduct}
             onAddReview={handleAddReview}
+        />
+      )}
+      {isComparisonModalOpen && (
+        <ComparisonModal 
+          products={comparisonList}
+          onClose={() => setIsComparisonModalOpen(false)}
+        />
+      )}
+      {comparisonList.length > 0 && (
+        <ComparisonTray
+          products={comparisonList}
+          onClear={handleClearComparison}
+          onCompare={() => setIsComparisonModalOpen(true)}
+          onRemove={handleToggleComparison}
+          maxItems={MAX_COMPARISON_ITEMS}
         />
       )}
     </div>
