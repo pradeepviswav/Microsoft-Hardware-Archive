@@ -1,6 +1,7 @@
 import { Product } from "../types";
 import { recentProducts } from "./recent";
 import { imageMetadata } from "./images";
+import { catalogueProducts } from "./catalogue";
 
 export const products: Product[] = [
   {
@@ -9,7 +10,7 @@ export const products: Product[] = [
     category: "Mice",
     year: 1983,
     description:
-      "The first mouse released by Microsoft, often bundled with Microsoft Word. It was a two-button serial mouse that marked Microsoft's entry into the hardware market.",
+      "Microsoft's first mouse, bundled with early Microsoft Word packages. Its two-button design marked the company's entry into mouse peripherals, following the earlier SoftCard expansion card.",
     imageUrl: "/images/legacy-1.webp",
     links: [],
   },
@@ -208,7 +209,21 @@ export const products: Product[] = [
 products.forEach((product) =>
   Object.assign(product, imageMetadata[product.id]),
 );
-products.push(...recentProducts);
+products.push(...recentProducts, ...catalogueProducts);
+
+// Stable IDs preserve saved devices from the original 25-record collection.
+const currentMouse = products.find((product) => product.id === 25)!;
+currentMouse.name = "Surface Mouse (2nd Edition)";
+currentMouse.storeListed = true;
+currentMouse.additionalSources = [
+  {
+    title: "Microsoft Store · Surface Mouse (2nd Edition)",
+    url: "https://www.microsoft.com/en-us/d/surface-mouse-2nd-edition/8wg5vqp0x4bv",
+    kind: "Microsoft",
+  },
+];
+products.find((product) => product.id === 3)!.name = "Microsoft Zune 30";
+products.find((product) => product.id === 7)!.category = "Phones";
 
 export const categories = [
   "All",

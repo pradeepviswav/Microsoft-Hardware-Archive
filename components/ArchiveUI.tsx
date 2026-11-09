@@ -25,13 +25,17 @@ export function Picture({
   eager?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
-  return failed ? (
-    <div className="image-fallback">
+  return failed || !product.imageUrl ? (
+    <div
+      className="image-fallback"
+      role="img"
+      aria-label={`${product.name}: ${failed ? "image unavailable" : "photo not yet catalogued"}`}
+    >
       <span aria-hidden="true">▧</span>
       <small>
         {product.name}
         <br />
-        Image unavailable
+        {failed ? "Image unavailable" : "Photo not yet catalogued"}
       </small>
     </div>
   ) : (

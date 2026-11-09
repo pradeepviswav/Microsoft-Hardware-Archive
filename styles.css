@@ -1295,3 +1295,69 @@ thead th {
 .collection-main {
   min-width: 0;
 }
+.store-filter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink);
+  padding: 16px 0 2px;
+  cursor: pointer;
+}
+.store-filter input {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+}
+.store-filter small {
+  font-size: 10px;
+  color: var(--muted);
+  margin-left: auto;
+}
+.load-more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 28px 0 5px;
+}
+.load-more p {
+  font-size: 12px;
+  color: var(--muted);
+}
+.load-more button {
+  background: var(--surface);
+  min-height: 44px;
+}
+.image-kind {
+  position: absolute;
+  bottom: 7px;
+  left: 10px;
+  font-size: 8px;
+  background: var(--surface);
+  padding: 3px 6px;
+  border-radius: 3px;
+  color: var(--muted);
+  pointer-events: none;
+}
+.image-note {
+  font-size: 11px !important;
+  color: var(--muted);
+}
+.spec-list dd {
+  max-width: 65%;
+}
+.category-list button {
+  min-height: 42px;
+}
+@media (max-width: 700px) {
+  .store-filter small {
+    width: 100%;
+    margin-left: 24px;
+  }
+  .load-more {
+    flex-direction: column;
+    align-items: center;
+  }
+}
