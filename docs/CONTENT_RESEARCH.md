@@ -19,3 +19,7 @@ Historical entries without a primary announcement link remain explicitly labeled
 ## Removed placeholders
 
 The original in-memory fictional review seeds, nonfunctional shopping links, and API-key-dependent generated fun facts have been removed. Details now prioritize descriptions, recorded specifications, and traceable sources. Saved devices are local to the browser; no account, public review backend, or secret is needed.
+
+## Expanded historical collection
+
+The subsequent 136-record expansion, including Microsoft Support specifications, archived Hardware catalogues, Wikipedia model histories, and the current accessories selection, is documented in [COLLECTION_EXPANSION.md](COLLECTION_EXPANSION.md).

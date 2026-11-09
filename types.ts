@@ -3,16 +3,27 @@ export interface ProductLink {
   url: string;
 }
 
+export interface ProductSource {
+  title: string;
+  url: string;
+  kind?: "Microsoft" | "Microsoft archive" | "Wikipedia";
+}
+
 export interface Product {
   id: number;
   name: string;
   category: string;
-  year: number;
+  year: number | null;
   description: string;
-  imageUrl: string;
+  imageUrl?: string;
   links: ProductLink[];
   addedAt?: string;
-  source?: { title: string; url: string };
+  source?: ProductSource;
+  additionalSources?: ProductSource[];
+  researchedAt?: string;
+  storeListed?: boolean;
+  imageKind?: "photo" | "diagram";
+  imageNote?: string;
   specs?: Record<string, string>;
   imageCredit?: string;
   imageSource?: string;

@@ -4,6 +4,13 @@ import { Product, Theme } from "./types";
 import "./styles.css";
 import { Arrow, Picture, Modal } from "./components/ArchiveUI";
 
+const PAGE_SIZE = 24;
+const years = products
+  .map((p) => p.year)
+  .filter((year): year is number => year !== null);
+const firstYear = Math.min(...years);
+const lastYear = Math.max(...years);
+const formatYear = (product: Product) => product.year ?? "Year unconfirmed";
 const eras = ["All years", "1980–1999", "2000–2009", "2010–2019", "2020–2026"];
 function readSaved<T>(key: string, fallback: T): T {
   try {
@@ -19,6 +26,8 @@ export default function App() {
   const [sort, setSort] = useState("year-desc");
   const [view, setView] = useState<"grid" | "list">("grid");
   const [savedOnly, setSavedOnly] = useState(false);
+  const [storeOnly, setStoreOnly] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [saved, setSaved] = useState<number[]>(() =>
     readSaved<unknown>("archive-saved", []) instanceof Array
       ? readSaved<unknown[]>("archive-saved", []).filter(
@@ -75,22 +84,31 @@ export default function App() {
           (p) =>
             (category === "All" || p.category === category) &&
             (era === "All years" ||
-              (p.year >= Number(era.slice(0, 4)) &&
+              (p.year !== null &&
+                p.year >= Number(era.slice(0, 4)) &&
                 p.year <= Number(era.slice(5)))) &&
             (!savedOnly || saved.includes(p.id)) &&
-            `${p.name} ${p.category} ${p.year} ${p.description}`
+            (!storeOnly || p.storeListed) &&
+            `${p.name} ${p.category} ${p.year ?? ""} ${p.description}`
               .toLowerCase()
               .includes(query.trim().toLowerCase()),
         )
-        .sort((a, b) =>
-          sort === "year-desc"
-            ? b.year - a.year || a.name.localeCompare(b.name)
-            : sort === "year-asc"
-              ? a.year - b.year
-              : a.name.localeCompare(b.name),
-        ),
-    [query, category, era, sort, savedOnly, saved],
+        .sort((a, b) => {
+          if (sort === "name-asc") return a.name.localeCompare(b.name);
+          if (a.year === null)
+            return b.year === null ? a.name.localeCompare(b.name) : 1;
+          if (b.year === null) return -1;
+          return (
+            (sort === "year-desc" ? b.year - a.year : a.year - b.year) ||
+            a.name.localeCompare(b.name)
+          );
+        }),
+    [query, category, era, sort, savedOnly, saved, storeOnly],
   );
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [query, category, era, sort, savedOnly, storeOnly]);
+  const visibleProducts = filtered.slice(0, visibleCount);
   const toggleSaved = (id: number) =>
     setSaved((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
@@ -109,6 +127,7 @@ export default function App() {
     setCategory("All");
     setEra("All years");
     setSavedOnly(false);
+    setStoreOnly(false);
   };
   const hero = products.find((p) => p.id === 24)!;
   const selected = compare.map((id) => products.find((p) => p.id === id)!);
@@ -165,8 +184,8 @@ export default function App() {
               Real hardware.
             </h1>
             <p>
-              From the mouse that started it all to a new generation of Surface.
-              Explore the devices that shaped how we work, play, and create.
+              From early expansion cards to a new generation of Surface. Explore
+              the devices that shaped how we work, play, and create.
             </p>
             <a className="primary" href="#collection">
               Explore the collection{" "}
@@ -175,7 +194,9 @@ export default function App() {
               </span>
             </a>
             <div className="hero-meta">
-              <span>1983 — 2026</span>
+              <span>
+                {firstYear} — {lastYear}
+              </span>
               <span>{products.length} devices. Countless possibilities.</span>
             </div>
           </div>
@@ -198,7 +219,7 @@ export default function App() {
         </section>
         <section className="archive-strip" aria-label="Archive highlights">
           <div>
-            <strong>43</strong>
+            <strong>{lastYear - firstYear}</strong>
             <span>years of hardware</span>
           </div>
           <div>
@@ -318,6 +339,15 @@ export default function App() {
                   </select>
                 </label>
               </div>
+              <label className="store-filter">
+                <input
+                  type="checkbox"
+                  checked={storeOnly}
+                  onChange={(e) => setStoreOnly(e.target.checked)}
+                />
+                Microsoft Store selection{" "}
+                <small>Listings checked 9 Nov 2026; stock varies.</small>
+              </label>
               <div className="results-bar">
                 <p role="status">
                   <b>{filtered.length}</b>{" "}
@@ -357,12 +387,14 @@ export default function App() {
                 </div>
               </div>
               {(savedOnly ||
+                storeOnly ||
                 query ||
                 category !== "All" ||
                 era !== "All years") && (
                 <div className="active-filters">
                   <span>
                     {savedOnly ? "Saved devices · " : ""}
+                    {storeOnly ? "Microsoft Store · " : ""}
                     {category === "All" ? "All families" : category} / {era}
                   </span>
                   <button onClick={reset}>Reset filters ×</button>
@@ -371,7 +403,7 @@ export default function App() {
               <div
                 className={`product-grid ${view === "list" ? "list-view" : ""}`}
               >
-                {filtered.map((p) => (
+                {visibleProducts.map((p) => (
                   <article
                     key={p.id}
                     className={`product-card ${compare.includes(p.id) ? "in-comparison" : ""}`}
@@ -386,7 +418,10 @@ export default function App() {
                       >
                         <Picture product={p} />
                       </button>
-                      <span className="year-tag">{p.year}</span>
+                      <span className="year-tag">{formatYear(p)}</span>
+                      {p.imageKind === "diagram" && (
+                        <span className="image-kind">Support diagram</span>
+                      )}
                       <button
                         className="save-button"
                         aria-label={`${saved.includes(p.id) ? "Unsave" : "Save"} ${p.name}`}
@@ -428,6 +463,25 @@ export default function App() {
                   </article>
                 ))}
               </div>
+              {filtered.length > 0 && (
+                <div className="load-more">
+                  <p role="status">
+                    Showing {visibleProducts.length} of {filtered.length}{" "}
+                    devices
+                  </p>
+                  {visibleProducts.length < filtered.length && (
+                    <button
+                      className="secondary"
+                      onClick={() =>
+                        setVisibleCount((count) => count + PAGE_SIZE)
+                      }
+                    >
+                      Show {Math.min(PAGE_SIZE, filtered.length - visibleCount)}{" "}
+                      more devices ↓
+                    </button>
+                  )}
+                </div>
+              )}
               {!filtered.length && (
                 <div className="empty-state">
                   <span>⌕</span>
@@ -443,7 +497,11 @@ export default function App() {
                 </div>
               )}
               <div className="collection-end">
-                <span>YOU’VE REACHED THE END OF THIS COLLECTION</span>
+                <span>
+                  {visibleProducts.length < filtered.length
+                    ? "MORE DEVICES TO DISCOVER"
+                    : "YOU’VE REACHED THE END OF THIS COLLECTION"}
+                </span>
                 <a href="#collection">Back to top ↑</a>
               </div>
             </div>
@@ -504,7 +562,7 @@ export default function App() {
           </div>
           <div className="detail-content">
             <div className="eyebrow">
-              {detail.category} / {detail.year}
+              {detail.category} / {formatYear(detail)}
             </div>
             <h2>{detail.name}</h2>
             <p>{detail.description}</p>
@@ -539,10 +597,20 @@ export default function App() {
             </div>
             {detail.source ? (
               <div className="source-note">
-                <span className="eyebrow">READ THE ORIGINAL STORY</span>
+                <span className="eyebrow">SOURCES &amp; SPECIFICATIONS</span>
                 <a href={detail.source.url} target="_blank" rel="noreferrer">
                   {detail.source.title} <Arrow />
                 </a>
+                {detail.additionalSources?.map((source) => (
+                  <a
+                    key={source.url}
+                    href={source.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {source.title} <Arrow />
+                  </a>
+                ))}
                 <small>
                   Researched 9 November 2026 ·{" "}
                   {detail.dateLabel || "Release year shown above"}
@@ -556,22 +624,31 @@ export default function App() {
                 </small>
               </div>
             )}
-            <p className="image-credit">
-              Image:{" "}
-              {detail.imageCredit ||
-                "Wikimedia Commons (original archive image)"}
-              .{" "}
-              {detail.imageSource && (
-                <a href={detail.imageSource} target="_blank" rel="noreferrer">
-                  Original image source
-                </a>
-              )}{" "}
-              {detail.imageLicense && (
-                <a href={detail.imageLicense} target="_blank" rel="noreferrer">
-                  License
-                </a>
-              )}
-            </p>
+            {detail.imageNote && (
+              <p className="image-note">{detail.imageNote}</p>
+            )}
+            {detail.imageUrl && (
+              <p className="image-credit">
+                Image:{" "}
+                {detail.imageCredit ||
+                  "Wikimedia Commons (original archive image)"}
+                .{" "}
+                {detail.imageSource && (
+                  <a href={detail.imageSource} target="_blank" rel="noreferrer">
+                    Original image source
+                  </a>
+                )}{" "}
+                {detail.imageLicense && (
+                  <a
+                    href={detail.imageLicense}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    License
+                  </a>
+                )}
+              </p>
+            )}
           </div>
         </Modal>
       )}
@@ -616,7 +693,7 @@ export default function App() {
                     {selected.map((p) => (
                       <td key={p.id}>
                         {row === "Year"
-                          ? p.year
+                          ? formatYear(p)
                           : row === "Family"
                             ? p.category
                             : row === "Overview"
@@ -642,9 +719,10 @@ export default function App() {
             </p>
             <h3>How we keep it useful</h3>
             <p>
-              Recent additions link to Microsoft announcements. Years refer to
-              the model’s introduction, not the year a listing was added. This
-              is a curated selection, not a complete product catalog.
+              Records link to Microsoft specifications, archived announcements,
+              or Wikipedia. Years refer to release or introduction; an
+              unconfirmed year is labelled explicitly. This is a curated
+              selection, not a complete product catalog.
             </p>
             <p>
               New entries were researched on 9 November 2026. Historical entries
@@ -660,8 +738,9 @@ export default function App() {
             </p>
             <p>
               Product names and images belong to their respective owners.
-              Microsoft editorial photos are linked to their original
-              announcement; original archive images come from Wikimedia Commons.
+              Photographs and support diagrams include attribution and original
+              source links. A record without a confirmed image is marked “Photo
+              not yet catalogued.”
             </p>
             <a
               className="secondary"

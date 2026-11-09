@@ -1,0 +1,2422 @@
+[
+  {
+    "id": 26,
+    "name": "Microsoft Z-80 SoftCard",
+    "year": 1980,
+    "sources": [
+      {
+        "title": "Wikipedia · Z-80 SoftCard",
+        "url": "https://en.wikipedia.org/wiki/Z-80_SoftCard",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_Softcard_Z80_coprocessor_for_Apple_II.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 27,
+    "name": "Microsoft BallPoint Mouse",
+    "year": 1991,
+    "sources": [
+      {
+        "title": "The History of Microsoft - 1991 | Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/shows/history/history-of-microsoft-1991",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Microsoft Mouse",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Mouse",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 28,
+    "name": "Microsoft Natural Keyboard",
+    "year": 1994,
+    "sources": [
+      {
+        "title": "Microsoft Hardware Celebrates 20 Years of Product Innovation - Source",
+        "url": "https://news.microsoft.com/source/2003/05/02/microsoft-hardware-celebrates-20-years-of-product-innovation/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Microsoft ergonomic keyboards",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_ergonomic_keyboards",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:MicrosoftNaturalKeyboardGen1.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 29,
+    "name": "Microsoft Natural Keyboard Pro",
+    "year": 1999,
+    "sources": [
+      {
+        "title": "Microsoft Announces New Line of Keyboards - Source",
+        "url": "https://news.microsoft.com/source/1999/06/22/microsoft-announces-new-line-of-keyboards/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Microsoft ergonomic keyboards",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_ergonomic_keyboards",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:MS_Natural_Keyboard_Pro.JPG",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 30,
+    "name": "Microsoft Natural MultiMedia Keyboard",
+    "year": 2002,
+    "sources": [
+      {
+        "title": "Microsoft Rolls Out Largest Collection of Desktop Peripherals in Company History - Source",
+        "url": "https://news.microsoft.com/source/2002/09/03/microsoft-rolls-out-largest-collection-of-desktop-peripherals-in-company-history/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Microsoft ergonomic keyboards",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_ergonomic_keyboards",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Old_Ergonomic_Keyboard_%2853551301228%29.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 31,
+    "name": "Microsoft Natural Ergonomic Keyboard 4000",
+    "year": 2005,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft ergonomic keyboards",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_ergonomic_keyboards",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_Natural_Ergonomic_Keyboard_4000.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 32,
+    "name": "Microsoft Natural Wireless Ergonomic Keyboard 7000",
+    "year": 2007,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft ergonomic keyboards",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_ergonomic_keyboards",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Wireless_Ergonomic_Keyboard_and_Mouse_%282173702909%29_%28cropped%29.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 33,
+    "name": "Microsoft Sculpt Ergonomic Keyboard",
+    "year": 2013,
+    "sources": [
+      {
+        "title": "Announcing the Sculpt Ergonomic Desktop | Windows Experience Blog",
+        "url": "https://blogs.windows.com/windowsexperience/2013/08/13/announcing-the-sculpt-ergonomic-desktop/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Microsoft ergonomic keyboards",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_ergonomic_keyboards",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_Sculpt_ergonomic_keyboard_%281%29.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 34,
+    "name": "Surface Ergonomic Keyboard",
+    "year": 2016,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft ergonomic keyboards",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_ergonomic_keyboards",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 35,
+    "name": "Microsoft Ergonomic Keyboard",
+    "year": 2019,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft ergonomic keyboards",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_ergonomic_keyboards",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 36,
+    "name": "Microsoft IntelliMouse",
+    "year": 1996,
+    "sources": [
+      {
+        "title": "Microsoft Announces Microsoft IntelliMouse - Source",
+        "url": "https://news.microsoft.com/source/1996/07/22/microsoft-announces-microsoft-intellimouse/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · IntelliMouse",
+        "url": "https://en.wikipedia.org/wiki/IntelliMouse",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoftintellimouseexpo98.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 37,
+    "name": "Microsoft IntelliMouse TrackBall",
+    "year": 1997,
+    "sources": [
+      {
+        "title": "Microsoft Announces Availability of IntelliMouse TrackBall - Source",
+        "url": "https://news.microsoft.com/source/1997/11/14/microsoft-announces-availability-of-intellimouse-trackball/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · IntelliMouse",
+        "url": "https://en.wikipedia.org/wiki/IntelliMouse",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 38,
+    "name": "Microsoft IntelliMouse with IntelliEye",
+    "year": 1999,
+    "sources": [
+      {
+        "title": "Microsoft's Sleek New IntelliMouse Explorer and IntelliEye Technology Toss Out the Mouse Ball Today at COMDEX - Source",
+        "url": "https://news.microsoft.com/source/1999/04/19/microsofts-sleek-new-intellimouse-explorer-and-intellieye-technology-toss-out-the-mouse-ball-today-at-comdex/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · IntelliMouse",
+        "url": "https://en.wikipedia.org/wiki/IntelliMouse",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_IntelliEye_mouse_1.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 39,
+    "name": "Microsoft IntelliMouse Explorer",
+    "year": 1999,
+    "sources": [
+      {
+        "title": "A Microsoft Milestone: Hardware Celebrates 25 Years of Proven Success - Source",
+        "url": "https://news.microsoft.com/source/2007/08/22/a-microsoft-milestone-hardware-celebrates-25-years-of-proven-success/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · IntelliMouse",
+        "url": "https://en.wikipedia.org/wiki/IntelliMouse",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_IntelliMouse_2001.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 40,
+    "name": "Microsoft IntelliMouse Optical",
+    "year": 2000,
+    "sources": [
+      {
+        "title": "Wikipedia · IntelliMouse",
+        "url": "https://en.wikipedia.org/wiki/IntelliMouse",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:5_Tastenmaus_Microsoft_IntelliMouse_Optical_Black.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 41,
+    "name": "Microsoft Wireless IntelliMouse Explorer",
+    "year": 2001,
+    "sources": [
+      {
+        "title": "Wikipedia · IntelliMouse",
+        "url": "https://en.wikipedia.org/wiki/IntelliMouse",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 42,
+    "name": "Microsoft Classic IntelliMouse",
+    "year": 2017,
+    "sources": [
+      {
+        "title": "Announcing the Microsoft Pro Intellimouse | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2019/05/28/announcing-the-microsoft-pro-intellimouse/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · IntelliMouse",
+        "url": "https://en.wikipedia.org/wiki/IntelliMouse",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 43,
+    "name": "Microsoft Pro IntelliMouse",
+    "year": 2019,
+    "sources": [
+      {
+        "title": "Announcing the Microsoft Pro Intellimouse | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2019/05/28/announcing-the-microsoft-pro-intellimouse/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · IntelliMouse",
+        "url": "https://en.wikipedia.org/wiki/IntelliMouse",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://blogs.windows.com/devices/2019/05/28/announcing-the-microsoft-pro-intellimouse/",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 44,
+    "name": "Microsoft Arc Mouse",
+    "year": 2008,
+    "sources": [
+      {
+        "title": "Wikipedia · Arc Mouse",
+        "url": "https://en.wikipedia.org/wiki/Arc_Mouse",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:MS-Arc-Mouse.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 45,
+    "name": "Microsoft Touch Mouse",
+    "year": 2011,
+    "sources": [
+      {
+        "title": "Bring Multitouch Gestures to your Windows 7 PC with the new Touch Mouse | Windows Experience Blog",
+        "url": "https://blogs.windows.com/windowsexperience/2011/01/05/bring-multitouch-gestures-to-your-windows-7-pc-with-the-new-touch-mouse/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://download.microsoft.com/documents/uk/hardware/Consumer_HW_Brochure_FY13_FINAL.pdf",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 46,
+    "name": "Microsoft Explorer Touch Mouse",
+    "year": 2011,
+    "sources": [
+      {
+        "title": "Announcing the Explorer Touch Mouse | Windows Experience Blog",
+        "url": "https://blogs.windows.com/windowsexperience/2011/07/19/announcing-the-explorer-touch-mouse/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://download.microsoft.com/documents/uk/hardware/Consumer_HW_Brochure_FY13_FINAL.pdf",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 47,
+    "name": "Microsoft Wedge Touch Mouse",
+    "year": 2012,
+    "sources": [
+      {
+        "title": "New Windows 8-ready mice and keyboards from Microsoft Hardware | Windows Experience Blog",
+        "url": "https://blogs.windows.com/windowsexperience/2012/07/30/new-windows-8-ready-mice-and-keyboards-from-microsoft-hardware/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://download.microsoft.com/documents/uk/hardware/Consumer_HW_Brochure_FY13_FINAL.pdf",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 48,
+    "name": "Microsoft Sculpt Touch Mouse",
+    "year": 2012,
+    "sources": [
+      {
+        "title": "New Windows 8-ready mice and keyboards from Microsoft Hardware | Windows Experience Blog",
+        "url": "https://blogs.windows.com/windowsexperience/2012/07/30/new-windows-8-ready-mice-and-keyboards-from-microsoft-hardware/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://download.microsoft.com/documents/uk/hardware/Consumer_HW_Brochure_FY13_FINAL.pdf",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 49,
+    "name": "Microsoft Sculpt Comfort Mouse",
+    "year": 2013,
+    "sources": [
+      {
+        "title": "Announcing Sculpt Comfort Mouse & Mobile Mouse | Windows Experience Blog",
+        "url": "https://blogs.windows.com/windowsexperience/2013/05/23/announcing-sculpt-comfort-mouse-mobile-mouse/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 50,
+    "name": "Microsoft Sculpt Ergonomic Mouse",
+    "year": 2013,
+    "sources": [
+      {
+        "title": "Announcing the Sculpt Ergonomic Desktop | Windows Experience Blog",
+        "url": "https://blogs.windows.com/windowsexperience/2013/08/13/announcing-the-sculpt-ergonomic-desktop/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File%3AMicrosoft%20Sculpt%20Ergonomic%20Mouse%20%2813491077733%29.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 51,
+    "name": "Microsoft Explorer Mouse",
+    "year": 2008,
+    "sources": [
+      {
+        "title": "Microsoft Unveils World’s Most Advanced Tracking Technology - Source",
+        "url": "https://news.microsoft.com/source/2008/09/09/microsoft-unveils-worlds-most-advanced-tracking-technology/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File%3AMicrosoft%20Explorer%20Mouse%20%283004730185%29.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 52,
+    "name": "Microsoft Explorer Mini Mouse",
+    "year": 2008,
+    "sources": [
+      {
+        "title": "Microsoft Unveils World’s Most Advanced Tracking Technology - Source",
+        "url": "https://news.microsoft.com/source/2008/09/09/microsoft-unveils-worlds-most-advanced-tracking-technology/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 53,
+    "name": "Microsoft Optical Mouse by S+ARCK",
+    "year": 2004,
+    "sources": [
+      {
+        "title": "Microsoft and Philippe Starck Unite to Create Performance Art - Source",
+        "url": "https://news.microsoft.com/source/2004/07/08/microsoft-and-philippe-starck-unite-to-create-performance-art/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 54,
+    "name": "Microsoft Wedge Mobile Keyboard",
+    "year": 2012,
+    "sources": [
+      {
+        "title": "New Windows 8-ready mice and keyboards from Microsoft Hardware | Windows Experience Blog",
+        "url": "https://blogs.windows.com/windowsexperience/2012/07/30/new-windows-8-ready-mice-and-keyboards-from-microsoft-hardware/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://download.microsoft.com/documents/uk/hardware/Consumer_HW_Brochure_FY13_FINAL.pdf",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 55,
+    "name": "Microsoft Sculpt Mobile Keyboard",
+    "year": 2012,
+    "sources": [
+      {
+        "title": "New Windows 8-ready mice and keyboards from Microsoft Hardware | Windows Experience Blog",
+        "url": "https://blogs.windows.com/windowsexperience/2012/07/30/new-windows-8-ready-mice-and-keyboards-from-microsoft-hardware/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://download.microsoft.com/documents/uk/hardware/Consumer_HW_Brochure_FY13_FINAL.pdf",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 56,
+    "name": "Microsoft Sculpt Comfort Keyboard",
+    "year": 2012,
+    "sources": [
+      {
+        "title": "Microsoft Hardware announces Sculpt Comfort Keyboard | Windows Experience Blog",
+        "url": "https://blogs.windows.com/windowsexperience/2012/09/19/microsoft-hardware-announces-sculpt-comfort-keyboard/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://download.microsoft.com/documents/uk/hardware/Consumer_HW_Brochure_FY13_FINAL.pdf",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 57,
+    "name": "Microsoft Universal Mobile Keyboard",
+    "year": 2014,
+    "sources": [
+      {
+        "title": "Microsoft Accessories Press Materials - Stories",
+        "url": "https://news.microsoft.com/accessories-press-materials/",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 58,
+    "name": "Microsoft Universal Foldable Keyboard",
+    "year": 2015,
+    "sources": [
+      {
+        "title": "Microsoft Universal Foldable Keyboard Now Available | Windows Experience Blog",
+        "url": "https://blogs.windows.com/windowsexperience/2015/07/14/microsoft-universal-foldable-keyboard-now-available/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://blogs.windows.com/windowsexperience/2015/07/14/microsoft-universal-foldable-keyboard-now-available/",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 59,
+    "name": "Microsoft All-in-One Media Keyboard",
+    "year": 2014,
+    "sources": [
+      {
+        "title": "Microsoft Accessories Press Materials - Stories",
+        "url": "https://news.microsoft.com/accessories-press-materials/",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 60,
+    "name": "Microsoft Designer Compact Keyboard",
+    "year": 2020,
+    "sources": [
+      {
+        "title": "Use Microsoft Designer Compact Keyboard | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/accessories/mouse-keyboard/use-microsoft-designer-compact-keyboard",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Introducing Surface Laptop Go, new updates to Surface Pro X and new accessories | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2020/10/01/introducing-surface-laptop-go-new-updates-to-surface-pro-x-and-new-accessories/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/accessories/mouse-keyboard/use-microsoft-designer-compact-keyboard",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 61,
+    "name": "Microsoft Bluetooth Ergonomic Mouse",
+    "year": 2020,
+    "sources": [
+      {
+        "title": "Use Microsoft Bluetooth Ergonomic Mouse | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/accessories/mouse-keyboard/use-microsoft-bluetooth-ergonomic-mouse",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Introducing Surface Laptop Go, new updates to Surface Pro X and new accessories | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2020/10/01/introducing-surface-laptop-go-new-updates-to-surface-pro-x-and-new-accessories/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/accessories/mouse-keyboard/use-microsoft-bluetooth-ergonomic-mouse",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 62,
+    "name": "Surface Arc Mouse",
+    "year": 2017,
+    "sources": [
+      {
+        "title": "Wikipedia · Arc Mouse",
+        "url": "https://en.wikipedia.org/wiki/Arc_Mouse",
+        "kind": "Wikipedia"
+      },
+      {
+        "title": "Microsoft Store · Surface Arc Mouse",
+        "url": "https://www.microsoft.com/en-us/d/surface-arc-mouse/8p5sv2rx3rn5",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/surface-arc-mouse/8p5sv2rx3rn5",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 63,
+    "name": "Microsoft Wireless Mobile Mouse 3500",
+    "year": 2010,
+    "sources": [
+      {
+        "title": "Go Anywhere for Less: Microsoft Hardware Offers BlueTrack Technology at Its Lowest Price Ever - Source",
+        "url": "https://news.microsoft.com/source/2010/02/24/go-anywhere-for-less-microsoft-hardware-offers-bluetrack-technology-at-its-lowest-price-ever/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://download.microsoft.com/documents/uk/hardware/Consumer_HW_Brochure_FY13_FINAL.pdf",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 64,
+    "name": "Microsoft SideWinder 3D Pro",
+    "year": 1995,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft SideWinder",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_SideWinder",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Sidewinder_3D_Pro.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 65,
+    "name": "Microsoft SideWinder Force Feedback Pro",
+    "year": 1997,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft SideWinder",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_SideWinder",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Force_Feedback_Pro.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 66,
+    "name": "Microsoft SideWinder Force Feedback 2",
+    "year": 2000,
+    "sources": [
+      {
+        "title": "Microsoft in Tune With Gamers' Senses - Source",
+        "url": "https://news.microsoft.com/source/2000/03/01/microsoft-in-tune-with-gamers-senses/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Microsoft SideWinder",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_SideWinder",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File%3AMS-FF2-JoyStick%20%283839550620%29.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 67,
+    "name": "Microsoft SideWinder Strategic Commander",
+    "year": 2000,
+    "sources": [
+      {
+        "title": "Microsoft in Tune With Gamers' Senses - Source",
+        "url": "https://news.microsoft.com/source/2000/03/01/microsoft-in-tune-with-gamers-senses/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Microsoft SideWinder",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_SideWinder",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Ms_sidewinder_sc_right.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 68,
+    "name": "Microsoft SideWinder Game Pad",
+    "year": 1996,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft SideWinder",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_SideWinder",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Ms_sidewinder.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 69,
+    "name": "Microsoft SideWinder X6 Keyboard",
+    "year": 2008,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft SideWinder",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_SideWinder",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 70,
+    "name": "Microsoft SideWinder X4 Keyboard",
+    "year": 2010,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft SideWinder",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_SideWinder",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://download.microsoft.com/documents/uk/hardware/Consumer_HW_Brochure_FY13_FINAL.pdf",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 71,
+    "name": "Microsoft LifeCam Cinema",
+    "year": 2009,
+    "sources": [
+      {
+        "title": "Introducing the Microsoft LifeCam Cinema | Windows Experience Blog",
+        "url": "https://blogs.windows.com/windowsexperience/2009/08/20/introducing-the-microsoft-lifecam-cinema/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · LifeCam",
+        "url": "https://en.wikipedia.org/wiki/LifeCam",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://download.microsoft.com/documents/uk/hardware/Consumer_HW_Brochure_FY13_FINAL.pdf",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 72,
+    "name": "Microsoft LifeCam HD-3000",
+    "year": 2011,
+    "sources": [
+      {
+        "title": "Wikipedia · LifeCam",
+        "url": "https://en.wikipedia.org/wiki/LifeCam",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://download.microsoft.com/documents/uk/hardware/Consumer_HW_Brochure_FY13_FINAL.pdf",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 73,
+    "name": "Microsoft LifeChat LX-3000",
+    "year": 2006,
+    "sources": [
+      {
+        "title": "Microsoft Expands Digital Communications Line With Notebook LifeCam Featuring Industry’s Highest Video and Still Resolution - Source",
+        "url": "https://news.microsoft.com/source/2006/09/13/microsoft-expands-digital-communications-line-with-notebook-lifecam-featuring-industrys-highest-video-and-still-resolution/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://download.microsoft.com/documents/uk/hardware/Consumer_HW_Brochure_FY13_FINAL.pdf",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 74,
+    "name": "Surface Headphones",
+    "year": 2018,
+    "sources": [
+      {
+        "title": "Meet Surface Pro 6, Surface Laptop 2, Surface Studio 2 and Surface Headphones | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2018/10/02/meet-surface-pro-6-surface-laptop-2-surface-studio-2-and-surface-headphones/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · List of Microsoft Surface accessories",
+        "url": "https://en.wikipedia.org/wiki/List_of_Microsoft_Surface_accessories",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 75,
+    "name": "Surface Earbuds",
+    "year": 2020,
+    "sources": [
+      {
+        "title": "Introducing Surface Go 2, Surface Book 3, Surface Headphones 2 and Surface Earbuds | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2020/05/06/introducing-surface-go-2-surface-book-3-surface-headphones-2-and-surface-earbuds/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · List of Microsoft Surface accessories",
+        "url": "https://en.wikipedia.org/wiki/List_of_Microsoft_Surface_accessories",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://blogs.windows.com/devices/2020/05/06/introducing-surface-go-2-surface-book-3-surface-headphones-2-and-surface-earbuds/",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 76,
+    "name": "Microsoft Band 2",
+    "year": 2015,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft Band 2",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Band_2",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_Band_2_20151024_145235.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 77,
+    "name": "Microsoft HoloLens 2",
+    "year": 2019,
+    "sources": [
+      {
+        "title": "HoloLens 2 gives Microsoft the edge in next generation of computing",
+        "url": "https://news.microsoft.com/innovation-stories/hololens-2/",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · HoloLens 2",
+        "url": "https://en.wikipedia.org/wiki/HoloLens_2",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://news.microsoft.com/innovation-stories/hololens-2/",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 78,
+    "name": "Azure Kinect DK",
+    "year": 2019,
+    "sources": [
+      {
+        "title": "Azure Kinect DK hardware specifications | Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/kinect-dk/hardware-specification",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Azure Kinect",
+        "url": "https://en.wikipedia.org/wiki/Azure_Kinect",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://learn.microsoft.com/en-us/azure/kinect-dk/hardware-specification",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 79,
+    "name": "Microsoft Fingerprint Reader",
+    "year": 2004,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft Fingerprint Reader",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Fingerprint_Reader",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_Fingerprint_Reader.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 80,
+    "name": "Microsoft Broadband Wireless Base Station MN-500",
+    "year": 2002,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft Broadband Networking",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Broadband_Networking",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 81,
+    "name": "Microsoft Broadband Wireless Base Station MN-700",
+    "year": 2003,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft Broadband Networking",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Broadband_Networking",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 82,
+    "name": "Zune 80",
+    "year": 2007,
+    "sources": [
+      {
+        "title": "Microsoft Unveils Device Customization via New Zune Originals Store, New Zune Players Available Tomorrow - Source",
+        "url": "https://news.microsoft.com/source/2007/11/12/microsoft-unveils-device-customization-via-new-zune-originals-store-new-zune-players-available-tomorrow/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Zune 80, 120",
+        "url": "https://en.wikipedia.org/wiki/Zune_80,_120",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Zune80and4.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 83,
+    "name": "Zune 4 / 8 / 16",
+    "year": 2007,
+    "sources": [
+      {
+        "title": "Microsoft Unveils Device Customization via New Zune Originals Store, New Zune Players Available Tomorrow - Source",
+        "url": "https://news.microsoft.com/source/2007/11/12/microsoft-unveils-device-customization-via-new-zune-originals-store-new-zune-players-available-tomorrow/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Zune80and4.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 84,
+    "name": "Zune HD",
+    "year": 2009,
+    "sources": [
+      {
+        "title": "Wikipedia · Zune HD",
+        "url": "https://en.wikipedia.org/wiki/Zune_HD",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Zune_HD.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 85,
+    "name": "Microsoft Kin ONE",
+    "year": 2010,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft Kin",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Kin",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 86,
+    "name": "Microsoft Kin TWO",
+    "year": 2010,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft Kin",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Kin",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft-Sharp-Kin-Two-Phone-Open.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 87,
+    "name": "Microsoft Lumia 535",
+    "year": 2014,
+    "sources": [
+      {
+        "title": "High five for Microsoft Lumia 535 | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2014/11/11/lumia-535/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Microsoft Lumia 535",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Lumia_535",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_Lumia_535_%2815898895398%29.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 88,
+    "name": "Microsoft Lumia 640",
+    "year": 2015,
+    "sources": [
+      {
+        "title": "Announcing the Lumia 640 and Lumia 640 XL | Windows Experience Blog",
+        "url": "https://blogs.windows.com/windowsexperience/2015/03/02/announcing-the-lumia-640-and-lumia-640-xl/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Microsoft Lumia 640",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Lumia_640",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File%3AMicrosoft%20Lumia%20640%2C%20model%20RM-1077%2C%20orange-47223.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 89,
+    "name": "Microsoft Lumia 640 XL",
+    "year": 2015,
+    "sources": [
+      {
+        "title": "Announcing the Lumia 640 and Lumia 640 XL | Windows Experience Blog",
+        "url": "https://blogs.windows.com/windowsexperience/2015/03/02/announcing-the-lumia-640-and-lumia-640-xl/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Microsoft Lumia 640",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Lumia_640",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File%3AMicrosoft%20Lumia%20640%20XL%20%28cropped%29.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 90,
+    "name": "Microsoft Lumia 650",
+    "year": 2016,
+    "sources": [
+      {
+        "title": "Microsoft Lumia 650: sophisticated, metal design and Windows 10 under $200 USD | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2016/02/15/microsoft-lumia-650-sophisticated-metal-design-and-windows-10-under-200-usd",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Microsoft Lumia 650",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Lumia_650",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://blogs.windows.com/devices/2016/02/15/microsoft-lumia-650-sophisticated-metal-design-and-windows-10-under-200-usd",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 91,
+    "name": "Microsoft Lumia 950",
+    "year": 2015,
+    "sources": [
+      {
+        "title": "Camera magic on Microsoft Lumia 950 and Lumia 950 XL | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2015/10/15/camera-magic-on-microsoft-lumia-950-and-lumia-950-xl",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Microsoft Lumia 950",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Lumia_950",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Lumia950.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 92,
+    "name": "Microsoft Lumia 950 XL",
+    "year": 2015,
+    "sources": [
+      {
+        "title": "Camera magic on Microsoft Lumia 950 and Lumia 950 XL | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2015/10/15/camera-magic-on-microsoft-lumia-950-and-lumia-950-xl",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Microsoft Lumia 950 XL",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Lumia_950_XL",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_Lumia_950_XL_%28Black%29_front.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 93,
+    "name": "Nokia Lumia 920",
+    "year": 2012,
+    "sources": [
+      {
+        "title": "Get a feel for Nokia’s super sensitive touch displays | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2012/10/02/get-a-feel-for-nokias-super-sensitive-touch-displays",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Nokia Lumia 920",
+        "url": "https://en.wikipedia.org/wiki/Nokia_Lumia_920",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Nokia_Lumia_920_-_Caledos_Runner.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 94,
+    "name": "Nokia Lumia 1020",
+    "year": 2013,
+    "sources": [
+      {
+        "title": "Ellie Goulding stars in amazing Nokia Lumia 1020 music video | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2013/11/13/going-gould-ellie-stars-worlds-first-nokia-lumia-1020-music-video",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Nokia Lumia 1020",
+        "url": "https://en.wikipedia.org/wiki/Nokia_Lumia_1020",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Nokia_Lumia_1020_front.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 95,
+    "name": "Surface Pro (1st generation)",
+    "year": 2013,
+    "sources": [
+      {
+        "title": "Surface Pro (1st Gen) specifications | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-pro-1st-gen-specifications",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Pro (1st generation)",
+        "url": "https://en.wikipedia.org/wiki/Surface_Pro_(1st_generation)",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Virginia_Ballot_on_Microsoft_Surface_Pro_Tablet.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 96,
+    "name": "Surface 2",
+    "year": 2013,
+    "sources": [
+      {
+        "title": "Surface 2 specifications | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-2-specifications",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface 2",
+        "url": "https://en.wikipedia.org/wiki/Surface_2",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_Surface_2_-_Windows_8_Logon_screen_%2812907863644%29.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 97,
+    "name": "Surface 3",
+    "year": 2015,
+    "sources": [
+      {
+        "title": "Surface 3 specs and features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-3-specs-and-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface 3",
+        "url": "https://en.wikipedia.org/wiki/Surface_3",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Surface_3_with_type_cover_and_stylus.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 98,
+    "name": "Surface Pro 2",
+    "year": 2013,
+    "sources": [
+      {
+        "title": "Surface Pro 2 specs and features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-pro-2-specs-and-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Pro 2",
+        "url": "https://en.wikipedia.org/wiki/Surface_Pro_2",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Surface_Pro_2.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 99,
+    "name": "Surface Pro 4",
+    "year": 2015,
+    "sources": [
+      {
+        "title": "Surface Pro 4 specs and features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-pro-4-specs-and-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Pro 4",
+        "url": "https://en.wikipedia.org/wiki/Surface_Pro_4",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_Surface_Pro_4.png",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 100,
+    "name": "Surface Pro (2017)",
+    "year": 2017,
+    "sources": [
+      {
+        "title": "Surface Pro (5th Gen) specs and features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-pro-5th-gen-specs-and-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Pro (2017)",
+        "url": "https://en.wikipedia.org/wiki/Surface_Pro_(2017)",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File%3A2019%2002%20Microsoft%20Surface%20Pro%202017%20with%20signature%20type%20cover.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 101,
+    "name": "Surface Pro 6",
+    "year": 2018,
+    "sources": [
+      {
+        "title": "Surface Pro 6 specs and features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-pro-6-specs-and-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Pro 6",
+        "url": "https://en.wikipedia.org/wiki/Surface_Pro_6",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-pro-6-specs-and-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 102,
+    "name": "Surface Pro 7",
+    "year": 2019,
+    "sources": [
+      {
+        "title": "Surface Pro 7 specs and features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-pro-7-specs-and-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Pro 7",
+        "url": "https://en.wikipedia.org/wiki/Surface_Pro_7",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-pro-7-specs-and-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 103,
+    "name": "Surface Pro 7+",
+    "year": 2021,
+    "sources": [
+      {
+        "title": "Surface Pro 7+ features and specs | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-pro-7-features-and-specs",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Introducing Surface Pro 7+ for Business: Purpose-built to empower people, teams and classrooms in the new digital age | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2021/01/11/introducing-surface-pro-7-for-business-purpose-built-to-empower-people-teams-and-classrooms-in-the-new-digital-age/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Surface Pro 7",
+        "url": "https://en.wikipedia.org/wiki/Surface_Pro_7",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-pro-7-features-and-specs",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 104,
+    "name": "Surface Pro 8",
+    "year": 2021,
+    "sources": [
+      {
+        "title": "Surface Pro 8 features and specs | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-pro-8-features-and-specs",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Introducing new Surface products, built for Windows 11 | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2021/09/22/introducing-new-surface-products-built-for-windows-11/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Surface Pro 8",
+        "url": "https://en.wikipedia.org/wiki/Surface_Pro_8",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-pro-8-features-and-specs",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 105,
+    "name": "Surface Pro 9",
+    "year": 2022,
+    "sources": [
+      {
+        "title": "Introducing new Surface devices that take the Windows PC into the next era of computing | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2022/10/12/introducing-new-surface-devices-that-take-the-windows-pc-into-the-next-era-of-computing/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Surface Pro 9",
+        "url": "https://en.wikipedia.org/wiki/Surface_Pro_9",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Surface_Pro_9_in_Sapphire_colour.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 106,
+    "name": "Surface Pro 10 for Business",
+    "year": 2024,
+    "sources": [
+      {
+        "title": "Surface Pro 10 for Business features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-pro-10-for-business-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Pro 10",
+        "url": "https://en.wikipedia.org/wiki/Surface_Pro_10",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-pro-10-for-business-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 107,
+    "name": "Surface Pro 11th Edition (Snapdragon)",
+    "year": 2024,
+    "sources": [
+      {
+        "title": "Surface Pro (11th Edition) features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-pro-11th-edition-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Pro 11th Edition",
+        "url": "https://en.wikipedia.org/wiki/Surface_Pro_11th_Edition",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_Surface_Pro.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 108,
+    "name": "Surface Pro 12-inch (1st Edition)",
+    "year": 2025,
+    "sources": [
+      {
+        "title": "Introducing all-new Surface Copilot+ PCs: The Surface Pro, 12-inch and Surface Laptop, 13-inch | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2025/05/06/introducing-all-new-surface-copilot-pcs-the-surface-pro-12-inch-and-surface-laptop-13-inch/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://blogs.windows.com/devices/2025/05/06/introducing-all-new-surface-copilot-pcs-the-surface-pro-12-inch-and-surface-laptop-13-inch/",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 109,
+    "name": "Surface Go",
+    "year": 2018,
+    "sources": [
+      {
+        "title": "Meet Surface Go, starting at $399 MSRP, it’s the smallest and most affordable Surface yet | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2018/07/09/meet-surface-go-starting-at-399-msrp-its-the-smallest-and-most-affordable-surface-yet/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Surface Go",
+        "url": "https://en.wikipedia.org/wiki/Surface_Go",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:SurfaceGo1.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 110,
+    "name": "Surface Go 2",
+    "year": 2020,
+    "sources": [
+      {
+        "title": "Surface Go 2 specs and features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-go-2-specs-and-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Go 2",
+        "url": "https://en.wikipedia.org/wiki/Surface_Go_2",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-go-2-specs-and-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 111,
+    "name": "Surface Go 3",
+    "year": 2021,
+    "sources": [
+      {
+        "title": "Surface Go 3 features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-go-3-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Go 3",
+        "url": "https://en.wikipedia.org/wiki/Surface_Go_3",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:MS_Surface_Go_3.png",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 112,
+    "name": "Surface Go 4 for Business",
+    "year": 2023,
+    "sources": [
+      {
+        "title": "Surface Go 4 features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-go-4-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Go 4",
+        "url": "https://en.wikipedia.org/wiki/Surface_Go_4",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-go-4-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 113,
+    "name": "Surface Book 2",
+    "year": 2017,
+    "sources": [
+      {
+        "title": "Surface Book 2 specs and features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-book-2-specs-and-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Book 2",
+        "url": "https://en.wikipedia.org/wiki/Surface_Book_2",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_Surface_Book_2_-_Top_%2838828932021%29.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 114,
+    "name": "Surface Book 3",
+    "year": 2020,
+    "sources": [
+      {
+        "title": "Surface Book 3 specs and features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-book-3-specs-and-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Book 3",
+        "url": "https://en.wikipedia.org/wiki/Surface_Book_3",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-book-3-specs-and-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 115,
+    "name": "Surface Laptop (1st generation)",
+    "year": 2017,
+    "sources": [
+      {
+        "title": "Surface Laptop (1st Gen) specs and features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-laptop-1st-gen-specs-and-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Laptop (1st generation)",
+        "url": "https://en.wikipedia.org/wiki/Surface_Laptop_(1st_generation)",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:SurfaceLaptop.png",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 116,
+    "name": "Surface Laptop 2",
+    "year": 2018,
+    "sources": [
+      {
+        "title": "Surface Laptop 2 specs and features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-laptop-2-specs-and-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Laptop 2",
+        "url": "https://en.wikipedia.org/wiki/Surface_Laptop_2",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-laptop-2-specs-and-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 117,
+    "name": "Surface Laptop 3",
+    "year": 2019,
+    "sources": [
+      {
+        "title": "Surface Laptop 3 specs and features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-laptop-3-specs-and-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Laptop 3",
+        "url": "https://en.wikipedia.org/wiki/Surface_Laptop_3",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-laptop-3-specs-and-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 118,
+    "name": "Surface Laptop 4",
+    "year": 2021,
+    "sources": [
+      {
+        "title": "Surface Laptop 4 features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-laptop-4-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Laptop 4",
+        "url": "https://en.wikipedia.org/wiki/Surface_Laptop_4",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-laptop-4-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 119,
+    "name": "Surface Laptop 5",
+    "year": 2022,
+    "sources": [
+      {
+        "title": "Surface Laptop 5 specs and features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-laptop-5-specs-and-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Laptop 5",
+        "url": "https://en.wikipedia.org/wiki/Surface_Laptop_5",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-laptop-5-specs-and-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 120,
+    "name": "Surface Laptop 6 for Business",
+    "year": 2024,
+    "sources": [
+      {
+        "title": "Surface Laptop 6 for Business features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-laptop-6-for-business-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Laptop 6",
+        "url": "https://en.wikipedia.org/wiki/Surface_Laptop_6",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-laptop-6-for-business-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 121,
+    "name": "Surface Laptop 7th Edition (Snapdragon)",
+    "year": 2024,
+    "sources": [
+      {
+        "title": "Surface Laptop (7th Edition) features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-laptop-7th-edition-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Laptop 7th Edition",
+        "url": "https://en.wikipedia.org/wiki/Surface_Laptop_7th_Edition",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_Surface_Laptop_7.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 122,
+    "name": "Surface Laptop 13-inch (1st Edition)",
+    "year": 2025,
+    "sources": [
+      {
+        "title": "Introducing all-new Surface Copilot+ PCs: The Surface Pro, 12-inch and Surface Laptop, 13-inch | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2025/05/06/introducing-all-new-surface-copilot-pcs-the-surface-pro-12-inch-and-surface-laptop-13-inch/",
+        "kind": "Microsoft archive"
+      }
+    ],
+    "image": "https://blogs.windows.com/devices/2025/05/06/introducing-all-new-surface-copilot-pcs-the-surface-pro-12-inch-and-surface-laptop-13-inch/",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 123,
+    "name": "Surface Laptop Go",
+    "year": 2020,
+    "sources": [
+      {
+        "title": "Introducing Surface Laptop Go, new updates to Surface Pro X and new accessories | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2020/10/01/introducing-surface-laptop-go-new-updates-to-surface-pro-x-and-new-accessories/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Surface Laptop Go",
+        "url": "https://en.wikipedia.org/wiki/Surface_Laptop_Go",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:A_platinum_Microsoft_Surface_Laptop_Go.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 124,
+    "name": "Surface Laptop Go 2",
+    "year": 2022,
+    "sources": [
+      {
+        "title": "Surface Laptop Go 2 features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-laptop-go-2-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Laptop Go 2",
+        "url": "https://en.wikipedia.org/wiki/Surface_Laptop_Go_2",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-laptop-go-2-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 125,
+    "name": "Surface Laptop Go 3",
+    "year": 2023,
+    "sources": [
+      {
+        "title": "Surface Laptop Go 3 features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-laptop-go-3-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Laptop Go 3",
+        "url": "https://en.wikipedia.org/wiki/Surface_Laptop_Go_3",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-laptop-go-3-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 126,
+    "name": "Surface Laptop SE",
+    "year": 2022,
+    "sources": [
+      {
+        "title": "Surface Laptop SE features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-laptop-se-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Laptop SE",
+        "url": "https://en.wikipedia.org/wiki/Surface_Laptop_SE",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-laptop-se-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 127,
+    "name": "Surface Laptop Studio 2",
+    "year": 2023,
+    "sources": [
+      {
+        "title": "Surface Laptop Studio 2 features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-laptop-studio-2-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Laptop Studio 2",
+        "url": "https://en.wikipedia.org/wiki/Surface_Laptop_Studio_2",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-laptop-studio-2-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 128,
+    "name": "Surface Studio",
+    "year": 2016,
+    "sources": [
+      {
+        "title": "Wikipedia · Surface Studio",
+        "url": "https://en.wikipedia.org/wiki/Surface_Studio",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Surface_Studio.png",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 129,
+    "name": "Surface Studio 2",
+    "year": 2018,
+    "sources": [
+      {
+        "title": "Meet Surface Pro 6, Surface Laptop 2, Surface Studio 2 and Surface Headphones | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2018/10/02/meet-surface-pro-6-surface-laptop-2-surface-studio-2-and-surface-headphones/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Surface Studio 2",
+        "url": "https://en.wikipedia.org/wiki/Surface_Studio_2",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 130,
+    "name": "Surface Studio 2+",
+    "year": 2022,
+    "sources": [
+      {
+        "title": "Introducing new Surface devices that take the Windows PC into the next era of computing | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2022/10/12/introducing-new-surface-devices-that-take-the-windows-pc-into-the-next-era-of-computing/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Surface Studio 2",
+        "url": "https://en.wikipedia.org/wiki/Surface_Studio_2",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://support.microsoft.com/en-us/surface/models/surface-studio-2-features",
+    "imageKind": "diagram",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 131,
+    "name": "Surface Duo 2",
+    "year": 2021,
+    "sources": [
+      {
+        "title": "Surface Duo 2 features | Microsoft Support",
+        "url": "https://support.microsoft.com/en-us/surface/models/surface-duo-2-features",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Duo 2",
+        "url": "https://en.wikipedia.org/wiki/Surface_Duo_2",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Surface_Duo_2_-_1.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 132,
+    "name": "Surface Hub (1st generation)",
+    "year": 2016,
+    "sources": [
+      {
+        "title": "Wikipedia · Surface Hub",
+        "url": "https://en.wikipedia.org/wiki/Surface_Hub",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Microsoft_Surface_Hub_msfest2015.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 133,
+    "name": "Surface Hub 2S",
+    "year": 2019,
+    "sources": [
+      {
+        "title": "Buy Surface Hub 2S - Microsoft Store",
+        "url": "https://www.microsoft.com/en-us/d/surface-hub-2s/8xgr3x8n3768/",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Surface Hub",
+        "url": "https://en.wikipedia.org/wiki/Surface_Hub",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/surface-hub-2s/8xgr3x8n3768/",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 134,
+    "name": "Surface Dial",
+    "year": 2016,
+    "sources": [
+      {
+        "title": "Wikipedia · List of Microsoft Surface accessories",
+        "url": "https://en.wikipedia.org/wiki/List_of_Microsoft_Surface_accessories",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File%3ASurface%20Dial.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 135,
+    "name": "Surface Dock 2",
+    "year": 2020,
+    "sources": [
+      {
+        "title": "Wikipedia · List of Microsoft Surface accessories",
+        "url": "https://en.wikipedia.org/wiki/List_of_Microsoft_Surface_accessories",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://blogs.windows.com/devices/2020/05/06/introducing-surface-go-2-surface-book-3-surface-headphones-2-and-surface-earbuds/",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 136,
+    "name": "Surface Thunderbolt 4 Dock",
+    "year": 2023,
+    "sources": [
+      {
+        "title": "Introducing the Microsoft Surface Thunderbolt™ 4 Dock | Microsoft Devices Blog",
+        "url": "https://blogs.windows.com/devices/2023/04/04/introducing-the-microsoft-surface-thunderbolt-4-dock/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · List of Microsoft Surface accessories",
+        "url": "https://en.wikipedia.org/wiki/List_of_Microsoft_Surface_accessories",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://blogs.windows.com/devices/2023/04/04/introducing-the-microsoft-surface-thunderbolt-4-dock/",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 137,
+    "name": "Surface Slim Pen 2",
+    "year": 2021,
+    "sources": [
+      {
+        "title": "Wikipedia · Surface Pen",
+        "url": "https://en.wikipedia.org/wiki/Surface_Pen",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://blogs.windows.com/devices/2021/09/22/introducing-new-surface-products-built-for-windows-11/",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 138,
+    "name": "Surface Pro 13-inch Flex Keyboard",
+    "year": 2024,
+    "sources": [
+      {
+        "title": "Surface Pro Flex Keyboard - Attached/Detached Wireless Keyboard Cover | Microsoft Store",
+        "url": "https://www.microsoft.com/en-us/d/surface-pro-13-inch-flex-keyboard/91xw9xj8bm7l",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/surface-pro-13-inch-flex-keyboard/91xw9xj8bm7l",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 139,
+    "name": "Surface Pro 12-inch Keyboard",
+    "year": 2025,
+    "sources": [
+      {
+        "title": "Buy Surface Pro 12-inch Keyboard for Surface Pro, Copilot+ PC - Microsoft Store",
+        "url": "https://www.microsoft.com/en-us/d/surface-pro-12-inch-keyboard/8mzbmmcjzqv0",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/surface-pro-12-inch-keyboard/8mzbmmcjzqv0",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 140,
+    "name": "Microsoft Adaptive Mouse",
+    "year": 2022,
+    "sources": [
+      {
+        "title": "Buy Microsoft Adaptive Mouse - Microsoft Store",
+        "url": "https://www.microsoft.com/en-us/d/microsoft-adaptive-mouse/8pjx197lnqd7",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/microsoft-adaptive-mouse/8pjx197lnqd7",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 141,
+    "name": "Microsoft Adaptive Hub",
+    "year": 2022,
+    "sources": [
+      {
+        "title": "Introducing new Surface devices that take the Windows PC into the next era of computing",
+        "url": "https://news.microsoft.com/october-2022-news-event/",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Microsoft Store · Microsoft Adaptive Hub",
+        "url": "https://www.microsoft.com/en-us/d/microsoft-adaptive-hub/8pbjx6zn089b",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/microsoft-adaptive-hub/8pbjx6zn089b",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 142,
+    "name": "Microsoft Adaptive D-pad Button",
+    "year": 2022,
+    "sources": [
+      {
+        "title": "Introducing new Surface devices that take the Windows PC into the next era of computing",
+        "url": "https://news.microsoft.com/october-2022-news-event/",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Microsoft Store · Microsoft Adaptive D-pad Button",
+        "url": "https://www.microsoft.com/en-us/d/microsoft-adaptive-d-pad-button/8w5kw5bk60zp",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/microsoft-adaptive-d-pad-button/8w5kw5bk60zp",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 143,
+    "name": "Microsoft Adaptive Joystick Button",
+    "year": 2022,
+    "sources": [
+      {
+        "title": "Introducing new Surface devices that take the Windows PC into the next era of computing",
+        "url": "https://news.microsoft.com/october-2022-news-event/",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Microsoft Store · Microsoft Adaptive Joystick Button",
+        "url": "https://www.microsoft.com/en-us/d/microsoft-adaptive-joystick-button/8wfqxsh5q4lb",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/microsoft-adaptive-joystick-button/8wfqxsh5q4lb",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 144,
+    "name": "Microsoft Adaptive Dual Button",
+    "year": 2022,
+    "sources": [
+      {
+        "title": "Introducing new Surface devices that take the Windows PC into the next era of computing",
+        "url": "https://news.microsoft.com/october-2022-news-event/",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Microsoft Store · Microsoft Adaptive Dual Button",
+        "url": "https://www.microsoft.com/en-us/d/microsoft-adaptive-dual-button/911z415gjlrd",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/microsoft-adaptive-dual-button/911z415gjlrd",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 145,
+    "name": "Xbox One S",
+    "year": 2016,
+    "sources": [
+      {
+        "title": "Wikipedia · Xbox One",
+        "url": "https://en.wikipedia.org/wiki/Xbox_One",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File%3AMicrosoft-Xbox-One-S-Console-FL.png",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 146,
+    "name": "Xbox One X",
+    "year": 2017,
+    "sources": [
+      {
+        "title": "Wikipedia · Xbox One",
+        "url": "https://en.wikipedia.org/wiki/Xbox_One",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File%3AXBOX%20ONE%20X%20Gamescom%20%2836042607743%29.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 147,
+    "name": "Xbox Series S",
+    "year": 2020,
+    "sources": [
+      {
+        "title": "Wikipedia · Xbox Series X and Series S",
+        "url": "https://en.wikipedia.org/wiki/Xbox_Series_X_and_Series_S",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File%3AXbox%20Series%20S%20with%20controller.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 148,
+    "name": "Xbox Adaptive Controller",
+    "year": 2018,
+    "sources": [
+      {
+        "title": "Buy XBOX Adaptive Controller - Microsoft Store",
+        "url": "https://www.microsoft.com/en-us/d/xbox-adaptive-controller/8nsdbhz1n3d8",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Xbox Adaptive Controller",
+        "url": "https://en.wikipedia.org/wiki/Xbox_Adaptive_Controller",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/xbox-adaptive-controller/8nsdbhz1n3d8",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 149,
+    "name": "Xbox Elite Wireless Controller",
+    "year": 2015,
+    "sources": [
+      {
+        "title": "Wikipedia · Xbox Wireless Controller",
+        "url": "https://en.wikipedia.org/wiki/Xbox_Wireless_Controller",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File%3AXbox%20One%20Elite%20Controller%20%28Model%201698%29%20-%20underside.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 150,
+    "name": "Xbox Elite Wireless Controller Series 2",
+    "year": 2019,
+    "sources": [
+      {
+        "title": "Buy XBOX Elite Wireless Controller Series 2 for XBOX Series X|S & Windows PC - See Price & Availability | Microsoft Store",
+        "url": "https://www.microsoft.com/en-us/d/xbox-elite-wireless-controller-series-2/8rsn7j6375gg",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Xbox Wireless Controller",
+        "url": "https://en.wikipedia.org/wiki/Xbox_Wireless_Controller",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/xbox-elite-wireless-controller-series-2/8rsn7j6375gg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 151,
+    "name": "Xbox Wireless Headset (2021)",
+    "year": 2021,
+    "sources": [
+      {
+        "title": "Immerse Yourself in the Future of Gaming Audio with the Xbox Wireless Headset - XBOX Wire",
+        "url": "https://news.xbox.com/en-us/2021/02/16/xbox-wireless-headset/",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 152,
+    "name": "Xbox Adaptive Joystick",
+    "year": 2025,
+    "sources": [
+      {
+        "title": "XBOX Adaptive Joystick",
+        "url": "https://www.microsoft.com/en-us/d/xbox-adaptive-joystick/8mzbmmcjzqs4",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/xbox-adaptive-joystick/8mzbmmcjzqs4",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 153,
+    "name": "Xbox Wireless Controller (2020)",
+    "year": 2020,
+    "sources": [
+      {
+        "title": "Buy XBOX Wireless Controller - Carbon Black for XBOX Series X|S & Windows PC - See Price & Availability | Microsoft Store",
+        "url": "https://www.microsoft.com/en-us/d/xbox-wireless-controller/8xn59crbsqgz",
+        "kind": "Microsoft"
+      },
+      {
+        "title": "Wikipedia · Xbox Wireless Controller",
+        "url": "https://en.wikipedia.org/wiki/Xbox_Wireless_Controller",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/xbox-wireless-controller/8xn59crbsqgz",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 154,
+    "name": "Windows Dev Kit 2023",
+    "year": 2022,
+    "sources": [
+      {
+        "title": "Available today: Windows Dev Kit 2023 aka Project Volterra - Windows Developer Blog",
+        "url": "https://blogs.windows.com/windowsdeveloper/2022/10/24/available-today-windows-dev-kit-2023-aka-project-volterra/",
+        "kind": "Microsoft archive"
+      },
+      {
+        "title": "Wikipedia · Windows Dev Kit 2023",
+        "url": "https://en.wikipedia.org/wiki/Windows_Dev_Kit_2023",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://blogs.windows.com/windowsdeveloper/2022/10/24/available-today-windows-dev-kit-2023-aka-project-volterra/",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 155,
+    "name": "Microsoft Digital Sound System 80",
+    "year": 1998,
+    "sources": [
+      {
+        "title": "Wikipedia · Digital Sound System 80",
+        "url": "https://en.wikipedia.org/wiki/Digital_Sound_System_80",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File:Dss80.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 156,
+    "name": "Surface Laptop Ultra",
+    "year": 2026,
+    "sources": [
+      {
+        "title": "Buy Surface Laptop Ultra - Price, Specs, Windows | Microsoft Store",
+        "url": "https://www.microsoft.com/en-us/d/surface-laptop-ultra/8wg5vqp0x4b8",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/surface-laptop-ultra/8wg5vqp0x4b8",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 157,
+    "name": "Microsoft Broadband Wireless USB Adapter MN-510",
+    "year": 2002,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft Broadband Networking",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Broadband_Networking",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 158,
+    "name": "Microsoft Broadband Wireless Notebook Adapter MN-520",
+    "year": 2002,
+    "sources": [
+      {
+        "title": "Wikipedia · Microsoft Broadband Networking",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Broadband_Networking",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 159,
+    "name": "Microsoft Wireless Display Adapter",
+    "year": 2014,
+    "sources": [
+      {
+        "title": "Microsoft Accessories Press Materials - Stories",
+        "url": "https://news.microsoft.com/accessories-press-materials/",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": "https://commons.wikimedia.org/wiki/File%3AMicrosoft%20Wireless%20Display%20Adapter.jpg",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 160,
+    "name": "Microsoft ActiMates Barney",
+    "year": 1997,
+    "sources": [
+      {
+        "title": "Wikipedia · ActiMates",
+        "url": "https://en.wikipedia.org/wiki/ActiMates",
+        "kind": "Wikipedia"
+      }
+    ],
+    "image": null,
+    "imageKind": null,
+    "researchedAt": "2026-11-09"
+  },
+  {
+    "id": 161,
+    "name": "Surface Keyboard (2nd Edition)",
+    "year": null,
+    "sources": [
+      {
+        "title": "Surface Keyboard - Wireless Bluetooth Keyboard w/Number Pad & Copilot Key | Microsoft Store",
+        "url": "https://www.microsoft.com/en-us/d/surface-keyboard-2nd-edition/93d9l5tctr0b",
+        "kind": "Microsoft"
+      }
+    ],
+    "image": "https://www.microsoft.com/en-us/d/surface-keyboard-2nd-edition/93d9l5tctr0b",
+    "imageKind": "photo",
+    "researchedAt": "2026-11-09"
+  }
+]

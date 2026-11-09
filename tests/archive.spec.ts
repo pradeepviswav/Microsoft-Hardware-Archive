@@ -4,9 +4,9 @@ test("search, family, era and empty-state reset work together", async ({
   page,
 }) => {
   await page.goto("/");
-  await expect(page.locator(".product-card")).toHaveCount(25);
-  await page.getByRole("button", { name: "Xbox 4", exact: true }).click();
-  await expect(page.locator(".product-card")).toHaveCount(4);
+  await expect(page.locator(".product-card")).toHaveCount(24);
+  await page.getByRole("button", { name: "Xbox 7", exact: true }).click();
+  await expect(page.locator(".product-card")).toHaveCount(7);
   await page
     .getByRole("combobox", { name: "Filter by era" })
     .selectOption("2000–2009");
@@ -16,12 +16,12 @@ test("search, family, era and empty-state reset work together", async ({
     .fill("no such device");
   await expect(page.getByText("No devices found.")).toBeVisible();
   await page.getByRole("button", { name: "Explore all devices" }).click();
-  await expect(page.locator(".product-card")).toHaveCount(25);
+  await expect(page.locator(".product-card")).toHaveCount(24);
   await page
     .getByRole("combobox", { name: "Sort devices" })
     .selectOption("year-asc");
   await expect(page.locator(".product-card").first()).toContainText(
-    "Microsoft Mouse",
+    "Microsoft Z-80 SoftCard",
   );
 });
 
@@ -75,7 +75,7 @@ test("product detail has source, focus trap, Escape, and focus restoration", asy
   await page.goto("/");
   const trigger = page
     .locator(".card-title")
-    .filter({ hasText: "Surface Pro 12-inch" });
+    .filter({ hasText: /^Surface Pro 12-inch \(2nd Edition\)$/ });
   await trigger.click();
   const dialog = page.getByRole("dialog");
   await expect(
@@ -102,6 +102,13 @@ test("all local product images load, and failed images have a usable fallback", 
   page,
 }) => {
   await page.goto("/");
+  test.setTimeout(60000);
+  while (
+    await page.getByRole("button", { name: /^Show \d+ more devices/ }).count()
+  ) {
+    await page.getByRole("button", { name: /^Show \d+ more devices/ }).click();
+  }
+  await expect(page.locator(".product-card")).toHaveCount(161);
   const images = page.locator(".product-card img");
   for (const img of await images.all()) {
     await img.scrollIntoViewIfNeeded();
@@ -157,7 +164,7 @@ test("corrupt saved data and unavailable storage do not break the app", async ({
     localStorage.setItem("archive-theme", '"invalid"');
   });
   await page.goto("/");
-  await expect(page.locator(".product-card")).toHaveCount(25);
+  await expect(page.locator(".product-card")).toHaveCount(24);
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.addInitScript(() => {
     Storage.prototype.getItem = () => {
@@ -168,5 +175,5 @@ test("corrupt saved data and unavailable storage do not break the app", async ({
     };
   });
   await page.reload();
-  await expect(page.locator(".product-card")).toHaveCount(25);
+  await expect(page.locator(".product-card")).toHaveCount(24);
 });
