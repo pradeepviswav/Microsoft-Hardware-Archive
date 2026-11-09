@@ -1,20 +1,43 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Microsoft Hardware Archive
 
-# Run and deploy your AI Studio app
+An independent, responsive collection of Microsoft devices and selected Windows Phone partner hardware, spanning 1983–2026.
 
-This contains everything you need to run your app locally.
+## Run locally
 
-View your app in AI Studio: https://ai.studio/apps/drive/1XRDVQaIVfdXUKSJ4ig3IsCaB8R4NeUFl
+Requires Node.js 22 or later.
 
-## Run Locally
+```sh
+npm ci
+npm run dev
+```
 
-**Prerequisites:**  Node.js
+Open http://localhost:3000. No API key or account is required.
 
+```sh
+npm run check    # TypeScript
+npm run build    # Production output in dist/
+npm run preview # Preview production output
+npm test        # Browser regression tests
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+The Playwright configuration uses `/usr/bin/chromium`. Set `CHROMIUM_PATH` to your local Chrome/Chromium executable if it is installed elsewhere. Tests start Vite automatically when needed.
+
+## Explore
+
+Search device names, descriptions, families, or years. Combine family and era filters, sort chronologically or alphabetically, and switch between grid and list views. Use the heart button to save devices in this browser. Compare two to four devices; fields without recorded specifications are explicitly marked. Press `/` to focus search. Dialogs support Escape, keyboard focus containment, and focus restoration.
+
+Saved devices and theme preferences use local storage when available. Nothing is sent to a server. There are no seeded user reviews or placeholder shopping links.
+
+## Content and provenance
+
+- `data/products.ts`: original historical collection, with targeted corrections to Xbox Live, Arc Touch naming, and Natural Keyboard Elite identification.
+- `data/recent.ts`: five sourced 2026 additions, researched on 9 November 2026. Source announcements and introduction dates are displayed in product details. This is a selection, not a complete or automatically updated catalog.
+- `data/images.ts` and `IMAGE_SOURCES.md`: image attribution and original source links. Images are stored locally, resized, and optimized. Wikimedia attribution and license links are shown in device details; Microsoft editorial photographs retain their source links.
+
+Historical descriptions without an announcement link are labeled as historical entries rather than newly verified content. Models and availability vary by region. To add an entry, include a stable ID, model year, accurate photo, image credit, and a primary source. Add recorded specifications only when supported by that source.
+
+## Design
+
+The interface uses locally built CSS, sage and forest accents, editorial typography, visible comparison and save controls, responsive family navigation, reduced-motion support, dark mode, and native accessible dialogs. It does not require a CSS CDN or a generative API at runtime.
+
+This project is not affiliated with Microsoft. Product names and images remain the property of their respective owners.

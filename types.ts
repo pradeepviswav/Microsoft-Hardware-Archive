@@ -11,6 +11,13 @@ export interface Product {
   description: string;
   imageUrl: string;
   links: ProductLink[];
+  addedAt?: string;
+  source?: { title: string; url: string };
+  specs?: Record<string, string>;
+  imageCredit?: string;
+  imageSource?: string;
+  imageLicense?: string;
+  dateLabel?: string;
 }
 
 export interface Review {
@@ -22,6 +29,6 @@ export interface Review {
   date: string;
 }
 
-export type SortOption = 'name-asc' | 'name-desc' | 'year-desc' | 'year-asc';
+export type SortOption = "name-asc" | "name-desc" | "year-desc" | "year-asc";
 
-export type Theme = 'light' | 'dark';
+export type Theme = "light" | "dark";
