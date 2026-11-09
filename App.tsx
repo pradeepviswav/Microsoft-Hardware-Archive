@@ -1,192 +1,679 @@
-import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
-import { products, categories } from './data/products';
-import { Product, Review, SortOption, Theme } from './types';
-import Header from './components/Header';
-import CategoryFilter from './components/CategoryFilter';
-import ProductGrid from './components/ProductGrid';
-import ProductModal from './components/ProductModal';
-import LatestAdditions from './components/LatestAdditions';
-import ComparisonTray from './components/ComparisonTray';
-import ComparisonModal from './components/ComparisonModal';
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { products, categories } from "./data/products";
+import { Product, Theme } from "./types";
+import "./styles.css";
+import { Arrow, Picture, Modal } from "./components/ArchiveUI";
 
-const initialReviews: Review[] = [
-  {id: 1, productId: 13, author: 'Gamer_123', rating: 5, text: 'An absolute beast of a console. The load times are insane!', date: '2023-10-26'},
-  {id: 2, productId: 14, author: 'CreativePro', rating: 4, text: 'The hinge is brilliant for my design work. A bit pricey but worth it.', date: '2023-09-15'},
-  {id: 3, productId: 13, author: 'CasualPlayer', rating: 4, text: 'Game Pass is a game-changer. So many titles to choose from.', date: '2023-11-01'},
-  {id: 4, productId: 20, author: 'Audiophile', rating: 5, text: 'Noise cancellation is top-notch. Super comfortable for long listening sessions.', date: '2023-08-20'},
-];
-
-const MAX_COMPARISON_ITEMS = 4;
-
-const App: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [reviews, setReviews] = useState<Review[]>(initialReviews);
-  const [sortOption, setSortOption] = useState<SortOption>('name-asc');
-  const [theme, setTheme] = useState<Theme>(() => {
-    const savedTheme = localStorage.getItem('theme') as Theme;
-    if (savedTheme) return savedTheme;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  });
-  const [comparisonListIds, setComparisonListIds] = useState<number[]>([]);
-  const [isComparisonModalOpen, setIsComparisonModalOpen] = useState(false);
-  const modalTriggerRef = useRef<HTMLElement | null>(null);
-
-  const latestProducts = useMemo(() => {
-    return [...products].sort((a, b) => b.id - a.id).slice(0, 4);
-  }, []);
-  
-  const comparisonList = useMemo(() => {
-    return products.filter(p => comparisonListIds.includes(p.id));
-  }, [comparisonListIds]);
-  
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-  
-  useEffect(() => {
-    if (!selectedProduct && modalTriggerRef.current) {
-      modalTriggerRef.current.focus();
-      modalTriggerRef.current = null;
-    }
-  }, [selectedProduct]);
-
-  const filteredProducts = useMemo(() => {
-    let productsToSort = [...products];
-
-    switch (sortOption) {
-      case 'name-asc':
-        productsToSort.sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case 'name-desc':
-        productsToSort.sort((a, b) => b.name.localeCompare(a.name));
-        break;
-      case 'year-desc':
-        productsToSort.sort((a, b) => b.year - a.year);
-        break;
-      case 'year-asc':
-        productsToSort.sort((a, b) => a.year - b.year);
-        break;
-      default:
-        productsToSort.sort((a, b) => a.name.localeCompare(b.name));
-    }
-    
-    const categoryFiltered = selectedCategory === 'All'
-        ? productsToSort
-        : productsToSort.filter(p => p.category === selectedCategory);
-
-    if (!searchQuery) {
-        return categoryFiltered;
-    }
-
-    const lowercasedQuery = searchQuery.toLowerCase();
-    return categoryFiltered.filter(p =>
-        p.name.toLowerCase().includes(lowercasedQuery) ||
-        p.category.toLowerCase().includes(lowercasedQuery) ||
-        p.year.toString().includes(lowercasedQuery)
-    );
-  }, [selectedCategory, searchQuery, sortOption]);
-
-  const handleSelectProduct = (product: Product) => {
-    modalTriggerRef.current = document.activeElement as HTMLElement;
-    setSelectedProduct(product);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedProduct(null);
-  };
-  
-  const handleAddReview = (review: Omit<Review, 'id' | 'date'>) => {
-    const newReview: Review = {
-      ...review,
-      id: Date.now(),
-      date: new Date().toISOString().split('T')[0],
-    };
-    setReviews(prevReviews => [newReview, ...prevReviews]);
-  };
-  
-  const handleThemeToggle = useCallback(() => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  }, []);
-
-  const reviewsForSelectedProduct = useMemo(() => {
-    if (!selectedProduct) return [];
-    return reviews.filter(r => r.productId === selectedProduct.id);
-  }, [reviews, selectedProduct]);
-
-  const handleToggleComparison = (productId: number) => {
-    setComparisonListIds(prevIds => {
-      if (prevIds.includes(productId)) {
-        return prevIds.filter(id => id !== productId);
-      }
-      if (prevIds.length < MAX_COMPARISON_ITEMS) {
-        return [...prevIds, productId];
-      }
-      alert(`You can only compare up to ${MAX_COMPARISON_ITEMS} products at a time.`);
-      return prevIds;
-    });
-  };
-
-  const handleClearComparison = () => {
-    setComparisonListIds([]);
-  };
-
-  return (
-    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen text-gray-900 dark:text-white font-sans">
-      <Header theme={theme} onThemeToggle={handleThemeToggle} />
-      <CategoryFilter
-        categories={categories}
-        selectedCategory={selectedCategory}
-        onSelectCategory={setSelectedCategory}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        sortOption={sortOption}
-        onSortChange={setSortOption}
-      />
-      <LatestAdditions
-        products={latestProducts}
-        onSelectProduct={handleSelectProduct}
-        comparisonListIds={comparisonListIds}
-        onToggleComparison={handleToggleComparison}
-      />
-      <ProductGrid
-        products={filteredProducts}
-        onSelectProduct={handleSelectProduct}
-        comparisonListIds={comparisonListIds}
-        onToggleComparison={handleToggleComparison}
-      />
-      {selectedProduct && (
-         <ProductModal
-            product={selectedProduct}
-            onClose={handleCloseModal}
-            reviews={reviewsForSelectedProduct}
-            onAddReview={handleAddReview}
-        />
-      )}
-      {isComparisonModalOpen && (
-        <ComparisonModal 
-          products={comparisonList}
-          onClose={() => setIsComparisonModalOpen(false)}
-        />
-      )}
-      {comparisonList.length > 0 && (
-        <ComparisonTray
-          products={comparisonList}
-          onClear={handleClearComparison}
-          onCompare={() => setIsComparisonModalOpen(true)}
-          onRemove={handleToggleComparison}
-          maxItems={MAX_COMPARISON_ITEMS}
-        />
-      )}
-    </div>
+const eras = ["All years", "1980–1999", "2000–2009", "2010–2019", "2020–2026"];
+function readSaved<T>(key: string, fallback: T): T {
+  try {
+    return JSON.parse(localStorage.getItem(key) || "null") ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+export default function App() {
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("All");
+  const [era, setEra] = useState("All years");
+  const [sort, setSort] = useState("year-desc");
+  const [view, setView] = useState<"grid" | "list">("grid");
+  const [savedOnly, setSavedOnly] = useState(false);
+  const [saved, setSaved] = useState<number[]>(() =>
+    readSaved<unknown>("archive-saved", []) instanceof Array
+      ? readSaved<unknown[]>("archive-saved", []).filter(
+          (id): id is number => typeof id === "number",
+        )
+      : [],
   );
-};
-
-export default App;
+  const [compare, setCompare] = useState<number[]>([]);
+  const [detail, setDetail] = useState<Product | null>(null);
+  const [comparisonOpen, setComparisonOpen] = useState(false);
+  const [about, setAbout] = useState(false);
+  const [message, setMessage] = useState("");
+  const [theme, setTheme] = useState<Theme>(() => {
+    const value = readSaved<Theme>("archive-theme", "light");
+    return value === "dark" ? "dark" : "light";
+  });
+  const searchRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem("archive-theme", JSON.stringify(theme));
+    } catch {}
+  }, [theme]);
+  useEffect(() => {
+    try {
+      localStorage.setItem("archive-saved", JSON.stringify(saved));
+    } catch {}
+  }, [saved]);
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (
+        e.key === "/" &&
+        !["INPUT", "TEXTAREA", "SELECT"].includes(
+          (e.target as HTMLElement).tagName,
+        ) &&
+        !document.querySelector("dialog[open]")
+      ) {
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+  useEffect(() => {
+    if (!message) return;
+    const timer = setTimeout(() => setMessage(""), 4000);
+    return () => clearTimeout(timer);
+  }, [message]);
+  const filtered = useMemo(
+    () =>
+      products
+        .filter(
+          (p) =>
+            (category === "All" || p.category === category) &&
+            (era === "All years" ||
+              (p.year >= Number(era.slice(0, 4)) &&
+                p.year <= Number(era.slice(5)))) &&
+            (!savedOnly || saved.includes(p.id)) &&
+            `${p.name} ${p.category} ${p.year} ${p.description}`
+              .toLowerCase()
+              .includes(query.trim().toLowerCase()),
+        )
+        .sort((a, b) =>
+          sort === "year-desc"
+            ? b.year - a.year || a.name.localeCompare(b.name)
+            : sort === "year-asc"
+              ? a.year - b.year
+              : a.name.localeCompare(b.name),
+        ),
+    [query, category, era, sort, savedOnly, saved],
+  );
+  const toggleSaved = (id: number) =>
+    setSaved((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+    );
+  const toggleCompare = (id: number) =>
+    setCompare((prev) => {
+      if (prev.includes(id)) return prev.filter((x) => x !== id);
+      if (prev.length === 4) {
+        setMessage("Your comparison is full. Remove a device to add another.");
+        return prev;
+      }
+      return [...prev, id];
+    });
+  const reset = () => {
+    setQuery("");
+    setCategory("All");
+    setEra("All years");
+    setSavedOnly(false);
+  };
+  const hero = products.find((p) => p.id === 24)!;
+  const selected = compare.map((id) => products.find((p) => p.id === id)!);
+  return (
+    <>
+      <a href="#collection" className="skip-link">
+        Skip to collection
+      </a>
+      <header className="site-header">
+        <a className="brand" href="#" aria-label="Hardware Archive home">
+          <span className="brand-mark" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+            <i />
+          </span>
+          <span>
+            Microsoft
+            <br />
+            <strong>Hardware Archive</strong>
+          </span>
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="#collection" className="nav-active" onClick={reset}>
+            Collection
+          </a>
+          <button
+            onClick={() => {
+              setSavedOnly(true);
+              document.getElementById("collection")?.scrollIntoView();
+            }}
+          >
+            Saved <span>{saved.length}</span>
+          </button>
+          <button onClick={() => setAbout(true)}>About the archive</button>
+        </nav>
+        <button
+          className="icon-button theme-toggle"
+          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+          aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+        >
+          {theme === "light" ? "◐" : "◑"}
+        </button>
+      </header>
+      <main>
+        <section className="hero">
+          <div className="hero-copy">
+            <div className="eyebrow">
+              <span className="live-dot" /> AN INDEPENDENT DIGITAL COLLECTION
+            </div>
+            <h1>
+              Big ideas.
+              <br />
+              Real hardware.
+            </h1>
+            <p>
+              From the mouse that started it all to a new generation of Surface.
+              Explore the devices that shaped how we work, play, and create.
+            </p>
+            <a className="primary" href="#collection">
+              Explore the collection{" "}
+              <span>
+                <Arrow />
+              </span>
+            </a>
+            <div className="hero-meta">
+              <span>1983 — 2026</span>
+              <span>{products.length} devices. Countless possibilities.</span>
+            </div>
+          </div>
+          <button
+            className="hero-feature"
+            onClick={() => setDetail(hero)}
+            aria-label={`Explore ${hero.name}`}
+          >
+            <img src={hero.imageUrl} alt="Surface Laptop 13-inch" />
+            <span className="feature-label">
+              <span>
+                <small>THE NEXT CHAPTER / 2026</small>
+                <strong>Small footprint. Fresh perspective.</strong>
+              </span>
+              <span className="round-arrow">
+                <Arrow />
+              </span>
+            </span>
+          </button>
+        </section>
+        <section className="archive-strip" aria-label="Archive highlights">
+          <div>
+            <strong>43</strong>
+            <span>years of hardware</span>
+          </div>
+          <div>
+            <strong>{categories.length - 1}</strong>
+            <span>product families</span>
+          </div>
+          <div>
+            <span className="live-dot" />
+            <span>
+              Recent additions researched
+              <br />
+              <b>9 November 2026</b>
+            </span>
+          </div>
+          <a
+            href="#collection"
+            onClick={() => {
+              reset();
+              setEra("2020–2026");
+            }}
+          >
+            Explore the modern era <Arrow />
+          </a>
+        </section>
+        <section id="collection" className="collection">
+          <div className="section-heading">
+            <div>
+              <div className="eyebrow">EXPLORE THE ARCHIVE</div>
+              <h2>
+                {savedOnly
+                  ? "Your saved collection"
+                  : "A legacy you can explore."}
+              </h2>
+            </div>
+            <p>
+              Iconic beginnings. Unexpected experiments.
+              <br />
+              Find your next rabbit hole.
+            </p>
+          </div>
+          <div className="collection-layout">
+            <aside aria-label="Filter collection">
+              <div className="filter-heading">
+                PRODUCT FAMILY <span>{products.length}</span>
+              </div>
+              <div className="category-list">
+                {categories.map((c) => (
+                  <button
+                    key={c}
+                    aria-pressed={category === c}
+                    className={category === c ? "selected" : ""}
+                    onClick={() => setCategory(c)}
+                  >
+                    <span>{c === "All" ? "All devices" : c}</span>
+                    <small>
+                      {c === "All"
+                        ? products.length
+                        : products.filter((p) => p.category === c).length}
+                    </small>
+                  </button>
+                ))}
+              </div>
+              <div className="sidebar-note">
+                <span>✳</span>
+                <h3>
+                  A little nostalgia.
+                  <br />A lot of innovation.
+                </h3>
+                <p>
+                  A curated collection of Microsoft devices and the ideas behind
+                  them.
+                </p>
+                <button onClick={() => setAbout(true)}>
+                  About this project <Arrow />
+                </button>
+              </div>
+            </aside>
+            <div className="collection-main">
+              <div className="toolbar">
+                <div className="search-box">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    aria-hidden="true"
+                  >
+                    <circle cx="10.5" cy="10.5" r="6.5" />
+                    <path d="m16 16 5 5" />
+                  </svg>
+                  <input
+                    ref={searchRef}
+                    aria-label="Search devices"
+                    placeholder="Search devices, years, or ideas…"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                  {query ? (
+                    <button
+                      aria-label="Clear search"
+                      onClick={() => setQuery("")}
+                    >
+                      ×
+                    </button>
+                  ) : (
+                    <kbd>/</kbd>
+                  )}
+                </div>
+                <label className="select-wrap">
+                  <span className="sr-only">Filter by era</span>
+                  <select value={era} onChange={(e) => setEra(e.target.value)}>
+                    {eras.map((x) => (
+                      <option key={x}>{x}</option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <div className="results-bar">
+                <p role="status">
+                  <b>{filtered.length}</b>{" "}
+                  {filtered.length === 1 ? "device" : "devices"}
+                  {category !== "All"
+                    ? ` in ${category}`
+                    : " in the collection"}
+                </p>
+                <div>
+                  <label>
+                    <span className="sr-only">Sort devices</span>
+                    <select
+                      value={sort}
+                      onChange={(e) => setSort(e.target.value)}
+                    >
+                      <option value="year-desc">Newest first</option>
+                      <option value="year-asc">Oldest first</option>
+                      <option value="name-asc">Name: A–Z</option>
+                    </select>
+                  </label>
+                  <div className="view-toggle" aria-label="View style">
+                    <button
+                      aria-label="Grid view"
+                      aria-pressed={view === "grid"}
+                      onClick={() => setView("grid")}
+                    >
+                      ▦
+                    </button>
+                    <button
+                      aria-label="List view"
+                      aria-pressed={view === "list"}
+                      onClick={() => setView("list")}
+                    >
+                      ☰
+                    </button>
+                  </div>
+                </div>
+              </div>
+              {(savedOnly ||
+                query ||
+                category !== "All" ||
+                era !== "All years") && (
+                <div className="active-filters">
+                  <span>
+                    {savedOnly ? "Saved devices · " : ""}
+                    {category === "All" ? "All families" : category} / {era}
+                  </span>
+                  <button onClick={reset}>Reset filters ×</button>
+                </div>
+              )}
+              <div
+                className={`product-grid ${view === "list" ? "list-view" : ""}`}
+              >
+                {filtered.map((p) => (
+                  <article
+                    key={p.id}
+                    className={`product-card ${compare.includes(p.id) ? "in-comparison" : ""}`}
+                  >
+                    <div
+                      className={`product-image family-${p.category.toLowerCase().replaceAll(" ", "-")}`}
+                    >
+                      <button
+                        className="image-open"
+                        onClick={() => setDetail(p)}
+                        aria-label={`View ${p.name}`}
+                      >
+                        <Picture product={p} />
+                      </button>
+                      <span className="year-tag">{p.year}</span>
+                      <button
+                        className="save-button"
+                        aria-label={`${saved.includes(p.id) ? "Unsave" : "Save"} ${p.name}`}
+                        aria-pressed={saved.includes(p.id)}
+                        onClick={() => toggleSaved(p.id)}
+                      >
+                        {saved.includes(p.id) ? "♥" : "♡"}
+                      </button>
+                    </div>
+                    <div className="card-body">
+                      <div className="card-kicker">
+                        {p.category}
+                        <span>{p.addedAt ? "RECENTLY ADDED" : "ARCHIVE"}</span>
+                      </div>
+                      <button
+                        className="card-title"
+                        onClick={() => setDetail(p)}
+                      >
+                        <h3>{p.name}</h3>
+                        <span>
+                          <Arrow />
+                        </span>
+                      </button>
+                      <p>{p.description}</p>
+                      <div className="card-bottom">
+                        <span>
+                          {p.source ? "Source linked" : "Historical entry"}
+                        </span>
+                        <button
+                          className="compare-button"
+                          aria-pressed={compare.includes(p.id)}
+                          onClick={() => toggleCompare(p.id)}
+                          aria-label={`${compare.includes(p.id) ? "Remove" : "Compare"} ${p.name}`}
+                        >
+                          {compare.includes(p.id) ? "✓ Added" : "＋ Compare"}
+                        </button>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+              {!filtered.length && (
+                <div className="empty-state">
+                  <span>⌕</span>
+                  <h3>No devices found.</h3>
+                  <p>
+                    {savedOnly
+                      ? "Save a device with the heart button, or try a different filter."
+                      : "Try a broader search or explore another era."}
+                  </p>
+                  <button className="primary" onClick={reset}>
+                    Explore all devices <Arrow />
+                  </button>
+                </div>
+              )}
+              <div className="collection-end">
+                <span>YOU’VE REACHED THE END OF THIS COLLECTION</span>
+                <a href="#collection">Back to top ↑</a>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="closing-note">
+          <span className="eyebrow">BUILT TO REMEMBER</span>
+          <h2>
+            Some devices changed the world.
+            <br />
+            Others just made it more interesting.
+          </h2>
+          <button onClick={() => setAbout(true)}>
+            A note on the archive <Arrow />
+          </button>
+        </section>
+      </main>
+      <footer>
+        <span>
+          Microsoft Hardware Archive{" "}
+          <small>Independent project · Not affiliated with Microsoft</small>
+        </span>
+        <a
+          href="https://github.com/pradeepviswav/Microsoft-Hardware-Archive"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Explore on GitHub <Arrow />
+        </a>
+      </footer>
+      {compare.length > 0 && (
+        <div className="comparison-tray">
+          <div>
+            <strong>{compare.length} / 4 selected</strong>
+            <span className="tray-names">
+              {selected.map((p) => p.name).join(" · ")}
+            </span>
+          </div>
+          <button className="text-button" onClick={() => setCompare([])}>
+            Clear
+          </button>
+          <button
+            className="primary"
+            disabled={compare.length < 2}
+            onClick={() => setComparisonOpen(true)}
+          >
+            {compare.length < 2 ? "Select one more" : "Compare devices"}
+          </button>
+        </div>
+      )}
+      <div className="toast" role="status">
+        {message}
+      </div>
+      {detail && (
+        <Modal title={detail.name} onClose={() => setDetail(null)}>
+          <div className="detail-image">
+            <Picture product={detail} eager />
+          </div>
+          <div className="detail-content">
+            <div className="eyebrow">
+              {detail.category} / {detail.year}
+            </div>
+            <h2>{detail.name}</h2>
+            <p>{detail.description}</p>
+            {detail.specs && (
+              <dl className="spec-list">
+                {Object.entries(detail.specs).map(([key, value]) => (
+                  <div key={key}>
+                    <dt>{key}</dt>
+                    <dd>{value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+            <div className="detail-actions">
+              <button
+                className="primary"
+                onClick={() => toggleSaved(detail.id)}
+              >
+                {saved.includes(detail.id)
+                  ? "♥ Saved to your collection"
+                  : "♡ Save to your collection"}
+              </button>
+              <button
+                className="secondary"
+                disabled={compare.length === 4 && !compare.includes(detail.id)}
+                onClick={() => toggleCompare(detail.id)}
+              >
+                {compare.includes(detail.id)
+                  ? "✓ In comparison"
+                  : "＋ Add to comparison"}
+              </button>
+            </div>
+            {detail.source ? (
+              <div className="source-note">
+                <span className="eyebrow">READ THE ORIGINAL STORY</span>
+                <a href={detail.source.url} target="_blank" rel="noreferrer">
+                  {detail.source.title} <Arrow />
+                </a>
+                <small>
+                  Researched 9 November 2026 ·{" "}
+                  {detail.dateLabel || "Release year shown above"}
+                </small>
+              </div>
+            ) : (
+              <div className="source-note">
+                <small>
+                  Historical entry from the original collection. Details have
+                  not been independently reverified in this refresh.
+                </small>
+              </div>
+            )}
+            <p className="image-credit">
+              Image:{" "}
+              {detail.imageCredit ||
+                "Wikimedia Commons (original archive image)"}
+              .{" "}
+              {detail.imageSource && (
+                <a href={detail.imageSource} target="_blank" rel="noreferrer">
+                  Original image source
+                </a>
+              )}{" "}
+              {detail.imageLicense && (
+                <a href={detail.imageLicense} target="_blank" rel="noreferrer">
+                  License
+                </a>
+              )}
+            </p>
+          </div>
+        </Modal>
+      )}
+      {comparisonOpen && (
+        <Modal
+          title="Compare devices"
+          onClose={() => setComparisonOpen(false)}
+          wide
+        >
+          <h2 className="compare-heading">Side by side.</h2>
+          <div className="table-scroll">
+            <table>
+              <caption className="sr-only">
+                Comparison of selected devices
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Device</th>
+                  {selected.map((p) => (
+                    <th scope="col" key={p.id}>
+                      <div className="table-image">
+                        <Picture product={p} />
+                      </div>
+                      {p.name}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  "Year",
+                  "Family",
+                  "Overview",
+                  ...Array.from(
+                    new Set<string>(
+                      selected.flatMap((p) => Object.keys(p.specs || {})),
+                    ),
+                  ),
+                ].map((row) => (
+                  <tr key={row}>
+                    <th scope="row">{row}</th>
+                    {selected.map((p) => (
+                      <td key={p.id}>
+                        {row === "Year"
+                          ? p.year
+                          : row === "Family"
+                            ? p.category
+                            : row === "Overview"
+                              ? p.description
+                              : p.specs?.[row] || "Not recorded"}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Modal>
+      )}
+      {about && (
+        <Modal title="About the archive" onClose={() => setAbout(false)}>
+          <div className="detail-content">
+            <h2>Hardware worth remembering.</h2>
+            <p>
+              This independent collection follows Microsoft hardware from early
+              peripherals to modern Surface devices. It also includes partner
+              hardware from the Windows Phone ecosystem.
+            </p>
+            <h3>How we keep it useful</h3>
+            <p>
+              Recent additions link to Microsoft announcements. Years refer to
+              the model’s introduction, not the year a listing was added. This
+              is a curated selection, not a complete product catalog.
+            </p>
+            <p>
+              New entries were researched on 9 November 2026. Historical entries
+              are identified separately where their details have not been
+              reverified. Announcement details and availability can vary by
+              market; visit the linked source for context.
+            </p>
+            <h3>Your collection stays with you</h3>
+            <p>
+              Saved devices and your theme preference are stored in this browser
+              when storage is available. There is no account or public review
+              service.
+            </p>
+            <p>
+              Product names and images belong to their respective owners.
+              Microsoft editorial photos are linked to their original
+              announcement; original archive images come from Wikimedia Commons.
+            </p>
+            <a
+              className="secondary"
+              href="https://github.com/pradeepviswav/Microsoft-Hardware-Archive"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Visit the project on GitHub <Arrow />
+            </a>
+          </div>
+        </Modal>
+      )}
+    </>
+  );
+}
