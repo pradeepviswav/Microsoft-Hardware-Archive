@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { products, categories } from "./data/products";
 import { Product, Theme } from "./types";
 import "./styles.css";
+import { productFamily } from "./data/families";
 import { Arrow, Picture, Modal } from "./components/ArchiveUI";
 
 const PAGE_SIZE = 24;
@@ -27,6 +28,14 @@ export default function App() {
   const [view, setView] = useState<"grid" | "list">("grid");
   const [savedOnly, setSavedOnly] = useState(false);
   const [storeOnly, setStoreOnly] = useState(false);
+  const [family, setFamily] = useState("All product lines");
+  const families = [
+    ...new Set(
+      products
+        .filter((p) => category === "All" || p.category === category)
+        .map(productFamily),
+    ),
+  ].sort();
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [saved, setSaved] = useState<number[]>(() =>
     readSaved<unknown>("archive-saved", []) instanceof Array
@@ -83,13 +92,14 @@ export default function App() {
         .filter(
           (p) =>
             (category === "All" || p.category === category) &&
+            (family === "All product lines" || productFamily(p) === family) &&
             (era === "All years" ||
               (p.year !== null &&
                 p.year >= Number(era.slice(0, 4)) &&
                 p.year <= Number(era.slice(5)))) &&
             (!savedOnly || saved.includes(p.id)) &&
             (!storeOnly || p.storeListed) &&
-            `${p.name} ${p.category} ${p.year ?? ""} ${p.description}`
+            `${p.name} ${p.category} ${p.year ?? ""} ${productFamily(p)} ${p.description}`
               .toLowerCase()
               .includes(query.trim().toLowerCase()),
         )
@@ -103,11 +113,11 @@ export default function App() {
             a.name.localeCompare(b.name)
           );
         }),
-    [query, category, era, sort, savedOnly, saved, storeOnly],
+    [query, category, era, sort, savedOnly, saved, storeOnly, family],
   );
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
-  }, [query, category, era, sort, savedOnly, storeOnly]);
+  }, [query, category, era, sort, savedOnly, storeOnly, family]);
   const visibleProducts = filtered.slice(0, visibleCount);
   const toggleSaved = (id: number) =>
     setSaved((prev) =>
@@ -128,6 +138,7 @@ export default function App() {
     setEra("All years");
     setSavedOnly(false);
     setStoreOnly(false);
+    setFamily("All product lines");
   };
   const hero = products.find((p) => p.id === 24)!;
   const selected = compare.map((id) => products.find((p) => p.id === id)!);
@@ -271,7 +282,10 @@ export default function App() {
                     key={c}
                     aria-pressed={category === c}
                     className={category === c ? "selected" : ""}
-                    onClick={() => setCategory(c)}
+                    onClick={() => {
+                      setCategory(c);
+                      setFamily("All product lines");
+                    }}
                   >
                     <span>{c === "All" ? "All devices" : c}</span>
                     <small>
@@ -339,6 +353,19 @@ export default function App() {
                   </select>
                 </label>
               </div>
+              <label className="family-filter">
+                Product line{" "}
+                <select
+                  aria-label="Filter by product line"
+                  value={family}
+                  onChange={(e) => setFamily(e.target.value)}
+                >
+                  <option>All product lines</option>
+                  {families.map((line) => (
+                    <option key={line}>{line}</option>
+                  ))}
+                </select>
+              </label>
               <label className="store-filter">
                 <input
                   type="checkbox"
@@ -388,6 +415,7 @@ export default function App() {
               </div>
               {(savedOnly ||
                 storeOnly ||
+                family !== "All product lines" ||
                 query ||
                 category !== "All" ||
                 era !== "All years") && (
@@ -562,7 +590,7 @@ export default function App() {
           </div>
           <div className="detail-content">
             <div className="eyebrow">
-              {detail.category} / {formatYear(detail)}
+              {detail.category} / {productFamily(detail)} / {formatYear(detail)}
             </div>
             <h2>{detail.name}</h2>
             <p>{detail.description}</p>
