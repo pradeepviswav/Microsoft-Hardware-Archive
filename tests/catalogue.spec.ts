@@ -122,3 +122,21 @@ test("records without a verified photograph remain usable without a misleading i
       .first(),
   ).toHaveAttribute("href", /microsoft-1991/);
 });
+
+test("product lines distinguish Surface generations and separate unrelated input families", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("combobox", { name: "Filter by product line" })
+    .selectOption("Surface Laptop Go");
+  await expect(page.locator(".product-card")).toHaveCount(3);
+  await expect(
+    page.locator(".product-card").filter({ hasText: "Surface Laptop Studio" }),
+  ).toHaveCount(0);
+  await page.getByRole("button", { name: "Reset filters" }).click();
+  await page
+    .getByRole("combobox", { name: "Filter by product line" })
+    .selectOption("Kin");
+  await expect(page.locator(".product-card")).toHaveCount(2);
+});

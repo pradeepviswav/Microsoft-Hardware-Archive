@@ -1524,8 +1524,11 @@ export const catalogueProducts: Product[] = [
     description:
       "A developer sensor kit combining a time-of-flight depth camera, color camera, and microphone array.",
     specs: {
-      "Depth sensor": "Time-of-flight",
+      "Depth sensor": "1 MP time-of-flight",
       Audio: "Seven-microphone array",
+      "Color camera": "12 MP CMOS rolling shutter",
+      Weight: "440 g",
+      Dimensions: "103 × 39 × 126 mm",
     },
     links: [],
     addedAt: "2026-11-09",
