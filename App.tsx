@@ -5,6 +5,9 @@ import "./styles.css";
 import { productFamily } from "./data/families";
 import { Arrow, Picture, Modal } from "./components/ArchiveUI";
 
+import Directory from "./seo/Directory";
+import { productPath } from "./seo/urls";
+
 const PAGE_SIZE = 24;
 const years = products
   .map((p) => p.year)
@@ -474,6 +477,7 @@ export default function App() {
                         </span>
                       </button>
                       <p>{p.description}</p>
+                      <a className="record-link" href={productPath(p)}>Full specifications & history</a>
                       <div className="card-bottom">
                         <span>
                           {p.source ? "Source linked" : "Historical entry"}
@@ -546,6 +550,7 @@ export default function App() {
             A note on the archive <Arrow />
           </button>
         </section>
+        <Directory />
       </main>
       <footer>
         <span>
