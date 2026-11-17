@@ -93,3 +93,51 @@ HTML. Card headings now link directly to product pages, while Quick view opens
 the dialog. Regression checks explicitly inspect these without JavaScript and
 verify unique titles/descriptions, self-canonicals and breadcrumbs across every
 sitemap page.
+
+## Shareable browsing and reference exports
+
+The homepage stores category, family, decade, support-diagram, store, saved,
+search, sort and view selections in URL parameters. Saved-device IDs remain
+private to browser storage; a shared `saved=1` link uses the recipient's saved
+collection. Browser Back/Forward restores the URL state. Escape clears search
+and facets when a modal is not open; `/` focuses search outside input controls.
+
+Unfiltered pagination has generated `/browse/page/2/` through page 7 URLs, each
+with its own HTML, metadata and canonical. Every product is reachable through
+ordinary links with JavaScript disabled. Filtered links use query parameters and
+are applied by the interactive app; category/family/era hubs and `/catalogue/`
+provide fully static alternatives. Query URLs retain the underlying page's
+canonical rather than creating indexable pages for every filter combination.
+
+The spec table shares the filters and sort controls with grid/list views, adds
+Device and Year sort buttons, and supports the same three-device comparison.
+Pagination shows 24 records per page. The directory is expanded, with header
+links to category, family and decade indexes.
+
+Build-time exports are generated from the same product records:
+
+- `/llms.txt`: curated map of the catalogue and every family.
+- `/llms-full.txt`: all entries, recorded specs, source links, research dates and
+  image attribution in one Markdown document.
+- `/devices/<existing-device-slug>.md`: the individual Markdown entry, linked
+  from the corresponding HTML page and its alternate-format head tag.
+
+Device pages put overview and recorded specifications first, with stable
+`#overview`, `#specifications`, `#diagrams`, `#sources` and `#citation` anchors.
+Markdown and BibTeX citations are readable without JavaScript; small progressive
+enhancements add copy buttons and keyboard navigation through the family.
+Chronological neighbors are explicitly not labelled direct predecessors or
+successors. Copy failures select the citation and offer manual-copy instructions.
+
+Dataset and TechArticle structured data supplement the existing Product and
+BreadcrumbList entities. Research dates are not assigned as product release
+dates or source publication dates. Source publication dates are shown only when
+recorded (the four tabletop references already identify their publication dates).
+No blanket dataset license is declared, and none is invented in the schema.
+`llms.txt` is an optional discovery aid, not a web standard that guarantees AI
+citations or search rankings. robots.txt explicitly permits the named search
+crawlers as well as all other crawlers; it cannot override an edge challenge.
+
+Changes follow the GitHub PR approval workflow in AGENTS.md. The user approves
+the PR before Spacefast syncs the source; this work does not modify the live
+Space or its access policies directly.

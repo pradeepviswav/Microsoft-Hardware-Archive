@@ -7,15 +7,22 @@ import { Arrow, Picture, Modal } from "./components/ArchiveUI";
 
 import Directory from "./seo/Directory";
 import { productPath } from "./seo/urls";
+import {
+  BrowseState,
+  defaults,
+  PAGE_SIZE,
+  eras,
+  filterProducts,
+  browseHref,
+} from "./data/browse";
+import { useBrowseState } from "./hooks/useBrowseState";
 
-const PAGE_SIZE = 24;
 const years = products
   .map((p) => p.year)
   .filter((year): year is number => year !== null);
 const firstYear = Math.min(...years);
 const lastYear = Math.max(...years);
 const formatYear = (product: Product) => product.year ?? "Year unconfirmed";
-const eras = ["All years", "1980–1999", "2000–2009", "2010–2019", "2020–2026"];
 function readSaved<T>(key: string, fallback: T): T {
   try {
     return JSON.parse(localStorage.getItem(key) || "null") ?? fallback;
@@ -23,15 +30,32 @@ function readSaved<T>(key: string, fallback: T): T {
     return fallback;
   }
 }
-export default function App() {
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("All");
-  const [era, setEra] = useState("All years");
-  const [sort, setSort] = useState("year-desc");
-  const [view, setView] = useState<"grid" | "list">("grid");
-  const [savedOnly, setSavedOnly] = useState(false);
-  const [storeOnly, setStoreOnly] = useState(false);
-  const [family, setFamily] = useState("All product lines");
+export default function App({
+  initialBrowse = defaults,
+}: { initialBrowse?: BrowseState } = {}) {
+  const [browse, updateBrowse] = useBrowseState(initialBrowse);
+  const {
+    query,
+    category,
+    era,
+    sort,
+    view,
+    savedOnly,
+    storeOnly,
+    family,
+    diagramOnly,
+  } = browse;
+  const setQuery = (query: string) => updateBrowse({ query });
+  const setCategory = (category: string) =>
+    updateBrowse({ category, family: defaults.family });
+  const setEra = (era: string) => updateBrowse({ era });
+  const setSort = (sort: string) =>
+    updateBrowse({ sort: sort as BrowseState["sort"] });
+  const setView = (view: BrowseState["view"]) =>
+    updateBrowse({ view, page: browse.page });
+  const setSavedOnly = (savedOnly: boolean) => updateBrowse({ savedOnly });
+  const setStoreOnly = (storeOnly: boolean) => updateBrowse({ storeOnly });
+  const setFamily = (family: string) => updateBrowse({ family });
   const families = [
     ...new Set(
       products
@@ -39,7 +63,6 @@ export default function App() {
         .map(productFamily),
     ),
   ].sort();
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [saved, setSaved] = useState<number[]>(() =>
     readSaved<unknown>("archive-saved", []) instanceof Array
       ? readSaved<unknown[]>("archive-saved", []).filter(
@@ -75,6 +98,7 @@ export default function App() {
         !["INPUT", "TEXTAREA", "SELECT"].includes(
           (e.target as HTMLElement).tagName,
         ) &&
+        !(e.target as HTMLElement).isContentEditable &&
         !document.querySelector("dialog[open]")
       ) {
         e.preventDefault();
@@ -90,38 +114,18 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [message]);
   const filtered = useMemo(
-    () =>
-      products
-        .filter(
-          (p) =>
-            (category === "All" || p.category === category) &&
-            (family === "All product lines" || productFamily(p) === family) &&
-            (era === "All years" ||
-              (p.year !== null &&
-                p.year >= Number(era.slice(0, 4)) &&
-                p.year <= Number(era.slice(5)))) &&
-            (!savedOnly || saved.includes(p.id)) &&
-            (!storeOnly || p.storeListed) &&
-            `${p.name} ${p.category} ${p.year ?? ""} ${productFamily(p)} ${p.description}`
-              .toLowerCase()
-              .includes(query.trim().toLowerCase()),
-        )
-        .sort((a, b) => {
-          if (sort === "name-asc") return a.name.localeCompare(b.name);
-          if (a.year === null)
-            return b.year === null ? a.name.localeCompare(b.name) : 1;
-          if (b.year === null) return -1;
-          return (
-            (sort === "year-desc" ? b.year - a.year : a.year - b.year) ||
-            a.name.localeCompare(b.name)
-          );
-        }),
-    [query, category, era, sort, savedOnly, saved, storeOnly, family],
+    () => filterProducts(browse, saved),
+    [browse, saved],
   );
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const currentPage = Math.min(browse.page, pageCount);
   useEffect(() => {
-    setVisibleCount(PAGE_SIZE);
-  }, [query, category, era, sort, savedOnly, storeOnly, family]);
-  const visibleProducts = filtered.slice(0, visibleCount);
+    if (browse.page !== currentPage) updateBrowse({ page: currentPage });
+  }, [browse.page, currentPage]);
+  const visibleProducts = filtered.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE,
+  );
   const toggleSaved = (id: number) =>
     setSaved((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
@@ -129,20 +133,25 @@ export default function App() {
   const toggleCompare = (id: number) =>
     setCompare((prev) => {
       if (prev.includes(id)) return prev.filter((x) => x !== id);
-      if (prev.length === 4) {
+      if (prev.length === 3) {
         setMessage("Your comparison is full. Remove a device to add another.");
         return prev;
       }
       return [...prev, id];
     });
-  const reset = () => {
-    setQuery("");
-    setCategory("All");
-    setEra("All years");
-    setSavedOnly(false);
-    setStoreOnly(false);
-    setFamily("All product lines");
-  };
+  const reset = () => updateBrowse({ ...defaults, view: browse.view });
+  useEffect(() => {
+    const clear = (event: KeyboardEvent) => {
+      if (
+        event.key === "Escape" &&
+        !document.querySelector("dialog[open]") &&
+        !(event.target as HTMLElement).isContentEditable
+      )
+        reset();
+    };
+    window.addEventListener("keydown", clear);
+    return () => window.removeEventListener("keydown", clear);
+  }, [browse.view]);
   const hero = products.find((p) => p.id === 24)!;
   const selected = compare.map((id) => products.find((p) => p.id === id)!);
   return (
@@ -176,6 +185,9 @@ export default function App() {
           >
             Saved <span>{saved.length}</span>
           </button>
+          <a href="#categories">Categories</a>
+          <a href="#families">Families</a>
+          <a href="#decades">Decades</a>
           <button onClick={() => setAbout(true)}>About the archive</button>
         </nav>
         <button
@@ -251,8 +263,7 @@ export default function App() {
           <a
             href="#collection"
             onClick={() => {
-              reset();
-              setEra("2020–2026");
+              updateBrowse({ ...defaults, era: "2020–2029" });
             }}
           >
             Explore the modern era <Arrow />
@@ -277,7 +288,7 @@ export default function App() {
           <div className="collection-layout">
             <aside aria-label="Filter collection">
               <div className="filter-heading">
-                PRODUCT FAMILY <span>{products.length}</span>
+                PRODUCT CATEGORY <span>{products.length}</span>
               </div>
               <div className="category-list">
                 {categories.map((c) => (
@@ -287,7 +298,6 @@ export default function App() {
                     className={category === c ? "selected" : ""}
                     onClick={() => {
                       setCategory(c);
-                      setFamily("All product lines");
                     }}
                   >
                     <span>{c === "All" ? "All devices" : c}</span>
@@ -332,6 +342,7 @@ export default function App() {
                   <input
                     ref={searchRef}
                     aria-label="Search devices"
+                    maxLength={300}
                     placeholder="Search devices, years, or ideas…"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -369,6 +380,16 @@ export default function App() {
                   ))}
                 </select>
               </label>
+              <label className="diagram-filter">
+                <input
+                  type="checkbox"
+                  checked={diagramOnly}
+                  onChange={(e) =>
+                    updateBrowse({ diagramOnly: e.target.checked })
+                  }
+                />
+                Has support diagram
+              </label>
               <label className="store-filter">
                 <input
                   type="checkbox"
@@ -400,6 +421,13 @@ export default function App() {
                   </label>
                   <div className="view-toggle" aria-label="View style">
                     <button
+                      aria-label="Spec table view"
+                      aria-pressed={view === "table"}
+                      onClick={() => setView("table")}
+                    >
+                      Table
+                    </button>
+                    <button
                       aria-label="Grid view"
                       aria-pressed={view === "grid"}
                       onClick={() => setView("grid")}
@@ -418,6 +446,7 @@ export default function App() {
               </div>
               {(savedOnly ||
                 storeOnly ||
+                diagramOnly ||
                 family !== "All product lines" ||
                 query ||
                 category !== "All" ||
@@ -426,97 +455,205 @@ export default function App() {
                   <span>
                     {savedOnly ? "Saved devices · " : ""}
                     {storeOnly ? "Microsoft Store · " : ""}
-                    {category === "All" ? "All families" : category} / {era}
+                    {category === "All" ? "All categories" : category} /{" "}
+                    {family} / {era}
+                    {diagramOnly ? " / Support diagrams" : ""}
                   </span>
                   <button onClick={reset}>Reset filters ×</button>
                 </div>
               )}
-              <div
-                className={`product-grid ${view === "list" ? "list-view" : ""}`}
-              >
-                {visibleProducts.map((p) => (
-                  <article
-                    key={p.id}
-                    className={`product-card ${compare.includes(p.id) ? "in-comparison" : ""}`}
-                  >
-                    <div
-                      className={`product-image family-${p.category.toLowerCase().replaceAll(" ", "-")}`}
+              {view === "table" ? (
+                <div className="table-scroll">
+                  <table className="browse-table">
+                    <caption>
+                      Hardware specifications — page {currentPage} of{" "}
+                      {pageCount}
+                    </caption>
+                    <thead>
+                      <tr>
+                        {[
+                          "Device",
+                          "Year",
+                          "Family",
+                          "Interface / CPU",
+                          "Diagram",
+                          "Compare",
+                        ].map((label) => (
+                          <th scope="col" key={label}>
+                            {label === "Device" ? (
+                              <button onClick={() => setSort("name-asc")}>
+                                Device: sort A–Z
+                              </button>
+                            ) : label === "Year" ? (
+                              <button
+                                onClick={() =>
+                                  setSort(
+                                    sort === "year-asc"
+                                      ? "year-desc"
+                                      : "year-asc",
+                                  )
+                                }
+                              >
+                                Year:{" "}
+                                {sort === "year-asc" ? "oldest" : "newest"}{" "}
+                                first
+                              </button>
+                            ) : (
+                              label
+                            )}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {visibleProducts.map((p) => (
+                        <tr key={p.id}>
+                          <th scope="row">
+                            <a href={productPath(p)}>{p.name}</a>
+                          </th>
+                          <td>{formatYear(p)}</td>
+                          <td>{productFamily(p)}</td>
+                          <td>
+                            {Object.entries(p.specs || {})
+                              .filter(([key]) =>
+                                /processor|cpu|interface|connectivity|connection|sensor/i.test(
+                                  key,
+                                ),
+                              )
+                              .map(([key, value]) => `${key}: ${value}`)
+                              .join("; ") || "Not recorded"}
+                          </td>
+                          <td>
+                            {p.imageKind === "diagram"
+                              ? "Support diagram"
+                              : "—"}
+                          </td>
+                          <td>
+                            <button
+                              aria-label={`${compare.includes(p.id) ? "Remove" : "Compare"} ${p.name}`}
+                              aria-pressed={compare.includes(p.id)}
+                              onClick={() => toggleCompare(p.id)}
+                            >
+                              {compare.includes(p.id) ? "Remove" : "＋ Compare"}
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div
+                  className={`product-grid ${view === "list" ? "list-view" : ""}`}
+                >
+                  {visibleProducts.map((p) => (
+                    <article
+                      key={p.id}
+                      className={`product-card ${compare.includes(p.id) ? "in-comparison" : ""}`}
                     >
-                      <button
-                        className="image-open"
-                        onClick={() => setDetail(p)}
-                        aria-label={`View ${p.name}`}
+                      <div
+                        className={`product-image family-${p.category.toLowerCase().replaceAll(" ", "-")}`}
                       >
-                        <Picture product={p} />
-                      </button>
-                      <span className="year-tag">{formatYear(p)}</span>
-                      {p.imageKind === "diagram" && (
-                        <span className="image-kind">Support diagram</span>
-                      )}
-                      <button
-                        className="save-button"
-                        aria-label={`${saved.includes(p.id) ? "Unsave" : "Save"} ${p.name}`}
-                        aria-pressed={saved.includes(p.id)}
-                        onClick={() => toggleSaved(p.id)}
-                      >
-                        {saved.includes(p.id) ? "♥" : "♡"}
-                      </button>
-                    </div>
-                    <div className="card-body">
-                      <div className="card-kicker">
-                        {p.category}
-                        <span>{p.addedAt ? "RECENTLY ADDED" : "ARCHIVE"}</span>
-                      </div>
-                      <h3>
-                        <a className="card-title" href={productPath(p)}>
-                          {p.name}
-                          <span aria-hidden="true">
-                            <Arrow />
-                          </span>
-                        </a>
-                      </h3>
-                      <p>{p.description}</p>
-                      <button
-                        className="record-link quick-view"
-                        onClick={() => setDetail(p)}
-                        aria-label={`Quick view ${p.name}`}
-                      >
-                        Quick view
-                      </button>
-                      <div className="card-bottom">
-                        <span>
-                          {p.source ? "Source linked" : "Historical entry"}
-                        </span>
                         <button
-                          className="compare-button"
-                          aria-pressed={compare.includes(p.id)}
-                          onClick={() => toggleCompare(p.id)}
-                          aria-label={`${compare.includes(p.id) ? "Remove" : "Compare"} ${p.name}`}
+                          className="image-open"
+                          onClick={() => setDetail(p)}
+                          aria-label={`View ${p.name}`}
                         >
-                          {compare.includes(p.id) ? "✓ Added" : "＋ Compare"}
+                          <Picture product={p} />
+                        </button>
+                        <span className="year-tag">{formatYear(p)}</span>
+                        {p.imageKind === "diagram" && (
+                          <span className="image-kind">Support diagram</span>
+                        )}
+                        <button
+                          className="save-button"
+                          aria-label={`${saved.includes(p.id) ? "Unsave" : "Save"} ${p.name}`}
+                          aria-pressed={saved.includes(p.id)}
+                          onClick={() => toggleSaved(p.id)}
+                        >
+                          {saved.includes(p.id) ? "♥" : "♡"}
                         </button>
                       </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
+                      <div className="card-body">
+                        <div className="card-kicker">
+                          {p.category}
+                          <span>
+                            {p.addedAt ? "RECENTLY ADDED" : "ARCHIVE"}
+                          </span>
+                        </div>
+                        <h3>
+                          <a className="card-title" href={productPath(p)}>
+                            {p.name}
+                            <span aria-hidden="true">
+                              <Arrow />
+                            </span>
+                          </a>
+                        </h3>
+                        <p>{p.description}</p>
+                        <button
+                          className="record-link quick-view"
+                          onClick={() => setDetail(p)}
+                          aria-label={`Quick view ${p.name}`}
+                        >
+                          Quick view
+                        </button>
+                        <div className="card-bottom">
+                          <span>
+                            {p.source ? "Source linked" : "Historical entry"}
+                          </span>
+                          <button
+                            className="compare-button"
+                            aria-pressed={compare.includes(p.id)}
+                            onClick={() => toggleCompare(p.id)}
+                            aria-label={`${compare.includes(p.id) ? "Remove" : "Compare"} ${p.name}`}
+                          >
+                            {compare.includes(p.id) ? "✓ Added" : "＋ Compare"}
+                          </button>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
               {filtered.length > 0 && (
                 <div className="load-more">
                   <p role="status">
-                    Showing {visibleProducts.length} of {filtered.length}{" "}
-                    devices
+                    Showing {(currentPage - 1) * PAGE_SIZE + 1}–
+                    {Math.min(currentPage * PAGE_SIZE, filtered.length)} of{" "}
+                    {filtered.length} devices
                   </p>
-                  {visibleProducts.length < filtered.length && (
-                    <button
-                      className="secondary"
-                      onClick={() =>
-                        setVisibleCount((count) => count + PAGE_SIZE)
-                      }
-                    >
-                      Show {Math.min(PAGE_SIZE, filtered.length - visibleCount)}{" "}
-                      more devices ↓
-                    </button>
-                  )}
+                  <nav className="pagination" aria-label="Collection pages">
+                    {Array.from({ length: pageCount }, (_, i) => i + 1).map(
+                      (page) => (
+                        <a
+                          key={page}
+                          href={browseHref({ ...browse, page })}
+                          aria-label={`Page ${page}`}
+                          aria-current={
+                            currentPage === page ? "page" : undefined
+                          }
+                          onClick={(event) => {
+                            if (
+                              event.button !== 0 ||
+                              event.metaKey ||
+                              event.ctrlKey ||
+                              event.shiftKey ||
+                              event.altKey
+                            )
+                              return;
+                            event.preventDefault();
+                            updateBrowse({ page });
+                            document
+                              .getElementById("collection")
+                              ?.scrollIntoView();
+                          }}
+                        >
+                          {page}
+                        </a>
+                      ),
+                    )}
+                  </nav>
+                  <a href="/catalogue/">View the complete static catalogue</a>
                 </div>
               )}
               {!filtered.length && (
@@ -535,7 +672,7 @@ export default function App() {
               )}
               <div className="collection-end">
                 <span>
-                  {visibleProducts.length < filtered.length
+                  {currentPage < pageCount
                     ? "MORE DEVICES TO DISCOVER"
                     : "YOU’VE REACHED THE END OF THIS COLLECTION"}
                 </span>
@@ -573,7 +710,7 @@ export default function App() {
       {compare.length > 0 && (
         <div className="comparison-tray">
           <div>
-            <strong>{compare.length} / 4 selected</strong>
+            <strong>{compare.length} / 3 selected</strong>
             <span className="tray-names">
               {selected.map((p) => p.name).join(" · ")}
             </span>
@@ -625,7 +762,7 @@ export default function App() {
               </button>
               <button
                 className="secondary"
-                disabled={compare.length === 4 && !compare.includes(detail.id)}
+                disabled={compare.length === 3 && !compare.includes(detail.id)}
                 onClick={() => toggleCompare(detail.id)}
               >
                 {compare.includes(detail.id)
@@ -650,7 +787,7 @@ export default function App() {
                   </a>
                 ))}
                 <small>
-                  Researched 9 November 2026 ·{" "}
+                  Research date: {detail.researchedAt || "Not recorded"} ·{" "}
                   {detail.dateLabel || "Release year shown above"}
                 </small>
               </div>
@@ -718,6 +855,7 @@ export default function App() {
               <tbody>
                 {[
                   "Year",
+                  "Category",
                   "Family",
                   "Overview",
                   ...Array.from(
@@ -732,11 +870,13 @@ export default function App() {
                       <td key={p.id}>
                         {row === "Year"
                           ? formatYear(p)
-                          : row === "Family"
+                          : row === "Category"
                             ? p.category
-                            : row === "Overview"
-                              ? p.description
-                              : p.specs?.[row] || "Not recorded"}
+                            : row === "Family"
+                              ? productFamily(p)
+                              : row === "Overview"
+                                ? p.description
+                                : p.specs?.[row] || "Not recorded"}
                       </td>
                     ))}
                   </tr>

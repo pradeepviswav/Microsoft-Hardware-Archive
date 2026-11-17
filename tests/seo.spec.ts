@@ -51,7 +51,7 @@ test("product discovery and source content work without JavaScript", async ({
   const product = products.find((p) => p.source && p.specs)!;
   await page.getByRole("link", { name: product.name, exact: true }).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    product.name,
+    `${product.name}${product.year === null ? "" : ` (${product.year})`}`,
   );
   await expect(page.getByRole("table")).toContainText(
     Object.values(product.specs!)[0],
@@ -117,6 +117,94 @@ test("homepage cards have descriptive heading links and images without JavaScrip
   const firstLink = cards.first().locator("h3 a");
   const name = await firstLink.innerText();
   await firstLink.click();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(name.trim());
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    name.trim(),
+  );
   await context.close();
+});
+
+test("static pagination exposes every device without JavaScript", async ({
+  browser,
+}) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  const found = new Set<string>();
+  for (let number = 1; number <= Math.ceil(products.length / 24); number++) {
+    await page.goto(number === 1 ? "/" : `/browse/page/${number}/`);
+    for (const href of await page
+      .locator("article.product-card h3 a")
+      .evaluateAll((links) => links.map((link) => link.getAttribute("href")!)))
+      found.add(href);
+    await expect(
+      page.getByRole("link", { name: `Page ${number}`, exact: true }),
+    ).toHaveAttribute("aria-current", "page");
+  }
+  expect([...found].sort()).toEqual(products.map(productPath).sort());
+  await context.close();
+});
+
+test("Markdown exports preserve every record and expose provenance without fabricated dates", async ({
+  request,
+}) => {
+  const guide = await request.get("/llms.txt");
+  expect(guide.status()).toBe(200);
+  expect(await guide.text()).toContain("/llms-full.txt");
+  const full = await (await request.get("/llms-full.txt")).text();
+  for (const product of products) {
+    const path = productPath(product).replace(/\/$/, ".md");
+    const record = await request.get(path);
+    expect(record.status(), path).toBe(200);
+    const text = await record.text();
+    expect(full).toContain(text);
+    expect(text).toContain(productPath(product));
+    if (product.source) expect(text).toContain(product.source.url);
+    if (product.researchedAt) expect(text).toContain(product.researchedAt);
+    else expect(text).toContain("Research date: Not recorded");
+  }
+  const home = await (await request.get("/")).text();
+  expect(home).toContain('rel="llms-txt"');
+  const graph = JSON.parse(
+    home.match(/<script type="application\/ld\+json">(.*?)<\/script>/)![1],
+  )["@graph"];
+  expect(
+    graph.find((node: any) => node["@type"] === "Dataset").distribution
+      .contentUrl,
+  ).toContain("/llms-full.txt");
+});
+
+test("entry citations copy exact text and family arrow navigation respects controls", async ({
+  page,
+  context,
+}) => {
+  const product = products.find((p) => p.id === 162) || products[0];
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto(productPath(product));
+  for (const anchor of [
+    "overview",
+    "specifications",
+    "diagrams",
+    "sources",
+    "citation",
+  ])
+    await expect(page.locator(`#${anchor}`)).toHaveCount(1);
+  await page.getByRole("button", { name: "Copy Markdown citation" }).click();
+  await expect(page.getByRole("status")).toContainText("Citation copied.");
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+    await page.locator("#citation-markdown").innerText(),
+  );
+  await page.getByText("BibTeX citation", { exact: true }).click();
+  await page.getByRole("button", { name: "Copy BibTeX citation" }).click();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+    await page.locator("#citation-bibtex").innerText(),
+  );
+  const before = page.url();
+  await page.keyboard.press("ArrowRight");
+  await expect(page).toHaveURL(before);
+  const next = page.locator('.family-navigation a[rel="next"]');
+  const href = await next.getAttribute("href");
+  await page.locator("body").click({ position: { x: 2, y: 2 } });
+  await page.keyboard.press("ArrowRight");
+  await expect(page).toHaveURL(
+    new RegExp(href!.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "$"),
+  );
 });

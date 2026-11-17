@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { products } from "../data/products";
 
 test("search, family, era and empty-state reset work together", async ({
   page,
@@ -43,7 +44,7 @@ test("saved collection and theme survive reload", async ({ page }) => {
   await expect(page.getByText("No devices found.")).toBeVisible();
 });
 
-test("comparison requires two, limits to four, and closes by keyboard", async ({
+test("comparison requires two, limits to three, and closes by keyboard", async ({
   page,
 }) => {
   await page.goto("/");
@@ -52,8 +53,8 @@ test("comparison requires two, limits to four, and closes by keyboard", async ({
   await expect(
     page.getByRole("button", { name: "Select one more" }),
   ).toBeDisabled();
-  for (let i = 1; i < 5; i++) await compare.nth(i).click();
-  await expect(page.getByText("4 / 4 selected")).toBeVisible();
+  for (let i = 1; i < 4; i++) await compare.nth(i).click();
+  await expect(page.getByText("3 / 3 selected")).toBeVisible();
   await expect(
     page.getByText("Your comparison is full.", { exact: false }),
   ).toBeVisible();
@@ -61,7 +62,7 @@ test("comparison requires two, limits to four, and closes by keyboard", async ({
     .getByRole("button", { name: "Compare devices", exact: true })
     .click();
   await expect(page.getByRole("dialog")).toBeVisible();
-  await expect(page.getByRole("columnheader")).toHaveCount(5);
+  await expect(page.getByRole("columnheader")).toHaveCount(4);
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).toHaveCount(0);
   await expect(
@@ -104,19 +105,21 @@ test("all local product images load, and failed images have a usable fallback", 
 }) => {
   await page.goto("/");
   test.setTimeout(60000);
-  while (
-    await page.getByRole("button", { name: /^Show \d+ more devices/ }).count()
-  ) {
-    await page.getByRole("button", { name: /^Show \d+ more devices/ }).click();
+  let visited = 0;
+  for (let number = 1; number <= Math.ceil(products.length / 24); number++) {
+    if (number > 1)
+      await page
+        .getByRole("link", { name: `Page ${number}`, exact: true })
+        .click();
+    visited += await page.locator(".product-card").count();
+    for (const img of await page.locator(".product-card img").all()) {
+      await img.scrollIntoViewIfNeeded();
+      await expect
+        .poll(() => img.evaluate((el: HTMLImageElement) => el.naturalWidth))
+        .toBeGreaterThan(0);
+    }
   }
-  await expect(page.locator(".product-card")).toHaveCount(163);
-  const images = page.locator(".product-card img");
-  for (const img of await images.all()) {
-    await img.scrollIntoViewIfNeeded();
-    await expect
-      .poll(() => img.evaluate((el: HTMLImageElement) => el.naturalWidth))
-      .toBeGreaterThan(0);
-  }
+  expect(visited).toBe(products.length);
   await page.route("**/images/legacy-1.webp", (route) => route.abort());
   await page.reload();
   await page.getByRole("textbox", { name: "Search devices" }).fill("1983");

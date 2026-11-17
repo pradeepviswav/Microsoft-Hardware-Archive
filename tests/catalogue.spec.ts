@@ -54,13 +54,13 @@ test("expanded catalogue has stable identities, provenance, and valid local medi
   }
 });
 
-test("progressive browsing resets on filters and keeps the full collection searchable", async ({
+test("paginated browsing resets on filters and keeps the full collection searchable", async ({
   page,
 }) => {
   await page.goto("/");
-  await expect(page.getByText("Showing 24 of 163 devices")).toBeVisible();
-  await page.getByRole("button", { name: "Show 24 more devices" }).click();
-  await expect(page.locator(".product-card")).toHaveCount(48);
+  await expect(page.getByText("Showing 1–24 of 163 devices")).toBeVisible();
+  await page.getByRole("link", { name: "Page 2", exact: true }).click();
+  await expect(page.locator(".product-card")).toHaveCount(24);
   await page
     .getByRole("textbox", { name: "Search devices" })
     .fill("Z-80 SoftCard");
