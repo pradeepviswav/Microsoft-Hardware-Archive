@@ -1,3 +1,4 @@
+import { recordedSpecifications } from "./data/metadata";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { products, categories } from "./data/products";
 import { Product, Theme } from "./types";
@@ -741,14 +742,16 @@ export default function App({
             </div>
             <h2>{detail.name}</h2>
             <p>{detail.description}</p>
-            {detail.specs && (
+            {Object.keys(recordedSpecifications(detail)).length > 0 && (
               <dl className="spec-list">
-                {Object.entries(detail.specs).map(([key, value]) => (
-                  <div key={key}>
-                    <dt>{key}</dt>
-                    <dd>{value}</dd>
-                  </div>
-                ))}
+                {Object.entries(recordedSpecifications(detail)).map(
+                  ([key, value]) => (
+                    <div key={key}>
+                      <dt>{key}</dt>
+                      <dd>{value}</dd>
+                    </div>
+                  ),
+                )}
               </dl>
             )}
             <div className="detail-actions">
@@ -860,7 +863,9 @@ export default function App({
                   "Overview",
                   ...Array.from(
                     new Set<string>(
-                      selected.flatMap((p) => Object.keys(p.specs || {})),
+                      selected.flatMap((p) =>
+                        Object.keys(recordedSpecifications(p)),
+                      ),
                     ),
                   ),
                 ].map((row) => (
@@ -876,7 +881,8 @@ export default function App({
                               ? productFamily(p)
                               : row === "Overview"
                                 ? p.description
-                                : p.specs?.[row] || "Not recorded"}
+                                : recordedSpecifications(p)[row] ||
+                                  "Not recorded"}
                       </td>
                     ))}
                   </tr>

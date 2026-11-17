@@ -12,6 +12,8 @@ import {
   eraPath,
 } from "./urls";
 import Directory from "./Directory";
+import { inventory } from "../data/inventory";
+import { recordedSpecifications } from "../data/metadata";
 import {
   defaults,
   PAGE_SIZE,
@@ -154,11 +156,18 @@ export function renderPages(origin: string): Page[] {
       name: "Microsoft Hardware Archive",
       url: "https://github.com/pradeepviswav/Microsoft-Hardware-Archive",
     },
-    distribution: {
-      "@type": "DataDownload",
-      contentUrl: origin + "/llms-full.txt",
-      encodingFormat: "text/markdown",
-    },
+    distribution: [
+      {
+        "@type": "DataDownload",
+        contentUrl: origin + "/llms-full.txt",
+        encodingFormat: "text/markdown",
+      },
+      {
+        "@type": "DataDownload",
+        contentUrl: origin + "/catalogue.json",
+        encodingFormat: "application/json",
+      },
+    ],
     variableMeasured: [
       "Product name",
       "Introduction or release year",
@@ -299,13 +308,15 @@ export function renderPages(origin: string): Page[] {
     const related = lineage.filter((other) => other.id !== p.id);
     const cite = citations(p, origin);
     const evidence = sources(p);
-    const brand = p.name.startsWith("Samsung")
-      ? "Samsung"
-      : p.name.startsWith("Nokia")
-        ? "Nokia"
-        : p.name.includes("HTC")
-          ? "HTC"
-          : "Microsoft";
+    const brand =
+      p.manufacturer ||
+      (p.name.startsWith("Samsung")
+        ? "Samsung"
+        : p.name.startsWith("Nokia")
+          ? "Nokia"
+          : p.name.includes("HTC")
+            ? "HTC"
+            : "Microsoft");
     pages.push({
       path,
       title: `${p.name}${p.year === null ? "" : ` (${p.year})`} — Specs & History | ${siteName}`,
@@ -347,7 +358,7 @@ export function renderPages(origin: string): Page[] {
                   "Introduction / release year": year(p),
                   Category: p.category,
                   "Product family": family,
-                  ...(p.specs || {}),
+                  ...recordedSpecifications(p),
                 }).map(([label, value]) => (
                   <tr key={label}>
                     <th scope="row">{label}</th>
@@ -435,14 +446,30 @@ export function renderPages(origin: string): Page[] {
             </details>
             <p id="citation-status" role="status" aria-live="polite" />
           </section>
+          {(p.predecessor || p.successor) && (
+            <section aria-label="Documented model relationships">
+              <h2>Documented model relationships</h2>
+              {[
+                ["Predecessor", p.predecessor],
+                ["Successor", p.successor],
+              ].map(([label, id]) => {
+                const other = products.find((other) => other.id === id);
+                return other ? (
+                  <p key={String(label)}>
+                    {label}: <a href={productPath(other)}>{other.name}</a>
+                  </p>
+                ) : null;
+              })}
+            </section>
+          )}
           <nav
             className="family-navigation"
             aria-label="Browse this product family"
           >
             <p>
               Chronological browsing within {family}. Records with unknown years
-              appear last. Adjacent entries are not
-              necessarily direct predecessors or successors.
+              appear last. Adjacent entries are not necessarily direct
+              predecessors or successors.
             </p>
             {previous && (
               <a rel="prev" href={productPath(previous)}>
@@ -507,10 +534,11 @@ export function renderPages(origin: string): Page[] {
             description: p.description,
             category: p.category,
             model: p.name,
+            ...(p.launchDate ? { releaseDate: p.launchDate } : {}),
             brand: { "@type": "Brand", name: brand },
             url: origin + path,
             ...(p.imageUrl ? { image: new URL(p.imageUrl, origin).href } : {}),
-            additionalProperty: Object.entries(p.specs || {}).map(
+            additionalProperty: Object.entries(recordedSpecifications(p)).map(
               ([name, value]) => ({ "@type": "PropertyValue", name, value }),
             ),
           },
@@ -551,8 +579,23 @@ export function renderExports(origin: string) {
   const references = [...products]
     .sort((a, b) => a.id - b.id)
     .map((p) => productMarkdown(p, origin));
-  const llms = `# ${siteName}\n\n> Independent historical catalogue of ${products.length} hardware records. Specifications and dates may be incomplete; consult each entry's original sources.\n\n## Complete reference export\n- [All hardware records in Markdown](${origin}/llms-full.txt)\n- [Complete HTML catalogue](${origin}/catalogue/)\n- [Sitemap](${origin}/sitemap.xml)\n\n## Product families\n${allFamilies.map((f) => `- [${f}](${origin + familyPath(f)})`).join("\n")}\n\n## Research and attribution\nResearch dates describe archive review, not exact release dates or source publication dates. The archive is a curated selection, not an exhaustive product database. No blanket data or image license is declared; preserve linked source attribution and verify reuse rights with original owners.\n`;
+  const llms = `# ${siteName}\n\n> Independent historical catalogue of ${products.length} hardware records. Specifications and dates may be incomplete; consult each entry's original sources.\n\n## Complete reference export\n- [All hardware records in Markdown](${origin}/llms-full.txt)\n- [Complete structured JSON inventory](${origin}/catalogue.json)\n- [Complete HTML catalogue](${origin}/catalogue/)\n- [Sitemap](${origin}/sitemap.xml)\n\n## Product families\n${allFamilies.map((f) => `- [${f}](${origin + familyPath(f)})`).join("\n")}\n\n## Research and attribution\nResearch dates describe archive review, not exact release dates or source publication dates. The archive is a curated selection, not an exhaustive product database. No blanket data or image license is declared; preserve linked source attribution and verify reuse rights with original owners.\n`;
   return [
+    {
+      path: "/catalogue.json",
+      body: JSON.stringify(
+        {
+          schemaVersion: 1,
+          recordCount: inventory.length,
+          records: inventory.map((p) => ({
+            ...p,
+            url: origin + productPath(p),
+          })),
+        },
+        null,
+        2,
+      ),
+    },
     { path: "/llms.txt", body: llms },
     {
       path: "/llms-full.txt",

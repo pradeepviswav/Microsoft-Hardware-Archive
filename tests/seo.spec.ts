@@ -167,7 +167,7 @@ test("Markdown exports preserve every record and expose provenance without fabri
     home.match(/<script type="application\/ld\+json">(.*?)<\/script>/)![1],
   )["@graph"];
   expect(
-    graph.find((node: any) => node["@type"] === "Dataset").distribution
+    graph.find((node: any) => node["@type"] === "Dataset").distribution[0]
       .contentUrl,
   ).toContain("/llms-full.txt");
 });
@@ -207,4 +207,37 @@ test("entry citations copy exact text and family arrow navigation respects contr
   await expect(page).toHaveURL(
     new RegExp(href!.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "$"),
   );
+});
+
+test("complete JSON export is public and release schema uses only verified exact dates", async ({
+  request,
+}) => {
+  const response = await request.get("/catalogue.json");
+  expect(response.status()).toBe(200);
+  expect(response.headers()["content-type"]).toContain("application/json");
+  const data = await response.json();
+  expect(data.recordCount).toBe(products.length);
+  expect(data.records.map((p: { id: number }) => p.id)).toEqual(
+    products.map((p) => p.id),
+  );
+  for (const product of products) {
+    const record = data.records.find(
+      (p: { id: number }) => p.id === product.id,
+    );
+    expect(record.url).toBe(
+      `https://microsoft-hardware-archive.space.fast${productPath(product)}`,
+    );
+    expect(record.gallery).toEqual(product.gallery);
+    const html = await readFile(
+      `dist${productPath(product)}index.html`,
+      "utf8",
+    );
+    const graph = JSON.parse(
+      html.match(/<script type="application\/ld\+json">(.*?)<\/script>/)![1],
+    )["@graph"];
+    const schema = graph.find((p: any) => p["@type"] === "WebPage").mainEntity;
+    expect(schema["@type"]).toBe("Product");
+    if (product.launchDate) expect(schema.releaseDate).toBe(product.launchDate);
+    else expect(schema).not.toHaveProperty("releaseDate");
+  }
 });

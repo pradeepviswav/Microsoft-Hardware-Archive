@@ -1,3 +1,4 @@
+import { recordedSpecifications } from "../data/metadata";
 import { Product } from "../types";
 import { productFamily } from "../data/families";
 import { productPath, siteName } from "./urls";
@@ -28,7 +29,7 @@ export function productMarkdown(p: Product, origin: string): string {
         p.year === null ? "Unconfirmed" : String(p.year),
       Category: p.category,
       "Product family": productFamily(p),
-      ...(p.specs || {}),
+      ...recordedSpecifications(p),
     },
   )
     .map(([k, v]) => `| ${md(k)} | ${md(v)} |`)

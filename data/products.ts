@@ -1,3 +1,8 @@
+import { legacyResearch } from "./legacy-research";
+import { auditMedia } from "./audit-media";
+import { normalizeMetadata } from "./metadata";
+import { auditProducts } from "./audit-additions";
+import { researchedProducts } from "./researched";
 import { Product } from "../types";
 import { recentProducts } from "./recent";
 import { imageMetadata } from "./images";
@@ -210,7 +215,13 @@ export const products: Product[] = [
 products.forEach((product) =>
   Object.assign(product, imageMetadata[product.id]),
 );
-products.push(...recentProducts, ...catalogueProducts, ...tabletopProducts);
+products.push(
+  ...recentProducts,
+  ...catalogueProducts,
+  ...tabletopProducts,
+  ...researchedProducts,
+  ...auditProducts,
+);
 
 // Stable IDs preserve saved devices from the original 25-record collection.
 const currentMouse = products.find((product) => product.id === 25)!;
@@ -230,3 +241,73 @@ export const categories = [
   "All",
   ...Array.from(new Set(products.map((p) => p.category))).sort(),
 ];
+
+const gapComfort = products.find(
+  (p) => p.name === "Microsoft Comfort Curve Keyboard 2000",
+)!;
+const newComfort = products.find(
+  (p) => p.name === "Microsoft Comfort Curve Keyboard 3000",
+)!;
+gapComfort.successor = newComfort.id;
+newComfort.predecessor = gapComfort.id;
+const originalX = products.find((p) => p.id === 19)!;
+originalX.aliases = ["Surface Pro X SQ1", "Surface Pro X (SQ1)"];
+originalX.specs = {
+  ...originalX.specs,
+  Processor: "Microsoft SQ1",
+  Display: "13-inch; 2880 × 1920",
+  Connection: "LTE Advanced",
+};
+originalX.source = {
+  title: "Microsoft · Surface Pro X available today",
+  url: "https://blogs.windows.com/devices/2019/11/05/surface-pro-x-available-today/",
+  kind: "Microsoft archive",
+  publishedAt: "2019-11-05",
+};
+originalX.launchDate = "2019-11-05";
+originalX.researchedAt = "2026-11-17";
+const ultra = products.find((p) => p.id === 156)!;
+ultra.specs = {
+  ...ultra.specs,
+  Processor: "NVIDIA RTX Spark N1X; 18- or 20-core CPU configurations",
+};
+ultra.researchedAt = "2026-11-17";
+ultra.dateLabel =
+  "Microsoft Store model and specifications rechecked 17 November 2026; exact launch date not independently established.";
+products.find((p) => p.id === 161)!.additionalSources = [
+  {
+    title: "Microsoft Support · Use Surface Keyboard",
+    url: "https://support.microsoft.com/en-us/surface/accessories/mouse-keyboard/use-surface-keyboard",
+    kind: "Microsoft",
+  },
+];
+products.find((p) => p.id === 161)!.dateLabel =
+  "Second Edition identity verified in Microsoft Store and Support; original introduction year remains unconfirmed. A dated sales mention is not a launch date.";
+products.find((p) => p.id === 161)!.researchedAt = "2026-11-17";
+
+const headset = products.find((p) => p.id === 151)!;
+headset.additionalSources = [
+  ...(headset.additionalSources || []),
+  {
+    title: "Xbox Wire · Xbox Wireless Headset available worldwide",
+    url: "https://news.xbox.com/en-us/2021/03/16/xbox-wireless-headset-now-available/",
+    kind: "Microsoft archive",
+    publishedAt: "2021-03-16",
+  },
+];
+headset.launchDate = "2021-03-16";
+headset.msrp = {
+  amount: 99.99,
+  currency: "USD",
+  region: "United States",
+  date: "2021-03-16",
+  source: headset.additionalSources.at(-1)!.url,
+};
+headset.researchedAt = "2026-11-17";
+products.forEach((p) => {
+  if (legacyResearch[p.id])
+    Object.assign(p, legacyResearch[p.id], { researchedAt: "2026-11-17" });
+});
+products.forEach((p) => Object.assign(p, auditMedia[p.name]));
+// Normalize after all sourced overrides, so exports and detail pages share the same metadata.
+products.forEach(normalizeMetadata);

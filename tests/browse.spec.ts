@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { products } from "../data/products";
 
 test("filters and pages survive reload, URL sharing and browser history", async ({
   page,
@@ -75,9 +76,9 @@ test("invalid URL state is safe and out-of-range pages are clamped", async ({
   await page.goto(
     "/?family=unknown&category=bad&decade=oops&view=wat&page=9999",
   );
-  await expect(page.locator(".product-card")).toHaveCount(19);
+  await expect(page.locator(".product-card")).toHaveCount(products.length % 24 || 24);
   await expect(
-    page.getByRole("link", { name: "Page 7", exact: true }),
+    page.getByRole("link", { name: `Page ${Math.ceil(products.length/24)}`, exact: true }),
   ).toHaveAttribute("aria-current", "page");
-  await expect(page).toHaveURL(/\/browse\/page\/7\//);
+  await expect(page).toHaveURL(new RegExp(`/browse/page/${Math.ceil(products.length/24)}/`));
 });
