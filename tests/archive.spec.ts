@@ -108,7 +108,7 @@ test("all local product images load, and failed images have a usable fallback", 
   ) {
     await page.getByRole("button", { name: /^Show \d+ more devices/ }).click();
   }
-  await expect(page.locator(".product-card")).toHaveCount(161);
+  await expect(page.locator(".product-card")).toHaveCount(163);
   const images = page.locator(".product-card img");
   for (const img of await images.all()) {
     await img.scrollIntoViewIfNeeded();

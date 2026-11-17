@@ -4,7 +4,7 @@ import { products, categories } from "../data/products";
 import { catalogueProducts } from "../data/catalogue";
 
 test("expanded catalogue has stable identities, provenance, and valid local media", () => {
-  expect(products).toHaveLength(161);
+  expect(products).toHaveLength(163);
   expect(catalogueProducts).toHaveLength(136);
   expect(new Set(products.map((p) => p.id)).size).toBe(products.length);
   expect(new Set(products.map((p) => p.name.toLowerCase())).size).toBe(
@@ -58,7 +58,7 @@ test("progressive browsing resets on filters and keeps the full collection searc
   page,
 }) => {
   await page.goto("/");
-  await expect(page.getByText("Showing 24 of 161 devices")).toBeVisible();
+  await expect(page.getByText("Showing 24 of 163 devices")).toBeVisible();
   await page.getByRole("button", { name: "Show 24 more devices" }).click();
   await expect(page.locator(".product-card")).toHaveCount(48);
   await page
@@ -139,4 +139,16 @@ test("product lines distinguish Surface generations and separate unrelated input
     .getByRole("combobox", { name: "Filter by product line" })
     .selectOption("Kin");
   await expect(page.locator(".product-card")).toHaveCount(2);
+});
+
+
+test("Surface tabletop lineage is distinct from tablets and Hub", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("combobox", { name: "Filter by product line" }).selectOption("Surface Tabletop / PixelSense");
+  await expect(page.locator(".product-card")).toHaveCount(2);
+  await expect(page.locator(".product-card").filter({ hasText: "Samsung SUR40" })).toHaveCount(1);
+  await expect(page.locator(".product-card").filter({ hasText: "Surface Hub" })).toHaveCount(0);
+  await page.getByRole("button", { name: "Samsung SUR40 for Microsoft Surface", exact: true }).click();
+  await expect(page.getByRole("dialog")).toContainText("AMD Athlon II X2");
+  await expect(page.getByRole("dialog").getByRole("link", { name: /now shipping/ })).toHaveAttribute("href", /2012\/01\/17/);
 });

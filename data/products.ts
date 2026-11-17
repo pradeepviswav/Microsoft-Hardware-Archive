@@ -2,6 +2,7 @@ import { Product } from "../types";
 import { recentProducts } from "./recent";
 import { imageMetadata } from "./images";
 import { catalogueProducts } from "./catalogue";
+import { tabletopProducts } from "./tabletop";
 
 export const products: Product[] = [
   {
@@ -209,7 +210,7 @@ export const products: Product[] = [
 products.forEach((product) =>
   Object.assign(product, imageMetadata[product.id]),
 );
-products.push(...recentProducts, ...catalogueProducts);
+products.push(...recentProducts, ...catalogueProducts, ...tabletopProducts);
 
 // Stable IDs preserve saved devices from the original 25-record collection.
 const currentMouse = products.find((product) => product.id === 25)!;
