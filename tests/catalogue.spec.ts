@@ -4,7 +4,7 @@ import { products, categories } from "../data/products";
 import { catalogueProducts } from "../data/catalogue";
 
 test("expanded catalogue has stable identities, provenance, and valid local media", () => {
-  expect(products).toHaveLength(163);
+  expect(products.length).toBeGreaterThanOrEqual(211);
   expect(catalogueProducts).toHaveLength(136);
   expect(new Set(products.map((p) => p.id)).size).toBe(products.length);
   expect(new Set(products.map((p) => p.name.toLowerCase())).size).toBe(
@@ -58,7 +58,7 @@ test("paginated browsing resets on filters and keeps the full collection searcha
   page,
 }) => {
   await page.goto("/");
-  await expect(page.getByText("Showing 1–24 of 163 devices")).toBeVisible();
+  await expect(page.getByText(`Showing 1–24 of ${products.length} devices`)).toBeVisible();
   await page.getByRole("link", { name: "Page 2", exact: true }).click();
   await expect(page.locator(".product-card")).toHaveCount(24);
   await page

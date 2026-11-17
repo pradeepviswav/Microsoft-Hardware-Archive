@@ -5,6 +5,13 @@ export function productFamily(product: Product): string {
   const name = product.name;
   const rules: [RegExp, string][] = [
     [/Surface 1\.0 \(tabletop\)|Samsung SUR40/, "Surface Tabletop / PixelSense"],
+    [/Surface Neo/, "Surface Neo"],
+    [/MSN Companion/, "MSN Companion"],
+    [/Natural.*Mouse/i, "Natural mice"],
+    [/Bluetooth (Mobile|Notebook) Mouse/, "Bluetooth mobile mice"],
+    [/Comfort Curve Keyboard/, "Comfort Curve keyboards"],
+    [/Digital Media.*Keyboard/, "Digital Media keyboards"],
+    [/Wireless Entertainment Desktop/, "Wireless Entertainment desktops"],
     [/Surface Pro/, "Surface Pro"],
     [/Surface Laptop Studio/, "Surface Laptop Studio"],
     [/Surface Laptop Go/, "Surface Laptop Go"],
