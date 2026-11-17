@@ -4,6 +4,7 @@ import { Product } from "../types";
 export function productFamily(product: Product): string {
   const name = product.name;
   const rules: [RegExp, string][] = [
+    [/Surface 1\.0 \(tabletop\)|Samsung SUR40/, "Surface Tabletop / PixelSense"],
     [/Surface Pro/, "Surface Pro"],
     [/Surface Laptop Studio/, "Surface Laptop Studio"],
     [/Surface Laptop Go/, "Surface Laptop Go"],

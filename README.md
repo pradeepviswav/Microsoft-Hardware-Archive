@@ -1,6 +1,6 @@
 # Microsoft Hardware Archive
 
-An independent, responsive collection of Microsoft devices and selected Windows Phone partner hardware, spanning 1980–2026, with 161 records across 20 product families.
+An independent, responsive collection of Microsoft devices and selected Windows Phone partner hardware, spanning 1980–2026, with 163 records across 20 product families.
 
 ## Run locally
 
@@ -42,3 +42,5 @@ Historical descriptions without an announcement link are labeled as historical e
 The interface uses locally built CSS, sage and forest accents, editorial typography, visible comparison and save controls, responsive family navigation, reduced-motion support, dark mode, and native accessible dialogs. It does not require a CSS CDN or a generative API at runtime.
 
 This project is not affiliated with Microsoft. Product names and images remain the property of their respective owners.
+
+The original Surface tabletop and Samsung SUR40 are catalogued in `data/tabletop.ts`, under the distinct **Surface Tabletop / PixelSense** product line. Their dated Microsoft sources distinguish announcement and shipping years. Photos remain explicitly uncatalogued pending verified original assets.
