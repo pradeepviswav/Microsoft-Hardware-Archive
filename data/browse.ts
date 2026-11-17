@@ -108,7 +108,7 @@ export function filterProducts(
         (!state.diagramOnly || p.imageKind === "diagram") &&
         (!state.savedOnly || saved.includes(p.id)) &&
         (!state.storeOnly || p.storeListed) &&
-        `${p.name} ${p.category} ${p.year ?? ""} ${productFamily(p)} ${p.description}`
+        `${p.name} ${p.category} ${p.year ?? ""} ${productFamily(p)} ${p.description} ${(p.aliases || []).join(" ")}`
           .toLowerCase()
           .includes(state.query.trim().toLowerCase()),
     )

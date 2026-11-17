@@ -44,3 +44,15 @@ The interface uses locally built CSS, sage and forest accents, editorial typogra
 This project is not affiliated with Microsoft. Product names and images remain the property of their respective owners.
 
 The original Surface tabletop and Samsung SUR40 are catalogued in `data/tabletop.ts`, under the distinct **Surface Tabletop / PixelSense** product line. Their dated Microsoft sources distinguish announcement and shipping years. Photos remain explicitly uncatalogued pending verified original assets.
+
+## Complete inventory and research updates
+
+`data/catalogue-provenance.json` now covers **all** source collections, including
+legacy, recent, tabletop and researched additions. Regenerate it with
+`npm run catalogue:manifest` after editing records. The production build also
+exports `/catalogue.json` with canonical URLs and `/llms-full.txt` in Markdown.
+Unknown metadata remains null; historical MSRP includes its dated regional
+source. Source webpages are stored separately from local image URLs.
+
+See [coverage and follow-up audit](docs/COVERAGE_AUDIT.md) for the 68 additions,
+source methodology, disputed names, unconfirmed dates and remaining media gaps.

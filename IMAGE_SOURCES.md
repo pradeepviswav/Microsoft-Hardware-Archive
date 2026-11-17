@@ -280,3 +280,41 @@ All images below have been resized and converted to WebP. Manufacturer support d
 - **159 · Microsoft Wireless Display Adapter** — Martin @pokipsie  Rechsteiner · CC BY-SA 2.0. [Original source](https://commons.wikimedia.org/wiki/File%3AMicrosoft%20Wireless%20Display%20Adapter.jpg). [License](https://creativecommons.org/licenses/by-sa/2.0).
 
 - **161 · Surface Keyboard (2nd Edition)** — Microsoft · editorial product image. [Original source](https://www.microsoft.com/en-us/d/surface-keyboard-2nd-edition/93d9l5tctr0b).
+
+## Recovered official illustrations — 17 November 2026
+
+Original Microsoft illustrations, extracted or rendered from the source documents and saved locally as WebP. Rights remain with Microsoft; no Creative Commons license is asserted. Product packaging and support diagrams are explicitly labelled. No image is generated.
+
+- **Microsoft BallPoint Mouse**: `/images/timeline-43.webp`. Microsoft · Hardware Timeline (editorial illustration). [Original source](https://download.microsoft.com/download/4/b/8/4b8b3a0c-1d6f-46be-9bd1-e30a208d67e7/Hardware%20Timeline.pdf). Original product packaging is shown.
+
+- **Surface Ergonomic Keyboard**: `/images/surface-ergonomic-official.webp`. Microsoft · official product illustration (editorial use). [Original source](https://www.microsoft.com/en-us/d/product/90pnc9ljwpx9). Manufacturer product photograph from the Microsoft Store listing.
+
+- **Microsoft Ergonomic Keyboard**: `/images/support-0fce0745-26f4-f414-a30f-3b9e9e86ae66.webp`. Microsoft · Support (editorial illustration). [Original source](https://support.microsoft.com/en-gb/surface/accessories/mouse-keyboard/use-microsoft-ergonomic-keyboard). Manufacturer product photograph from Microsoft Support.
+
+- **Microsoft Sculpt Comfort Mouse**: `/images/sculpt-comfort-official.webp`. Microsoft · Sculpt Comfort Mouse technical data sheet (editorial illustration). [Original source](https://download.microsoft.com/download/A/E/B/AEB70318-6FE3-48C7-863B-5BFB3BED1FD4/TDS_SculptComfortMouse.pdf). Original small product photograph from the manufacturer’s technical sheet.
+
+- **Microsoft Optical Mouse by S+ARCK**: `/images/timeline-29.webp`. Microsoft · Hardware Timeline (editorial illustration). [Original source](https://download.microsoft.com/download/4/b/8/4b8b3a0c-1d6f-46be-9bd1-e30a208d67e7/Hardware%20Timeline.pdf). Product image extracted from Microsoft’s historical hardware timeline; original resolution retained.
+
+- **Microsoft Universal Mobile Keyboard**: `/images/universal-mobile-official.webp`. Microsoft · official product illustration (editorial use). [Original source](https://download.microsoft.com/download/4/D/1/4D18999E-592F-42B7-9428-EDECF2540D09/QSG_UniversalMobileKeyboard.pdf). Original product illustration extracted from Microsoft’s quick-start guide.
+
+- **Surface Headphones**: `/images/support-e6b79dd2-13d1-a66b-c3d8-7ae5b69695bc.webp`. Microsoft · Support (editorial illustration). [Original source](https://support.microsoft.com/en-us/surface/accessories/headphones/use-surface-headphones). Manufacturer controls diagram, explicitly included in the first-version section.
+
+- **Microsoft Broadband Wireless Base Station MN-700**: `/images/mn-700-official.webp`. Microsoft · official product illustration (editorial use). [Original source](https://download.microsoft.com/download/b/6/9/b69c956c-85d9-4641-aa6f-1548391e0967/mn-700fy04.pdf). Product illustration region from Microsoft’s model-specific product sheet; original promotional background retained.
+
+- **Surface Studio 2**: `/images/support-4017227-en-3.webp`. Microsoft · Support (editorial illustration). [Original source](https://support.microsoft.com/en-us/surface/models/surface-studio-2-features-and-specs). Manufacturer illustration labelled Surface Studio 2 screen in the model’s official support page.
+
+- **Microsoft Broadband Wireless USB Adapter MN-510**: `/images/mn-510-official.webp`. Microsoft · official product illustration (editorial use). [Original source](https://download.microsoft.com/download/b/6/9/b69c956c-85d9-4641-aa6f-1548391e0967/mn-510fy04.pdf). Product illustration region from Microsoft’s model-specific product sheet; original promotional background retained.
+
+- **Microsoft Broadband Wireless Notebook Adapter MN-520**: `/images/mn-520-official.webp`. Microsoft · official product illustration (editorial use). [Original source](https://download.microsoft.com/download/b/6/9/b69c956c-85d9-4641-aa6f-1548391e0967/mn-520fy04.pdf). Product illustration region from Microsoft’s model-specific product sheet; original promotional background retained.
+
+- **Microsoft Mouse 2.0**: `/images/timeline-41.webp`. Microsoft · Hardware Timeline (editorial illustration). [Original source](https://download.microsoft.com/download/4/b/8/4b8b3a0c-1d6f-46be-9bd1-e30a208d67e7/Hardware%20Timeline.pdf). Original product packaging is shown.
+
+- **Microsoft Natural Wireless Laser Mouse 6000**: `/images/timeline-20.webp`. Microsoft · Hardware Timeline (editorial illustration). [Original source](https://download.microsoft.com/download/4/b/8/4b8b3a0c-1d6f-46be-9bd1-e30a208d67e7/Hardware%20Timeline.pdf). Product image extracted from Microsoft’s historical hardware timeline; original resolution retained.
+
+- **Microsoft Wireless Entertainment Desktop 8000**: `/images/timeline-21.webp`. Microsoft · Hardware Timeline (editorial illustration). [Original source](https://download.microsoft.com/download/4/b/8/4b8b3a0c-1d6f-46be-9bd1-e30a208d67e7/Hardware%20Timeline.pdf). Product image extracted from Microsoft’s historical hardware timeline; original resolution retained.
+
+- **Microsoft SideWinder Mouse**: `/images/timeline-18.webp`. Microsoft · Hardware Timeline (editorial illustration). [Original source](https://download.microsoft.com/download/4/b/8/4b8b3a0c-1d6f-46be-9bd1-e30a208d67e7/Hardware%20Timeline.pdf). Product image extracted from Microsoft’s historical hardware timeline; original resolution retained.
+
+- **Microsoft LifeCam NX-6000**: `/images/timeline-22.webp`. Microsoft · Hardware Timeline (editorial illustration). [Original source](https://download.microsoft.com/download/4/b/8/4b8b3a0c-1d6f-46be-9bd1-e30a208d67e7/Hardware%20Timeline.pdf). Product image extracted from Microsoft’s historical hardware timeline; original resolution retained.
+
+- **Microsoft LifeChat ZX-6000**: `/images/timeline-23.webp`. Microsoft · Hardware Timeline (editorial illustration). [Original source](https://download.microsoft.com/download/4/b/8/4b8b3a0c-1d6f-46be-9bd1-e30a208d67e7/Hardware%20Timeline.pdf). Product image extracted from Microsoft’s historical hardware timeline; original resolution retained.

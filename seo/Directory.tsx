@@ -21,6 +21,7 @@ export default function Directory() {
         <a href="/catalogue/">All devices</a> ·{" "}
         <a href="/llms.txt">Research guide</a> ·{" "}
         <a href="/llms-full.txt">Complete Markdown export</a>
+        <a href="/catalogue.json">Complete JSON inventory</a>
         <br />
         Explore the complete collection by category, product line, or decade.
       </p>

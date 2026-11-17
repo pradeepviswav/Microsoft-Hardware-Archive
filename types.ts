@@ -30,6 +30,30 @@ export interface Product {
   imageSource?: string;
   imageLicense?: string;
   dateLabel?: string;
+  subcategory?: string | null;
+  launchDate?: string | null;
+  msrp?: {
+    amount: number;
+    currency: string;
+    region: string;
+    date: string;
+    source: string;
+  } | null;
+  partNumber?: string | null;
+  connectionType?: string | null;
+  operatingSystem?: string | null;
+  predecessor?: number | null;
+  successor?: number | null;
+  manufacturer?: string | null;
+  aliases?: string[];
+  gallery?: {
+    url: string;
+    source: string;
+    credit: string;
+    license: string | null;
+    kind: "photo" | "diagram";
+    note: string | null;
+  }[];
 }
 
 export interface Review {

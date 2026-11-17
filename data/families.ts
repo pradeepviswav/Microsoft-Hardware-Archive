@@ -6,6 +6,8 @@ export function productFamily(product: Product): string {
   const rules: [RegExp, string][] = [
     [/Surface 1\.0 \(tabletop\)|Samsung SUR40/, "Surface Tabletop / PixelSense"],
     [/Surface Neo/, "Surface Neo"],
+    [/^Microsoft (Mouse(?: 2\.0)?|Serial Mouse|Bus Mouse)$/, "Original Microsoft mice"],
+    [/^Surface (Slim )?Pen/, "Surface pens"],
     [/MSN Companion/, "MSN Companion"],
     [/Natural.*Mouse/i, "Natural mice"],
     [/Bluetooth (Mobile|Notebook) Mouse/, "Bluetooth mobile mice"],

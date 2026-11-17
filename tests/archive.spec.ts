@@ -6,8 +6,15 @@ test("search, family, era and empty-state reset work together", async ({
 }) => {
   await page.goto("/");
   await expect(page.locator(".product-card")).toHaveCount(24);
-  await page.getByRole("button", { name: "Xbox 7", exact: true }).click();
-  await expect(page.locator(".product-card")).toHaveCount(7);
+  await page
+    .getByRole("button", {
+      name: `Xbox ${products.filter((p) => p.category === "Xbox").length}`,
+      exact: true,
+    })
+    .click();
+  await expect(page.locator(".product-card")).toHaveCount(
+    products.filter((p) => p.category === "Xbox").length,
+  );
   await page
     .getByRole("combobox", { name: "Filter by era" })
     .selectOption("2000–2009");
