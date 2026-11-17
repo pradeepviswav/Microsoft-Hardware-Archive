@@ -151,7 +151,7 @@ export default function App() {
         Skip to collection
       </a>
       <header className="site-header">
-        <a className="brand" href="#" aria-label="Hardware Archive home">
+        <a className="brand" href="/" aria-label="Hardware Archive home">
           <span className="brand-mark" aria-hidden="true">
             <i />
             <i />
@@ -238,7 +238,7 @@ export default function App() {
           </div>
           <div>
             <strong>{categories.length - 1}</strong>
-            <span>product families</span>
+            <span>product categories</span>
           </div>
           <div>
             <span className="live-dot" />
@@ -467,17 +467,22 @@ export default function App() {
                         {p.category}
                         <span>{p.addedAt ? "RECENTLY ADDED" : "ARCHIVE"}</span>
                       </div>
-                      <button
-                        className="card-title"
-                        onClick={() => setDetail(p)}
-                      >
-                        <h3>{p.name}</h3>
-                        <span>
-                          <Arrow />
-                        </span>
-                      </button>
+                      <h3>
+                        <a className="card-title" href={productPath(p)}>
+                          {p.name}
+                          <span aria-hidden="true">
+                            <Arrow />
+                          </span>
+                        </a>
+                      </h3>
                       <p>{p.description}</p>
-                      <a className="record-link" href={productPath(p)}>Full specifications & history</a>
+                      <button
+                        className="record-link quick-view"
+                        onClick={() => setDetail(p)}
+                        aria-label={`Quick view ${p.name}`}
+                      >
+                        Quick view
+                      </button>
                       <div className="card-bottom">
                         <span>
                           {p.source ? "Source linked" : "Historical entry"}

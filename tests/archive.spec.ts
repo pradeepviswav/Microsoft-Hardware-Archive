@@ -73,9 +73,10 @@ test("product detail has source, focus trap, Escape, and focus restoration", asy
   page,
 }) => {
   await page.goto("/");
-  const trigger = page
-    .locator(".card-title")
-    .filter({ hasText: /^Surface Pro 12-inch \(2nd Edition\)$/ });
+  const trigger = page.getByRole("button", {
+    name: "Quick view Surface Pro 12-inch (2nd Edition)",
+    exact: true,
+  });
   await trigger.click();
   const dialog = page.getByRole("dialog");
   await expect(

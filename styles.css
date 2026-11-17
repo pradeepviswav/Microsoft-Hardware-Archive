@@ -572,8 +572,6 @@ select {
   justify-content: space-between;
   gap: 8px;
   padding: 8px 0 9px;
-}
-.card-title h3 {
   font-size: 14px;
   font-weight: 600;
   line-height: 1.5;
@@ -1131,7 +1129,7 @@ thead th {
   .card-body {
     padding: 12px;
   }
-  .card-title h3 {
+  .card-title {
     font-size: 12px;
   }
   .card-kicker {
@@ -1263,7 +1261,7 @@ thead th {
     font-size: 12px;
     min-height: 41px;
   }
-  .card-title h3 {
+  .card-title {
     font-size: 15px;
   }
   .category-list button {
@@ -1287,7 +1285,7 @@ thead th {
     font-size: 11px;
     min-height: 38px;
   }
-  .card-title h3 {
+  .card-title {
     font-size: 13px;
   }
 }
@@ -1402,3 +1400,6 @@ thead th {
 .breadcrumbs { display: flex; gap: .5rem; flex-wrap: wrap; }
 .site-header { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding: 1.5rem; }
 .site-header nav { display: flex; gap: 1rem; }
+
+.quick-view { padding: 0; font-size: 12px; text-align: left; }
+.card-title:hover { text-decoration: underline; text-underline-offset: .2em; }

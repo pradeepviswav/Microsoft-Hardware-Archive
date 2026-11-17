@@ -42,6 +42,8 @@ export function Picture({
     <img
       src={product.imageUrl}
       alt={product.name}
+      width={800}
+      height={650}
       loading={eager ? "eager" : "lazy"}
       onError={() => setFailed(true)}
     />

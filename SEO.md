@@ -56,3 +56,40 @@ verified specifications, retain source citations and image credits, and update
 research dates only when information is actually reviewed. The sitemap uses
 recorded research/addition dates where available rather than marking every page
 fresh on each build.
+
+## Live crawl diagnostics (17 November 2026)
+
+The v11 deployment (`1aa6d64`) includes 239 indexable pages, including all 163
+products, plus `robots.txt`, `sitemap.xml` and the custom 404 page. The deployment
+completed successfully; its diagnostics are empty. Spacefast reports a public
+`/**` view grant, no traffic rules and no team/Space noindex policy.
+
+Unauthenticated requests from this workspace using browser and curl user agents
+return 200 for the homepage, robots, sitemap, the reported Surface Laptop device
+and IntelliMouse family URLs, and sampled category/era pages. A nonexistent URL
+returns 404 with the noindex error page. These findings do not reproduce the
+reported blanket denial of all non-root paths. A full unauthenticated sweep of
+all 239 sitemap URLs also returned 200, with 239 unique titles/descriptions,
+self-referencing canonicals and breadcrumbs on all non-home pages.
+
+A request from this workspace with a Googlebot user-agent string returns 403,
+including on the homepage and robots. Its response is an edge HTML challenge
+called “Checking search engine crawler...” with `/__challenge/` scripts, rather
+than the archive HTML or a `PERMISSION_DENIED` application response. Changing a
+user-agent does not make a request originate from Google; this check cannot
+establish whether genuine Googlebot requests succeed or fail. Available
+Spacefast documentation does not explain this challenge or identify a supported
+crawler-verification setting. Do not disable protections based only on this test.
+
+Use Search Console → URL Inspection → Test live URL for the homepage and an
+actual device URL to check Google's access. If Google's live test reports a 403,
+provide Spacefast support with the URL, test timestamp, response status and
+current deployment ID `ver_78ee624e7efb4c85afa7ba202eee45e7`; ask them to check
+verified Google crawler handling at the edge. An audit tool's request failure
+alone is not evidence of a Search Console indexing error.
+
+The homepage already contains product names and image tags in its pre-rendered
+HTML. Card headings now link directly to product pages, while Quick view opens
+the dialog. Regression checks explicitly inspect these without JavaScript and
+verify unique titles/descriptions, self-canonicals and breadcrumbs across every
+sitemap page.

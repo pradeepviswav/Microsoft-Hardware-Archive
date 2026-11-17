@@ -10,6 +10,7 @@ test("every sitemap URL is a built page with unique metadata and valid JSON-LD",
   ].map((m) => m[1]);
   expect(paths.length).toBeGreaterThan(products.length);
   const titles = new Set<string>();
+  const descriptions = new Set<string>();
   for (const path of paths) {
     const html = await readFile(`dist${path}index.html`, "utf8");
     const title = html.match(/<title>(.*?)<\/title>/)![1];
@@ -19,11 +20,24 @@ test("every sitemap URL is a built page with unique metadata and valid JSON-LD",
       `rel="canonical" href="https://microsoft-hardware-archive.space.fast${path}"`,
     );
     expect(html).toMatch(/<h1[ >]/);
-    expect(html).toMatch(/<meta name="description" content="[^"]+"/);
-    for (const match of html.matchAll(
-      /<script type="application\/ld\+json">(.*?)<\/script>/g,
-    ))
-      expect(JSON.parse(match[1])["@graph"].length).toBeGreaterThan(0);
+    const description = html.match(
+      /<meta name="description" content="([^"]+)"/,
+    )![1];
+    expect(descriptions.has(description), path).toBe(false);
+    descriptions.add(description);
+    const schemas = [
+      ...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g),
+    ].flatMap((match) => JSON.parse(match[1])["@graph"]);
+    expect(schemas.length).toBeGreaterThan(0);
+    if (path !== "/") {
+      const breadcrumbs = schemas.find(
+        (schema) => schema["@type"] === "BreadcrumbList",
+      );
+      expect(breadcrumbs, path).toBeTruthy();
+      expect(breadcrumbs.itemListElement.at(-1).item).toBe(
+        `https://microsoft-hardware-archive.space.fast${path}`,
+      );
+    }
   }
   for (const product of products) expect(paths).toContain(productPath(product));
 });
@@ -59,10 +73,10 @@ test("homepage contains HTML before rendering and remains interactive", async ({
   request,
 }) => {
   const response = await request.get("/");
-  expect(await response.text()).toContain("Full specifications &amp; history");
+  expect(await response.text()).toContain('class="card-title" href="/devices/');
   await page.goto("/");
-  await expect(page.locator(".card-title").first()).toBeVisible();
-  await page.locator(".card-title").first().click();
+  await expect(page.locator(".quick-view").first()).toBeVisible();
+  await page.locator(".quick-view").first().click();
   await expect(page.getByRole("dialog")).toBeVisible();
   expect((await request.get("/missing-product/")).status()).toBe(404);
   expect(await (await request.get("/404.html")).text()).toContain(
@@ -71,4 +85,38 @@ test("homepage contains HTML before rendering and remains interactive", async ({
   expect(await (await request.get("/robots.txt")).text()).toContain(
     "/sitemap.xml",
   );
+});
+
+test("homepage cards have descriptive heading links and images without JavaScript", async ({
+  browser,
+}) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto("/");
+  await expect(
+    page.getByRole("link", { name: "Hardware Archive home" }),
+  ).toHaveAttribute("href", "/");
+  await expect(page.locator(".archive-strip")).toContainText(
+    "product categories",
+  );
+  const cards = page.locator("article.product-card");
+  await expect(cards).toHaveCount(24);
+  for (const card of await cards.all()) {
+    const link = card.locator("h3 a");
+    const name = await link.innerText();
+    const product = products.find((product) => product.name === name.trim())!;
+    expect(product).toBeTruthy();
+    await expect(link).toHaveAttribute("href", productPath(product));
+    if (product.imageUrl) {
+      const image = card.getByRole("img", { name: product.name, exact: true });
+      await expect(image).toHaveAttribute("src", product.imageUrl);
+      await expect(image).toHaveAttribute("width", "800");
+      await expect(image).toHaveAttribute("height", "650");
+    }
+  }
+  const firstLink = cards.first().locator("h3 a");
+  const name = await firstLink.innerText();
+  await firstLink.click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(name.trim());
+  await context.close();
 });
