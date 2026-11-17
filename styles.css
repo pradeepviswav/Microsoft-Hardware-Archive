@@ -572,8 +572,6 @@ select {
   justify-content: space-between;
   gap: 8px;
   padding: 8px 0 9px;
-}
-.card-title h3 {
   font-size: 14px;
   font-weight: 600;
   line-height: 1.5;
@@ -1131,7 +1129,7 @@ thead th {
   .card-body {
     padding: 12px;
   }
-  .card-title h3 {
+  .card-title {
     font-size: 12px;
   }
   .card-kicker {
@@ -1263,7 +1261,7 @@ thead th {
     font-size: 12px;
     min-height: 41px;
   }
-  .card-title h3 {
+  .card-title {
     font-size: 15px;
   }
   .category-list button {
@@ -1287,7 +1285,7 @@ thead th {
     font-size: 11px;
     min-height: 38px;
   }
-  .card-title h3 {
+  .card-title {
     font-size: 13px;
   }
 }
@@ -1402,3 +1400,55 @@ thead th {
 .breadcrumbs { display: flex; gap: .5rem; flex-wrap: wrap; }
 .site-header { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding: 1.5rem; }
 .site-header nav { display: flex; gap: 1rem; }
+
+.quick-view { padding: 0; font-size: 12px; text-align: left; }
+.card-title:hover { text-decoration: underline; text-underline-offset: .2em; }
+
+/* Research navigation and source exports. */
+.site-header { position: sticky; top: 0; z-index: 20; background: var(--bg); }
+.site-header nav { gap: clamp(.6rem, 1.8vw, 1.8rem); }
+.archive-directory { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 2rem; }
+.archive-directory > h2, .archive-directory > p { grid-column: 1 / -1; }
+.directory-group { min-width: 0; scroll-margin-top: 120px; }
+.directory-group h3 { font-size: 1rem; margin-bottom: 1rem; }
+.archive-directory .directory-group ul { display: grid; gap: .6rem; margin: 0; }
+.archive-directory a:hover { text-decoration: underline; }
+.diagram-filter { display: flex; align-items: center; gap: .5rem; margin: 1rem 0; font-size: 13px; }
+.pagination { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; }
+.pagination a { padding: .6rem .9rem; border: 1px solid var(--line); border-radius: 4px; }
+.pagination a[aria-current="page"] { background: var(--accent); color: white; }
+.browse-table { width: 100%; min-width: 670px; border-collapse: collapse; }
+.browse-table caption { padding: 1rem; text-align: left; }
+.browse-table th, .browse-table td { padding: .8rem; border-bottom: 1px solid var(--line); text-align: left; font-size: 13px; }
+.browse-table a { text-decoration: underline; }
+.browse-table th:first-child { min-width: 180px; }
+.browse-table button { padding: .4rem; text-decoration: underline; }
+.view-toggle button { min-width: 36px; }
+.image-fallback { background-image: linear-gradient(#285c440c 1px,transparent 1px),linear-gradient(90deg,#285c440c 1px,transparent 1px); background-size: 16px 16px; }
+.record-sections, .family-navigation { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0; }
+.family-navigation p, .family-navigation small { flex-basis: 100%; }
+.static-content section { scroll-margin-top: 130px; }
+.static-content section > p { margin: 1rem 0; line-height: 1.7; }
+.record-year { color: var(--muted); font-size: .65em; }
+#citation pre { padding: 1rem; background: var(--soft); white-space: pre-wrap; overflow-wrap: anywhere; }
+#citation details { margin: 1rem 0; }
+#citation button { padding: .65rem 1rem; border: 1px solid var(--line); border-radius: 4px; }
+#citation summary { cursor: pointer; font-weight: 600; }
+@media (max-width: 1000px) {
+  .site-header { height: auto; min-height: 100px; flex-wrap: wrap; gap: 1rem; padding-top: 1rem; padding-bottom: 1rem; }
+  .site-header nav { order: 3; width: 100%; margin: 0; flex-wrap: wrap; justify-content: flex-start; }
+  .site-header .theme-toggle { margin-left: auto; }
+}
+@media (max-width: 700px) {
+  .archive-directory { grid-template-columns: 1fr; }
+  .site-header nav a, .site-header nav button { display: inline-block; font-size: 12px; }
+}
+.view-toggle button[aria-label="Spec table view"] { font-size: 11px; width: 44px; }
+.table-scroll { scroll-margin-top: 150px; }
+@media (max-width: 700px) {
+  .results-bar { flex-wrap: wrap; gap: .75rem; }
+  .results-bar > div { margin-left: auto; gap: .5rem; }
+  .table-scroll, .directory-group { scroll-margin-top: 170px; }
+}
+.product-grid:not(.list-view) .product-image { height: auto; aspect-ratio: 4 / 3; }
+.product-grid:not(.list-view) .image-open { position: absolute; inset: 0; }

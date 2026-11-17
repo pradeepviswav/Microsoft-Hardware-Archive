@@ -18,10 +18,14 @@ export default function Directory() {
     >
       <h2>Browse the hardware archive</h2>
       <p>
+        <a href="/catalogue/">All devices</a> ·{" "}
+        <a href="/llms.txt">Research guide</a> ·{" "}
+        <a href="/llms-full.txt">Complete Markdown export</a>
+        <br />
         Explore the complete collection by category, product line, or decade.
       </p>
-      <details>
-        <summary>Product categories</summary>
+      <section className="directory-group" id="categories">
+        <h3>Product categories</h3>
         <ul>
           {categories
             .filter((c) => c !== "All")
@@ -31,9 +35,9 @@ export default function Directory() {
               </li>
             ))}
         </ul>
-      </details>
-      <details>
-        <summary>Product families</summary>
+      </section>
+      <section className="directory-group" id="families">
+        <h3>Product families</h3>
         <ul>
           {families.map((f) => (
             <li key={f}>
@@ -41,9 +45,9 @@ export default function Directory() {
             </li>
           ))}
         </ul>
-      </details>
-      <details>
-        <summary>Hardware through the decades</summary>
+      </section>
+      <section className="directory-group" id="decades">
+        <h3>Hardware through the decades</h3>
         <ul>
           {decades.map((d) => (
             <li key={d}>
@@ -51,7 +55,7 @@ export default function Directory() {
             </li>
           ))}
         </ul>
-      </details>
+      </section>
     </section>
   );
 }

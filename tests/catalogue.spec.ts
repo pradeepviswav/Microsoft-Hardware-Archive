@@ -54,18 +54,18 @@ test("expanded catalogue has stable identities, provenance, and valid local medi
   }
 });
 
-test("progressive browsing resets on filters and keeps the full collection searchable", async ({
+test("paginated browsing resets on filters and keeps the full collection searchable", async ({
   page,
 }) => {
   await page.goto("/");
-  await expect(page.getByText("Showing 24 of 163 devices")).toBeVisible();
-  await page.getByRole("button", { name: "Show 24 more devices" }).click();
-  await expect(page.locator(".product-card")).toHaveCount(48);
+  await expect(page.getByText("Showing 1–24 of 163 devices")).toBeVisible();
+  await page.getByRole("link", { name: "Page 2", exact: true }).click();
+  await expect(page.locator(".product-card")).toHaveCount(24);
   await page
     .getByRole("textbox", { name: "Search devices" })
     .fill("Z-80 SoftCard");
   await expect(page.locator(".product-card")).toHaveCount(1);
-  await page.locator(".card-title").click();
+  await page.locator(".quick-view").click();
   await expect(page.getByRole("dialog")).toContainText("Zilog Z80");
   await expect(
     page.getByRole("dialog").getByRole("link", { name: /Wikipedia/ }),
@@ -91,7 +91,7 @@ test("Microsoft Store selection exposes sourced accessories and unconfirmed date
   await page
     .getByRole("textbox", { name: "Search devices" })
     .fill("Adaptive D-pad");
-  await page.locator(".card-title").click();
+  await page.locator(".quick-view").click();
   const dialog = page.getByRole("dialog");
   await expect(dialog).toContainText("Eight digital inputs");
   await expect(
@@ -111,7 +111,7 @@ test("records without a verified photograph remain usable without a misleading i
   await page.getByRole("textbox", { name: "Search devices" }).fill("BallPoint");
   await expect(page.getByText("Photo not yet catalogued")).toBeVisible();
   await expect(page.locator(".product-card img")).toHaveCount(0);
-  await page.locator(".card-title").click();
+  await page.locator(".quick-view").click();
   await expect(page.getByRole("dialog")).toContainText(
     "Clip-on notebook trackball",
   );
@@ -141,14 +141,28 @@ test("product lines distinguish Surface generations and separate unrelated input
   await expect(page.locator(".product-card")).toHaveCount(2);
 });
 
-
-test("Surface tabletop lineage is distinct from tablets and Hub", async ({ page }) => {
+test("Surface tabletop lineage is distinct from tablets and Hub", async ({
+  page,
+}) => {
   await page.goto("/");
-  await page.getByRole("combobox", { name: "Filter by product line" }).selectOption("Surface Tabletop / PixelSense");
+  await page
+    .getByRole("combobox", { name: "Filter by product line" })
+    .selectOption("Surface Tabletop / PixelSense");
   await expect(page.locator(".product-card")).toHaveCount(2);
-  await expect(page.locator(".product-card").filter({ hasText: "Samsung SUR40" })).toHaveCount(1);
-  await expect(page.locator(".product-card").filter({ hasText: "Surface Hub" })).toHaveCount(0);
-  await page.getByRole("button", { name: "Samsung SUR40 for Microsoft Surface", exact: true }).click();
+  await expect(
+    page.locator(".product-card").filter({ hasText: "Samsung SUR40" }),
+  ).toHaveCount(1);
+  await expect(
+    page.locator(".product-card h3").filter({ hasText: /^Surface Hub/ }),
+  ).toHaveCount(0);
+  await page
+    .getByRole("button", {
+      name: "Quick view Samsung SUR40 for Microsoft Surface",
+      exact: true,
+    })
+    .click();
   await expect(page.getByRole("dialog")).toContainText("AMD Athlon II X2");
-  await expect(page.getByRole("dialog").getByRole("link", { name: /now shipping/ })).toHaveAttribute("href", /2012\/01\/17/);
+  await expect(
+    page.getByRole("dialog").getByRole("link", { name: /now shipping/ }),
+  ).toHaveAttribute("href", /2012\/01\/17/);
 });

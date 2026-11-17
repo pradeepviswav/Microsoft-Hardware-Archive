@@ -12,6 +12,19 @@ import {
   eraPath,
 } from "./urls";
 import Directory from "./Directory";
+import {
+  defaults,
+  PAGE_SIZE,
+  filterProducts,
+  browsePagePath,
+  allFamilies,
+} from "../data/browse";
+import {
+  citations,
+  productMarkdown,
+  markdownPath,
+  researchDate,
+} from "./reference";
 
 type Page = {
   path: string;
@@ -23,6 +36,7 @@ type Page = {
   modified?: string;
   interactive?: boolean;
   noindex?: boolean;
+  record?: boolean;
 };
 const year = (p: Product) =>
   p.year === null ? "Introduction year unconfirmed" : String(p.year);
@@ -53,6 +67,9 @@ const shell = (children: React.ReactNode) =>
         <nav aria-label="Main navigation">
           <a href="/#collection">Interactive collection</a>
           <a href="/catalogue/">All devices</a>
+          <a href="/catalogue/#categories">Categories</a>
+          <a href="/catalogue/#families">Families</a>
+          <a href="/catalogue/#decades">Decades</a>
         </nav>
       </header>
       <main id="record-content" className="static-content">
@@ -125,6 +142,62 @@ export function renderPages(origin: string): Page[] {
       },
     ],
   });
+  pages[0].schema.push({
+    "@type": "Dataset",
+    "@id": origin + "/#dataset",
+    name: siteName,
+    description: `An independent catalogue of ${products.length} hardware records, with recorded specifications, source references and image attribution.`,
+    url: origin + "/catalogue/",
+    temporalCoverage: `${Math.min(...range)}/${Math.max(...range)}`,
+    creator: {
+      "@type": "Organization",
+      name: "Microsoft Hardware Archive",
+      url: "https://github.com/pradeepviswav/Microsoft-Hardware-Archive",
+    },
+    distribution: {
+      "@type": "DataDownload",
+      contentUrl: origin + "/llms-full.txt",
+      encodingFormat: "text/markdown",
+    },
+    variableMeasured: [
+      "Product name",
+      "Introduction or release year",
+      "Category",
+      "Product family",
+      "Recorded specifications",
+    ],
+  });
+  const count = Math.ceil(products.length / PAGE_SIZE);
+  for (let page = 2; page <= count; page++)
+    pages.push({
+      path: browsePagePath(page),
+      title: `Hardware Collection — Page ${page} | ${siteName}`,
+      description: `Browse page ${page} of ${count} of the Microsoft hardware collection, with device photographs, introduction years and links to recorded specifications.`,
+      body: renderToString(<App initialBrowse={{ ...defaults, page }} />),
+      interactive: true,
+      schema: [
+        {
+          "@type": "CollectionPage",
+          name: `Hardware collection, page ${page}`,
+          url: origin + browsePagePath(page),
+          mainEntity: {
+            "@type": "ItemList",
+            itemListElement: filterProducts(defaults)
+              .slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+              .map((p, i) => ({
+                "@type": "ListItem",
+                position: (page - 1) * PAGE_SIZE + i + 1,
+                name: p.name,
+                url: origin + productPath(p),
+              })),
+          },
+        },
+        breadcrumbSchema(origin, [
+          { name: "Home", path: "/" },
+          { name: `Page ${page}`, path: browsePagePath(page) },
+        ]),
+      ],
+    });
   const collection = (
     path: string,
     title: string,
@@ -215,9 +288,16 @@ export function renderPages(origin: string): Page[] {
         { name: p.category, path: categoryPath(p.category) },
         { name: p.name, path },
       ];
-    const related = products.filter(
-      (other) => other.id !== p.id && productFamily(other) === family,
-    );
+    const lineage = products
+      .filter((other) => productFamily(other) === family)
+      .sort(
+        (a, b) => (a.year ?? Infinity) - (b.year ?? Infinity) || a.id - b.id,
+      );
+    const position = lineage.findIndex((other) => other.id === p.id);
+    const previous = lineage[position - 1],
+      next = lineage[position + 1];
+    const related = lineage.filter((other) => other.id !== p.id);
+    const cite = citations(p, origin);
     const evidence = sources(p);
     const brand = p.name.startsWith("Samsung")
       ? "Samsung"
@@ -232,69 +312,150 @@ export function renderPages(origin: string): Page[] {
       description: p.description,
       image: p.imageUrl,
       modified: p.researchedAt || p.addedAt,
+      record: true,
       body: shell(
         <article>
           {crumbs(trail)}
           <div className="eyebrow">
             <a href={familyPath(family)}>{family}</a>
           </div>
-          <h1>{p.name}</h1>
-          <p className="static-intro">{p.description}</p>
-          <figure className="record-photo">
-            {image(p, true)}
-            {p.imageUrl && (
-              <figcaption>
-                {p.imageNote}
-                {p.imageCredit && ` Image: ${p.imageCredit}. `}
-                {p.imageSource && (
-                  <a href={p.imageSource}>Original image source</a>
-                )}{" "}
-                {p.imageLicense && <a href={p.imageLicense}>Image license</a>}
-              </figcaption>
+          <section id="overview">
+            <h1>
+              {p.name}
+              {p.year !== null && (
+                <span className="record-year"> ({p.year})</span>
+              )}
+            </h1>
+            <p className="static-intro">{p.description}</p>
+            {p.dateLabel && <p>{p.dateLabel}</p>}
+            <p>
+              <a href={markdownPath(p)}>Read this entry as Markdown</a>
+            </p>
+          </section>
+          <nav className="record-sections" aria-label="Entry sections">
+            <a href="#overview">Overview</a>
+            <a href="#specifications">Specifications</a>
+            <a href="#diagrams">Images &amp; diagrams</a>
+            <a href="#sources">Sources</a>
+            <a href="#citation">Cite this entry</a>
+          </nav>
+          <section id="specifications">
+            <h2>Recorded specifications</h2>
+            <table className="record-specs">
+              <tbody>
+                {Object.entries({
+                  "Introduction / release year": year(p),
+                  Category: p.category,
+                  "Product family": family,
+                  ...(p.specs || {}),
+                }).map(([label, value]) => (
+                  <tr key={label}>
+                    <th scope="row">{label}</th>
+                    <td>{value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p>
+              {p.dateLabel ||
+                "Exact release date has not been recorded; the year refers to introduction or release and may vary by region."}
+            </p>
+          </section>
+          <section id="diagrams">
+            <h2>Images &amp; diagrams</h2>
+            <figure className="record-photo">
+              {image(p, true)}
+              {p.imageUrl && (
+                <figcaption>
+                  {p.imageNote}
+                  {p.imageCredit && ` Image: ${p.imageCredit}. `}
+                  {p.imageSource && (
+                    <a href={p.imageSource}>Original image source</a>
+                  )}{" "}
+                  {p.imageLicense && <a href={p.imageLicense}>Image license</a>}
+                </figcaption>
+              )}
+            </figure>
+          </section>
+          <section id="sources">
+            <h2>Research sources</h2>
+            {evidence.length ? (
+              <ul>
+                {evidence.map((s) => (
+                  <li key={s!.url}>
+                    <a href={s!.url}>{s!.title}</a>
+                    {s!.kind && <span> · {s!.kind}</span>}
+                    {s!.publishedAt && (
+                      <span>
+                        {" "}
+                        · Published{" "}
+                        <time dateTime={s!.publishedAt}>{s!.publishedAt}</time>
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>
+                This historical description comes from the original archive and
+                has not been independently reverified. Additional specifications
+                have not been recorded.
+              </p>
             )}
-          </figure>
-          <h2>Recorded specifications</h2>
-          <table className="record-specs">
-            <tbody>
-              {Object.entries({
-                Year: year(p),
-                Category: p.category,
-                "Product family": family,
-                ...(p.specs || {}),
-              }).map(([label, value]) => (
-                <tr key={label}>
-                  <th scope="row">{label}</th>
-                  <td>{value}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <p>
-            {p.dateLabel ||
-              "Year refers to the model’s introduction or release; availability may differ by region."}
-          </p>
-          <h2>Research sources</h2>
-          {evidence.length ? (
-            <ul>
-              {evidence.map((s) => (
-                <li key={s!.url}>
-                  <a href={s!.url}>{s!.title}</a>
-                </li>
-              ))}
-            </ul>
-          ) : (
+            {researchDate(p) && (
+              <p>
+                Research date:{" "}
+                <time dateTime={researchDate(p)!}>{researchDate(p)}</time>.
+              </p>
+            )}
+          </section>
+          <section id="citation">
+            <h2>Cite this entry</h2>
             <p>
-              This historical description comes from the original archive and
-              has not been independently reverified. Additional specifications
-              have not been recorded.
+              Research date: {researchDate(p) || "Not recorded"}. Research dates
+              are not release dates or source publication dates.
             </p>
-          )}
-          {p.researchedAt && (
+            <details open>
+              <summary>Markdown citation</summary>
+              <pre id="citation-markdown">
+                <code>{cite.markdown}</code>
+              </pre>
+              <button hidden data-copy="citation-markdown">
+                Copy Markdown citation
+              </button>
+            </details>
+            <details>
+              <summary>BibTeX citation</summary>
+              <pre id="citation-bibtex">
+                <code>{cite.bibtex}</code>
+              </pre>
+              <button hidden data-copy="citation-bibtex">
+                Copy BibTeX citation
+              </button>
+            </details>
+            <p id="citation-status" role="status" aria-live="polite" />
+          </section>
+          <nav
+            className="family-navigation"
+            aria-label="Browse this product family"
+          >
             <p>
-              Research date:{" "}
-              <time dateTime={p.researchedAt}>{p.researchedAt}</time>.
+              Chronological browsing within {family}. Records with unknown years
+              appear last. Adjacent entries are not
+              necessarily direct predecessors or successors.
             </p>
-          )}
+            {previous && (
+              <a rel="prev" href={productPath(previous)}>
+                ← {previous.name} ({year(previous)})
+              </a>
+            )}
+            {next && (
+              <a rel="next" href={productPath(next)}>
+                {next.name} ({year(next)}) →
+              </a>
+            )}
+            <small>Use ← / → keys when focus is outside controls.</small>
+          </nav>
           <p>
             This is a historical reference, not a current availability or
             support guarantee.
@@ -345,6 +506,7 @@ export function renderPages(origin: string): Page[] {
             name: p.name,
             description: p.description,
             category: p.category,
+            model: p.name,
             brand: { "@type": "Brand", name: brand },
             url: origin + path,
             ...(p.imageUrl ? { image: new URL(p.imageUrl, origin).href } : {}),
@@ -352,6 +514,16 @@ export function renderPages(origin: string): Page[] {
               ([name, value]) => ({ "@type": "PropertyValue", name, value }),
             ),
           },
+        },
+        {
+          "@type": "TechArticle",
+          "@id": origin + path + "#article",
+          headline: p.name,
+          description: p.description,
+          url: origin + path,
+          ...(p.researchedAt ? { dateModified: p.researchedAt } : {}),
+          citation: evidence.map((source) => source!.url),
+          about: { "@type": "Product", name: p.name },
         },
         breadcrumbSchema(origin, trail),
       ],
@@ -373,4 +545,24 @@ export function renderPages(origin: string): Page[] {
     noindex: true,
   });
   return pages;
+}
+
+export function renderExports(origin: string) {
+  const references = [...products]
+    .sort((a, b) => a.id - b.id)
+    .map((p) => productMarkdown(p, origin));
+  const llms = `# ${siteName}\n\n> Independent historical catalogue of ${products.length} hardware records. Specifications and dates may be incomplete; consult each entry's original sources.\n\n## Complete reference export\n- [All hardware records in Markdown](${origin}/llms-full.txt)\n- [Complete HTML catalogue](${origin}/catalogue/)\n- [Sitemap](${origin}/sitemap.xml)\n\n## Product families\n${allFamilies.map((f) => `- [${f}](${origin + familyPath(f)})`).join("\n")}\n\n## Research and attribution\nResearch dates describe archive review, not exact release dates or source publication dates. The archive is a curated selection, not an exhaustive product database. No blanket data or image license is declared; preserve linked source attribution and verify reuse rights with original owners.\n`;
+  return [
+    { path: "/llms.txt", body: llms },
+    {
+      path: "/llms-full.txt",
+      body:
+        `# ${siteName} — Complete reference\n\n${products.length} records. Original image and product rights remain with their respective owners. No blanket dataset license is declared.\n\n` +
+        references.join("\n---\n\n"),
+    },
+    ...products.map((p) => ({
+      path: markdownPath(p),
+      body: productMarkdown(p, origin),
+    })),
+  ];
 }

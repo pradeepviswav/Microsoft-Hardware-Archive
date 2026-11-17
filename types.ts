@@ -7,6 +7,7 @@ export interface ProductSource {
   title: string;
   url: string;
   kind?: "Microsoft" | "Microsoft archive" | "Wikipedia";
+  publishedAt?: string;
 }
 
 export interface Product {
