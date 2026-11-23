@@ -7,7 +7,7 @@ import { productFamily } from "./data/families";
 import { Arrow, Picture, Modal } from "./components/ArchiveUI";
 
 import Directory from "./seo/Directory";
-import { productPath } from "./seo/urls";
+import { corridorPath, productPath } from "./seo/urls";
 import {
   BrowseState,
   defaults,
@@ -186,6 +186,7 @@ export default function App({
           >
             Saved <span>{saved.length}</span>
           </button>
+          <a href={corridorPath}>Time Corridor</a>
           <a href="#categories">Categories</a>
           <a href="#families">Families</a>
           <a href="#decades">Decades</a>

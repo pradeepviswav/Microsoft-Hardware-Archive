@@ -1,3 +1,4 @@
+import TimeCorridor from "../components/TimeCorridor";
 import React from "react";
 import { renderToString, renderToStaticMarkup } from "react-dom/server";
 import App from "../App";
@@ -10,6 +11,7 @@ import {
   categoryPath,
   familyPath,
   eraPath,
+  corridorPath,
 } from "./urls";
 import Directory from "./Directory";
 import { inventory } from "../data/inventory";
@@ -69,6 +71,7 @@ const shell = (children: React.ReactNode) =>
         <nav aria-label="Main navigation">
           <a href="/#collection">Interactive collection</a>
           <a href="/catalogue/">All devices</a>
+          <a href={corridorPath}>Time Corridor</a>
           <a href="/catalogue/#categories">Categories</a>
           <a href="/catalogue/#families">Families</a>
           <a href="/catalogue/#decades">Decades</a>
@@ -174,6 +177,19 @@ export function renderPages(origin: string): Page[] {
       "Category",
       "Product family",
       "Recorded specifications",
+    ],
+  });
+  const corridorTitle = `Time Corridor — Hardware across the decades | ${siteName}`;
+  const corridorDescription = "Explore Microsoft hardware by year across Compute, Mobile, Play and Input, with archive photos and links to complete device records.";
+  pages.push({
+    path: corridorPath,
+    title: corridorTitle,
+    description: corridorDescription,
+    body: renderToString(<TimeCorridor />),
+    interactive: true,
+    schema: [
+      { "@type": "WebPage", name: corridorTitle, url: origin + corridorPath, description: corridorDescription },
+      breadcrumbSchema(origin, [{ name: siteName, path: "/" }, { name: "Time Corridor", path: corridorPath }]),
     ],
   });
   const count = Math.ceil(products.length / PAGE_SIZE);
