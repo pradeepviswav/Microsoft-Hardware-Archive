@@ -1,3 +1,6 @@
+import { peripheralMedia } from "./peripheral-media";
+import { peripheralProducts } from "./peripheral-additions";
+import { peripheralResearch } from "./peripheral-research";
 import { legacyResearch } from "./legacy-research";
 import { auditMedia } from "./audit-media";
 import { normalizeMetadata } from "./metadata";
@@ -221,6 +224,7 @@ products.push(
   ...tabletopProducts,
   ...researchedProducts,
   ...auditProducts,
+  ...peripheralProducts,
 );
 
 // Stable IDs preserve saved devices from the original 25-record collection.
@@ -308,6 +312,22 @@ products.forEach((p) => {
   if (legacyResearch[p.id])
     Object.assign(p, legacyResearch[p.id], { researchedAt: "2026-11-17" });
 });
-products.forEach((p) => Object.assign(p, auditMedia[p.name]));
+products.forEach((p) => {
+  Object.assign(p, auditMedia[p.name], peripheralMedia[p.id]);
+  const research = peripheralResearch[p.id];
+  if (!research) return;
+  const { additionalSources, specs, ...facts } = research;
+  Object.assign(p, facts);
+  if (specs) p.specs = { ...p.specs, ...specs };
+  if (additionalSources) {
+    const sources = new Map(
+      (p.additionalSources ?? []).map((source) => [source.url, source]),
+    );
+    for (const source of additionalSources) {
+      if (source.url !== p.source?.url) sources.set(source.url, source);
+    }
+    p.additionalSources = [...sources.values()];
+  }
+});
 // Normalize after all sourced overrides, so exports and detail pages share the same metadata.
 products.forEach(normalizeMetadata);

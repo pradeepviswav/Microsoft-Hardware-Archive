@@ -21,7 +21,7 @@ test("expanded catalogue has stable identities, provenance, and valid local medi
   for (const p of catalogueProducts) {
     expect(p.specs && Object.keys(p.specs).length).toBeGreaterThan(0);
     expect(p.source).toBeTruthy();
-    expect(p.researchedAt).toMatch(/^2026-11-(09|17)$/);
+    expect(p.researchedAt).toMatch(/^2026-11-(09|17|23)$/);
     expect(p.year === null || (p.year >= 1980 && p.year <= 2026)).toBe(true);
     for (const source of [p.source!, ...(p.additionalSources || [])]) {
       const url = new URL(source.url);
@@ -34,6 +34,9 @@ test("expanded catalogue has stable identities, provenance, and valid local medi
         "support.microsoft.com",
         "learn.microsoft.com",
         "news.xbox.com",
+        "github.com",
+        "www.incase.com",
+        "download.microsoft.com",
       ]).toContain(url.hostname);
       expect(source.title.length).toBeGreaterThan(5);
     }
@@ -211,11 +214,19 @@ test("complete provenance preserves metadata, missing facts, and actual image by
         products.some((other) => other.id === id && other.id !== p.id),
       ).toBe(true);
     }
+    if (p.lifecycle) {
+      expect(
+        record.sources.map((source: { url: string }) => source.url),
+      ).toContain(p.lifecycle.source);
+      if (p.lifecycle.status === "unreleased") expect(p.launchDate).toBeNull();
+    }
+    for (const device of p.usbIds ?? [])
+      expect(device.id).toMatch(/^[0-9A-F]{4}:[0-9A-F]{4}$/);
     if (p.launchDate) expect(p.launchDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     if (p.id >= 164) {
       expect(record.sources.length).toBeGreaterThan(0);
       expect(p.specs && Object.keys(p.specs).length).toBeGreaterThan(0);
-      expect(p.researchedAt).toBe("2026-11-17");
+      expect(p.researchedAt).toMatch(/^2026-11-(17|23)$/);
     }
   }
   expect(products.find((p) => p.id === 161)?.launchDate).toBeNull();
@@ -228,4 +239,27 @@ test("complete provenance preserves metadata, missing facts, and actual image by
       /^Surface (Earbuds 2|Precision Keyboard)$/.test(p.name),
     ),
   ).toBe(false);
+});
+
+test("hardware identifiers distinguish variants and can be found in the grid", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const search = page.getByRole("textbox", { name: "Search devices" });
+  await search.fill("VID_045E&PID_001B");
+  await expect(page.locator(".product-card h3")).toHaveText(
+    "Microsoft SideWinder Force Feedback 2",
+  );
+  await search.fill("045E:0034");
+  await expect(page.locator(".product-card h3")).toHaveText(
+    "Microsoft SideWinder Force Feedback Wheel USB",
+  );
+  await search.fill("PT3-00001");
+  await expect(page.locator(".product-card h3")).toHaveText(
+    "Microsoft Wireless Desktop 900",
+  );
+  await page.locator(".quick-view").click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toContainText("045E:07B2 (2.4 GHz transceiver v8.0)");
+  await expect(dialog).toContainText("C3K1461");
 });

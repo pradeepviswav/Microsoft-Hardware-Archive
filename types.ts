@@ -10,6 +10,14 @@ export interface ProductSource {
   publishedAt?: string;
 }
 
+export interface ProductLifecycle {
+  status:
+    "active-microsoft" | "discontinued" | "licensed-incase" | "unreleased";
+  source: string;
+  checkedAt: string;
+  note: string;
+}
+
 export interface Product {
   id: number;
   name: string;
@@ -46,6 +54,9 @@ export interface Product {
   successor?: number | null;
   manufacturer?: string | null;
   aliases?: string[];
+  lifecycle?: ProductLifecycle | null;
+  softwareSupport?: string | null;
+  usbIds?: { id: string; label?: string }[];
   gallery?: {
     url: string;
     source: string;
