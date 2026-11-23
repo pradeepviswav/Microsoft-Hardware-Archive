@@ -24,6 +24,8 @@ import "./corridor.css";
 
 const devicesAt = (year: number | null) =>
   products.filter((p) => p.year === year);
+const populatedLanes = (devices: Product[]) =>
+  lanes.filter(({ name }) => devices.some((p) => deviceLane(p) === name));
 const laneStyle = (lane: Lane) =>
   ({ "--lane": lanes.find((l) => l.name === lane)!.color }) as CSSProperties;
 
@@ -103,16 +105,22 @@ function Scene({
   year,
   lane,
   focused,
+  expandedLane,
   step,
   switchLane,
-  selectDevice,
+  activateCard,
 }: {
   year: number | null;
   lane: Lane;
   focused: Product | undefined;
+  expandedLane: Lane | null;
   step: (direction: number) => void;
-  switchLane: (lane: Lane) => void;
-  selectDevice: (device: Product) => void;
+  switchLane: (direction: number) => void;
+  activateCard: (
+    device: Product,
+    grouped: boolean,
+    trigger: HTMLButtonElement,
+  ) => void;
 }) {
   const scene = useRef<HTMLDivElement>(null);
   const drag = useRef<{
@@ -147,11 +155,7 @@ function Scene({
     event.preventDefault();
     scene.current?.focus({ preventScroll: true });
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-      const next =
-        (lanes.findIndex((item) => item.name === lane) +
-          (event.key === "ArrowRight" ? 1 : lanes.length - 1)) %
-        lanes.length;
-      switchLane(lanes[next].name);
+      switchLane(event.key === "ArrowRight" ? 1 : -1);
     } else {
       step(event.key === "ArrowUp" ? 1 : -1);
     }
@@ -217,61 +221,81 @@ function Scene({
     >
       <div className="tc-floor" aria-hidden="true" />
       <div className="tc-depth">
-        {rows.map((row, depth) => (
-          <div
-            key={row ?? "undated"}
-            className="tc-depth-row"
-            style={
-              { "--depth": depth, zIndex: rows.length - depth } as CSSProperties
-            }
-          >
-            <span className="tc-year-marker" aria-hidden="true">
-              {row ?? "Undated"}
-            </span>
-            {lanes.map(({ name }) => {
-              const options = devicesAt(row).filter(
-                (p) => deviceLane(p) === name,
-              );
-              const p =
-                options.find((device) => device.id === focused?.id) ??
-                options[0];
-              return (
-                <div
-                  className="tc-slot"
-                  key={name}
-                  data-current-lane={name === lane}
-                  style={laneStyle(name)}
-                >
-                  {p ? (
+        {rows.map((row, depth) => {
+          const records = devicesAt(row);
+          const available = populatedLanes(records);
+          const visibleLane =
+            available.find(({ name }) => name === lane) ?? available[0];
+          if (!visibleLane) return null;
+
+          return (
+            <div
+              key={row ?? "undated"}
+              className="tc-depth-row"
+              style={
+                {
+                  "--depth": depth,
+                  zIndex: rows.length - depth,
+                } as CSSProperties
+              }
+            >
+              <span className="tc-year-marker" aria-hidden="true">
+                {row ?? "Undated"}
+              </span>
+              {available.map(({ name }) => {
+                const options = records.filter((p) => deviceLane(p) === name);
+                const p =
+                  options.find((device) => device.id === focused?.id) ??
+                  options[0];
+                const grouped = options.length > 1;
+                const expanded = depth === 0 && expandedLane === name;
+                return (
+                  <div
+                    className="tc-slot"
+                    key={name}
+                    data-current-lane={name === visibleLane.name}
+                    style={laneStyle(name)}
+                  >
                     <button
                       type="button"
                       className="tc-card"
-                      aria-label={`${p.name}, ${row ?? "year unconfirmed"}, ${name}`}
+                      aria-label={`${p.name}, ${row ?? "year unconfirmed"}, ${name}${grouped ? `, browse ${options.length} devices` : ""}`}
                       aria-current={p.id === focused?.id ? "true" : undefined}
-                      onClick={() => selectDevice(p)}
+                      aria-expanded={grouped ? expanded : p.id === focused?.id}
+                      aria-controls={
+                        expanded
+                          ? "tc-lane-devices"
+                          : p.id === focused?.id && !grouped
+                            ? "tc-focus"
+                            : undefined
+                      }
+                      onClick={(event) =>
+                        activateCard(p, grouped, event.currentTarget)
+                      }
                     >
                       <CorridorImage device={p} decorative />
                       <span className="tc-card-caption">
                         <small>
                           {name}
-                          {options.length > 1
-                            ? ` · ${options.length} devices`
-                            : ""}
+                          {grouped && (
+                            <>
+                              {" · "}
+                              {options.length} devices{" "}
+                              <span aria-hidden="true">
+                                {expanded ? "▴" : "▾"}
+                              </span>
+                            </>
+                          )}
                         </small>
                         <strong>{p.name}</strong>
                       </span>
                     </button>
-                  ) : depth === 0 ? (
-                    <div className="tc-empty-slot">
-                      {name}
-                      <small>No records</small>
-                    </div>
-                  ) : null}
-                </div>
-              );
-            })}
-          </div>
-        ))}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
       <p id="tc-gesture-help">
         <span className="tc-desktop-help">
@@ -280,6 +304,72 @@ function Scene({
         <span className="tc-mobile-help">Swipe up to go back in time</span>
       </p>
     </div>
+  );
+}
+
+function LaneDevices({
+  lane,
+  year,
+  devices,
+  focused,
+  activateDevice,
+  close,
+}: {
+  lane: Lane;
+  year: number | null;
+  devices: Product[];
+  focused: Product | undefined;
+  activateDevice: (device: Product, trigger: HTMLButtonElement) => void;
+  close: () => void;
+}) {
+  const firstDevice = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    firstDevice.current?.focus({ preventScroll: true });
+  }, [lane, year]);
+
+  return (
+    <section
+      className="tc-lane-tray tc-interactive"
+      id="tc-lane-devices"
+      aria-label={
+        year === null ? `Undated ${lane} devices` : `${lane} devices in ${year}`
+      }
+      style={laneStyle(lane)}
+    >
+      <div className="tc-overlay-heading">
+        <h2>
+          {lane} · {year ?? "Undated"} <small>{devices.length} devices</small>
+        </h2>
+        <button
+          type="button"
+          className="tc-dismiss"
+          aria-label="Close device row"
+          onClick={close}
+        >
+          ×
+        </button>
+      </div>
+      <ul className="tc-lane-devices" key={`${year}-${lane}`}>
+        {devices.map((device, index) => {
+          const active = device.id === focused?.id;
+          return (
+            <li key={device.id}>
+              <button
+                ref={index === 0 ? firstDevice : undefined}
+                type="button"
+                className="tc-card"
+                aria-expanded={active}
+                aria-controls={active ? "tc-focus" : undefined}
+                onClick={(event) => activateDevice(device, event.currentTarget)}
+              >
+                <CorridorImage device={device} decorative />
+                <span>{device.name}</span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
   );
 }
 
@@ -325,13 +415,16 @@ function FamilyTree({
 
 export default function TimeCorridor() {
   const [year, setYear] = useState<number | null>(openingDevice.year);
-  const [lane, setLane] = useState<Lane>(deviceLane(openingDevice));
-  const [deviceId, setDeviceId] = useState(openingDevice.id);
+  const [preferredLane, setLane] = useState<Lane>(deviceLane(openingDevice));
+  const [expandedLane, setExpandedLane] = useState<Lane | null>(null);
+  const [deviceId, setDeviceId] = useState<number | null>(null);
   const [mode, setMode] = useState<"corridor" | "family">("corridor");
   const [family, setFamily] = useState(productFamily(openingDevice));
   const [query, setQuery] = useState("");
   const searchInput = useRef<HTMLInputElement>(null);
   const focusPanel = useRef<HTMLElement>(null);
+  const focusTrigger = useRef<HTMLElement | null>(null);
+  const laneTrigger = useRef<HTMLButtonElement | null>(null);
   const [about, setAbout] = useState(false);
   const [flyIn, setFlyIn] = useState(false);
   const [saved, setSaved] = useState<number[]>([]);
@@ -346,8 +439,12 @@ export default function TimeCorridor() {
   }, []);
 
   const atYear = devicesAt(year);
-  const inLane = atYear.filter((p) => deviceLane(p) === lane);
-  const focused = inLane.find((p) => p.id === deviceId) ?? inLane[0];
+  const available = populatedLanes(atYear);
+  const lane =
+    (available.find(({ name }) => name === preferredLane) ?? available[0])
+      ?.name ?? preferredLane;
+  const focused = atYear.find((p) => p.id === deviceId);
+  const expandedDevices = atYear.filter((p) => deviceLane(p) === expandedLane);
   const peers =
     focused && year !== null ? atYear.filter((p) => p.id !== focused.id) : [];
   const crossLane = lanes.flatMap(({ name }) =>
@@ -366,14 +463,68 @@ export default function TimeCorridor() {
           .includes(term),
       )
     : [];
+  useEffect(() => {
+    if (deviceId !== null && !flyIn) {
+      focusPanel.current?.focus({ preventScroll: true });
+    }
+  }, [deviceId]); // Let the fly-in dialog restore focus when it closes.
+
   const selectDevice = (device: Product) => {
+    if (year !== device.year || expandedLane !== deviceLane(device)) {
+      setExpandedLane(null);
+    }
     setYear(device.year);
     setLane(deviceLane(device));
     setDeviceId(device.id);
   };
+  const closeFocus = () => {
+    setDeviceId(null);
+    const trigger = focusTrigger.current;
+    if (trigger?.isConnected) {
+      trigger.focus({ preventScroll: true });
+    } else {
+      document
+        .querySelector<HTMLElement>(".tc-card[aria-current='true']")
+        ?.focus({ preventScroll: true });
+    }
+  };
+  const closeLane = () => {
+    setExpandedLane(null);
+    setDeviceId(null);
+    laneTrigger.current?.focus({ preventScroll: true });
+  };
+  const activateDevice = (device: Product, trigger: HTMLButtonElement) => {
+    focusTrigger.current = trigger;
+    if (device.id === deviceId) {
+      closeFocus();
+    } else {
+      selectDevice(device);
+    }
+  };
+  const activateCard = (
+    device: Product,
+    grouped: boolean,
+    trigger: HTMLButtonElement,
+  ) => {
+    if (!grouped) {
+      activateDevice(device, trigger);
+      return;
+    }
+    const nextLane = deviceLane(device);
+    if (year === device.year && expandedLane === nextLane) {
+      closeLane();
+      return;
+    }
+    laneTrigger.current = trigger;
+    setYear(device.year);
+    setLane(nextLane);
+    setExpandedLane(nextLane);
+    setDeviceId(null);
+  };
   const selectYear = (next: number | null) => {
     setYear(next);
-    setDeviceId(-1);
+    setExpandedLane(null);
+    setDeviceId(null);
   };
   const step = (direction: number) => {
     const next =
@@ -389,7 +540,15 @@ export default function TimeCorridor() {
   const changeLane = (next: Lane) => {
     if (next === lane) return;
     setLane(next);
-    setDeviceId(-1);
+    setExpandedLane(null);
+    setDeviceId(null);
+  };
+  const switchLane = (direction: number) => {
+    if (available.length < 2) return;
+    const index = available.findIndex(({ name }) => name === lane);
+    changeLane(
+      available[(index + direction + available.length) % available.length].name,
+    );
   };
   const saveDevice = () => {
     if (!focused) return;
@@ -416,7 +575,22 @@ export default function TimeCorridor() {
         savedCount={saved.length}
         onAbout={() => setAbout(true)}
       />
-      <main id="tc-content" className="tc-main">
+      <main
+        id="tc-content"
+        className="tc-main"
+        data-lane-expanded={mode === "corridor" && expandedLane !== null}
+        onKeyDown={(event) => {
+          if (
+            event.key !== "Escape" ||
+            about ||
+            flyIn ||
+            event.defaultPrevented
+          )
+            return;
+          if (focused) closeFocus();
+          else if (expandedLane) closeLane();
+        }}
+      >
         <div className="tc-heading">
           <h1>Time Corridor</h1>
           <p>
@@ -436,7 +610,10 @@ export default function TimeCorridor() {
               placeholder="Search devices"
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Escape" && query) setQuery("");
+                if (e.key === "Escape" && query) {
+                  e.preventDefault();
+                  setQuery("");
+                }
               }}
               aria-controls={term ? "tc-results" : undefined}
             />
@@ -453,6 +630,7 @@ export default function TimeCorridor() {
                       <button
                         type="button"
                         onClick={() => {
+                          focusTrigger.current = searchInput.current;
                           selectDevice(p);
                           setMode("corridor");
                           setQuery("");
@@ -483,7 +661,11 @@ export default function TimeCorridor() {
               type="button"
               className="tc-button"
               onClick={() => {
-                if (focused) setFamily(productFamily(focused));
+                const device =
+                  focused ?? atYear.find((p) => deviceLane(p) === lane);
+                if (device) setFamily(productFamily(device));
+                setDeviceId(null);
+                setExpandedLane(null);
                 setMode("family");
               }}
             >
@@ -499,108 +681,111 @@ export default function TimeCorridor() {
           />
         ) : (
           <>
-            <aside
-              className="tc-focus"
-              ref={focusPanel}
-              tabIndex={-1}
-              aria-label="In-focus device"
-            >
-              <p className="tc-kicker">
-                In focus <span>·</span> {lane}
-              </p>
-              {focused ? (
-                <>
-                  <p className="tc-focus-meta">
-                    {focused.year ?? "Year unconfirmed"} ·{" "}
-                    {productFamily(focused)}
-                  </p>
-                  <h2>{focused.name}</h2>
-                  <p>{focused.description}</p>
-                  <div className="tc-actions">
-                    <button
-                      type="button"
-                      className="tc-primary tc-interactive"
-                      onClick={() => setFlyIn(true)}
-                    >
-                      Fly in ↗
-                    </button>
-                    <a className="tc-button" href={productPath(focused)}>
-                      Specs and history
-                    </a>
-                  </div>
-                  {inLane.length > 1 && (
-                    <label className="tc-picker tc-interactive">
-                      Devices in this lane
-                      <select
-                        value={focused.id}
-                        onChange={(e) => setDeviceId(Number(e.target.value))}
-                      >
-                        {inLane.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  )}
-                  {crossLane.length > 0 && (
-                    <details className="tc-peers">
-                      <summary>Elsewhere in {year}</summary>
-                      <ul>
-                        {crossLane.map((p) => (
-                          <li key={p.id}>
-                            <a
-                              href={productPath(p)}
-                              onClick={(e) => {
-                                if (
-                                  e.ctrlKey ||
-                                  e.metaKey ||
-                                  e.shiftKey ||
-                                  e.altKey
-                                )
-                                  return;
-                                e.preventDefault();
-                                selectDevice(p);
-                                focusPanel.current?.focus();
-                              }}
-                            >
-                              <span style={laneStyle(deviceLane(p))}>
-                                {deviceLane(p)}
-                              </span>
-                              {p.name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </details>
-                  )}
-                </>
-              ) : (
-                <>
-                  <h2>
-                    {year === null
-                      ? "No undated records"
-                      : `No ${lane.toLowerCase()} records in ${year}`}
-                  </h2>
-                  <p>
-                    {atYear.length
-                      ? "Choose another lane to see records for this year."
-                      : "Try an earlier or later year, or choose a decade on the timeline."}
-                  </p>
-                </>
-              )}
-            </aside>
             <div className="tc-year" aria-live="polite">
               <strong>{year ?? "Undated"}</strong>
-              <small>
-                {decade
-                  ? `${decade.year}s · ${decade.count} devices`
-                  : `${undatedCount} unconfirmed years`}
-              </small>
+              {!atYear.length ? (
+                <p>No devices catalogued in {year}.</p>
+              ) : (
+                <small>
+                  {decade
+                    ? `${decade.year}s · ${decade.count} devices`
+                    : `${undatedCount} unconfirmed years`}
+                </small>
+              )}
             </div>
+            <Scene
+              year={year}
+              lane={lane}
+              focused={focused}
+              expandedLane={expandedLane}
+              step={step}
+              switchLane={switchLane}
+              activateCard={activateCard}
+            />
+            {expandedLane && (
+              <LaneDevices
+                lane={expandedLane}
+                year={year}
+                devices={expandedDevices}
+                focused={focused}
+                activateDevice={activateDevice}
+                close={closeLane}
+              />
+            )}
+            {focused && (
+              <aside
+                className="tc-focus"
+                id="tc-focus"
+                ref={focusPanel}
+                tabIndex={-1}
+                aria-label="In-focus device"
+              >
+                <div className="tc-overlay-heading">
+                  <p className="tc-kicker">
+                    In focus <span>·</span> {lane}
+                  </p>
+                  <button
+                    type="button"
+                    className="tc-dismiss"
+                    aria-label="Close In focus"
+                    onClick={closeFocus}
+                  >
+                    ×
+                  </button>
+                </div>
+                <p className="tc-focus-meta">
+                  {focused.year ?? "Year unconfirmed"} ·{" "}
+                  {productFamily(focused)}
+                </p>
+                <h2>{focused.name}</h2>
+                <p>{focused.description}</p>
+                <div className="tc-actions">
+                  <button
+                    type="button"
+                    className="tc-primary"
+                    onClick={() => setFlyIn(true)}
+                  >
+                    Fly in ↗
+                  </button>
+                  <a className="tc-button" href={productPath(focused)}>
+                    Specs and history
+                  </a>
+                </div>
+                {crossLane.length > 0 && (
+                  <details key={focused.id} className="tc-peers">
+                    <summary>Elsewhere in {year}</summary>
+                    <ul>
+                      {crossLane.map((p) => (
+                        <li key={p.id}>
+                          <a
+                            href={productPath(p)}
+                            onClick={(e) => {
+                              if (
+                                e.ctrlKey ||
+                                e.metaKey ||
+                                e.shiftKey ||
+                                e.altKey
+                              )
+                                return;
+                              e.preventDefault();
+                              selectDevice(p);
+                            }}
+                          >
+                            <span style={laneStyle(deviceLane(p))}>
+                              {deviceLane(p)}
+                            </span>
+                            {p.name}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                )}
+              </aside>
+            )}
             <div className="tc-controls tc-interactive">
               <div className="tc-lanes" aria-label="Device lanes">
-                {lanes.map((item) => (
+                {available.map((item) => (
                   <button
                     type="button"
                     key={item.name}
@@ -633,24 +818,20 @@ export default function TimeCorridor() {
                 </button>
               </div>
             </div>
-            <Scene
-              year={year}
-              lane={lane}
-              focused={focused}
-              step={step}
-              switchLane={changeLane}
-              selectDevice={selectDevice}
-            />
             <Timeline year={year} selectYear={selectYear} />
             <noscript>
               <style>
                 {
-                  ".tc-interactive,.tc-year{display:none!important}.tc[data-view]{height:auto;overflow:visible}.tc .tc-heading,.tc .tc-focus{position:relative;inset:auto;width:auto;max-height:none;margin:1rem}.tc noscript{display:block;margin:1rem}"
+                  ".tc-interactive,.tc-year{display:none!important}.tc[data-view]{height:auto;overflow:visible}.tc .tc-heading{position:relative;inset:auto;margin:1rem}.tc noscript{display:block;margin:1rem}"
                 }
               </style>
               <p>
                 The corridor controls require JavaScript. Browse the{" "}
                 <a href="/catalogue/">complete catalogue</a> or choose a decade.
+              </p>
+              <p>
+                {openingDevice.name} ({openingDevice.year}) ·{" "}
+                <a href={productPath(openingDevice)}>Specs and history</a>
               </p>
               <ul>
                 {decades.map((item) => (
