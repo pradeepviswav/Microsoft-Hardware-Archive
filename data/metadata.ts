@@ -24,6 +24,9 @@ export function normalizeMetadata(p: Product): Product {
               ? "HTC"
               : "Microsoft");
   p.aliases ??= [];
+  p.lifecycle ??= null;
+  p.softwareSupport ??= null;
+  p.usbIds ??= [];
   p.gallery ??= p.imageUrl
     ? [
         {
@@ -38,6 +41,21 @@ export function normalizeMetadata(p: Product): Product {
     : [];
   return p;
 }
+const lifecycleLabels = {
+  "active-microsoft": "Microsoft Store listing",
+  discontinued: "Discontinued",
+  "licensed-incase": "Incase licensed",
+  unreleased: "Unreleased",
+};
+
+export function hardwareSearchText(p: Product) {
+  const ids = (p.usbIds ?? []).flatMap(({ id }) => {
+    const [vendor, product] = id.split(":");
+    return [id, `VID_${vendor}&PID_${product}`];
+  });
+  return [p.partNumber, ...ids].filter(Boolean).join(" ");
+}
+
 export function recordedSpecifications(p: Product): Record<string, string> {
   return {
     ...(p.specs || {}),
@@ -46,6 +64,21 @@ export function recordedSpecifications(p: Product): Record<string, string> {
     ...(p.partNumber ? { "Part number": p.partNumber } : {}),
     ...(p.connectionType ? { "Connection type": p.connectionType } : {}),
     ...(p.operatingSystem ? { "Operating system": p.operatingSystem } : {}),
+    ...(p.lifecycle
+      ? {
+          Lifecycle: `${lifecycleLabels[p.lifecycle.status]} · ${p.lifecycle.note} (checked ${p.lifecycle.checkedAt})`,
+        }
+      : {}),
+    ...(p.softwareSupport
+      ? { "Software compatibility": p.softwareSupport }
+      : {}),
+    ...(p.usbIds?.length
+      ? {
+          "USB identifiers": p.usbIds
+            .map(({ id, label }) => (label ? `${id} (${label})` : id))
+            .join("; "),
+        }
+      : {}),
     ...(p.msrp
       ? {
           "Historical MSRP": `${p.msrp.amount} ${p.msrp.currency} (${p.msrp.region}; ${p.msrp.date})`,

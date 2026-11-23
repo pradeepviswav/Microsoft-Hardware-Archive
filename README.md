@@ -1,6 +1,6 @@
 # Microsoft Hardware Archive
 
-An independent, responsive collection of Microsoft devices and selected Windows Phone partner hardware, spanning 1980–2026, with 163 records across 20 product families.
+An independent, responsive collection of Microsoft devices and selected Windows Phone partner hardware, spanning 1980–2026, with 256 records across 22 product categories.
 
 ## Run locally
 
@@ -24,7 +24,7 @@ The Playwright configuration uses `/usr/bin/chromium`. Set `CHROMIUM_PATH` to yo
 
 ## Explore
 
-Search device names, descriptions, families, or years. Combine family and era filters, sort chronologically or alphabetically, and switch between grid and list views. Search covers the full catalogue; use “Show more” to browse beyond the first 24 records. The Microsoft Store selection filter shows accessories from the researched Store page, without making stock claims. Use the heart button to save devices in this browser. Compare two to four devices; fields without recorded specifications are explicitly marked. Press `/` to focus search. Dialogs support Escape, keyboard focus containment, and focus restoration.
+Search device names, descriptions, families, years, or recorded USB and part identifiers. Combine family and era filters, sort chronologically or alphabetically, and switch between grid and list views. Search covers the full catalogue; use “Show more” to browse beyond the first 24 records. The Microsoft Store selection filter shows accessories from the researched Store page, without making stock claims. Use the heart button to save devices in this browser. Compare two to four devices; fields without recorded specifications are explicitly marked. Press `/` to focus search. Dialogs support Escape, keyboard focus containment, and focus restoration.
 
 Saved devices and theme preferences use local storage when available. Nothing is sent to a server. There are no seeded user reviews or placeholder shopping links.
 
@@ -54,5 +54,5 @@ exports `/catalogue.json` with canonical URLs and `/llms-full.txt` in Markdown.
 Unknown metadata remains null; historical MSRP includes its dated regional
 source. Source webpages are stored separately from local image URLs.
 
-See [coverage and follow-up audit](docs/COVERAGE_AUDIT.md) for the 68 additions,
+See [coverage and follow-up audits](docs/COVERAGE_AUDIT.md) for catalogue additions,
 source methodology, disputed names, unconfirmed dates and remaining media gaps.

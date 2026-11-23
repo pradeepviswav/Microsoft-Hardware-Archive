@@ -4,9 +4,15 @@ import { Product } from "../types";
 export function productFamily(product: Product): string {
   const name = product.name;
   const rules: [RegExp, string][] = [
-    [/Surface 1\.0 \(tabletop\)|Samsung SUR40/, "Surface Tabletop / PixelSense"],
+    [
+      /Surface 1\.0 \(tabletop\)|Samsung SUR40/,
+      "Surface Tabletop / PixelSense",
+    ],
     [/Surface Neo/, "Surface Neo"],
-    [/^Microsoft (Mouse(?: 2\.0)?|Serial Mouse|Bus Mouse)$/, "Original Microsoft mice"],
+    [
+      /^Microsoft (Mouse(?: 2\.0| \(Gray-Eyed\)| \(Dove Bar\))?|Serial Mouse|Bus Mouse)$/,
+      "Original Microsoft mice",
+    ],
     [/^Surface (Slim )?Pen/, "Surface pens"],
     [/MSN Companion/, "MSN Companion"],
     [/Natural.*Mouse/i, "Natural mice"],
@@ -33,6 +39,10 @@ export function productFamily(product: Product): string {
     [/Arc.*Mouse/, "Arc mice"],
     [/LifeCam/, "LifeCam"],
     [/LifeChat/, "LifeChat"],
+    [
+      /^Microsoft Modern (Webcam|USB|Wireless Headset)/,
+      "Microsoft Modern meeting accessories",
+    ],
     [/Lumia/, "Lumia"],
     [/Kin (ONE|TWO)/, "Kin"],
     [/HoloLens/, "HoloLens"],

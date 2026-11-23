@@ -145,3 +145,60 @@ so it is not substituted for the 2001 record. No retailer picture with unknown
 rights, unrelated model image or invented render is used to conceal these gaps.
 All affected records remain accessible and display the honest missing-photo
 state. This PR does not claim complete image coverage.
+
+## Peripheral catalogue audit, 23 November 2026
+
+The supplied audit describes a baseline inventory rather than a direct comparison
+with this repository. The follow-up uses it to identify candidates, then checks
+each change against catalogue records, dated Microsoft material and the public USB
+ID registry. The collection grows from 231 to 256 records. Existing IDs and
+canonical device names are retained.
+
+- The original Microsoft Mouse family now includes the 1985 Gray-Eyed and 1987
+  Dove Bar housings. The 1999 IntelliMouse Explorer, the 2001 wired revision,
+  the Tilt Wheel 4.0 and the original RF, 2.0, Bluetooth and Fingerprint Reader
+  wireless models have distinct entries where the sources identify them.
+- The 2013 Bluetooth Arc Touch Surface Edition has its own record. The 2010
+  Arc Touch record documents its original USB receiver. Microsoft's Store
+  listing confirms the identity and haptics of the 2026 Surface Mouse
+  (2nd Edition).
+- The SideWinder Force Feedback Pro, Force Feedback 2, game-port wheel and
+  USB wheel have distinct records and connectors. [Microsoft's 2000 launch
+  announcement](https://news.microsoft.com/source/2000/03/01/microsoft-in-tune-with-gamers-senses/)
+  establishes the Force Feedback 2 introduction year. The USB wheel's [archived
+  Microsoft support article](https://ftp.zx.net.nz/pub/Patches/ftp.microsoft.com/MISC/KB/en-us/271/890.HTM)
+  establishes the separate revision. Its first retail year is unconfirmed.
+- Presenter+, Audio Dock, the Modern meeting range, Surface Headphones 2+,
+  RoundTable, additional LifeCams and desktop peripherals fill verified gaps.
+  The existing Digital Sound System 80 entry gains the launch press release and
+  expanded connectivity details. Dates on these records indicate the sourced
+  milestone. VX-5500 is now dated to its introduction in Microsoft's 2008 guide.
+- The Compact Ergonomic Keyboard preview and McLaren prototype carry an
+  unreleased lifecycle. Surface Neo now carries an explicit unreleased status.
+  The Compact keyboard and Basic Optical Mouse v2.0 keep unknown retail dates.
+- Lifecycle values are recorded only where supported by a source. An Incase
+  listing is evidence of licensing and has no implication for regional stock.
+  Configuration notes distinguish original Microsoft models from the Incase
+  versions when support differs. The [Incase Sculpt Desktop support
+  page](https://www.incase.com/pages/sculpt-ergonomic-desktop-support) documents
+  this distinction for its hardware.
+- USB IDs are individually matched to model and device function in the [USB ID
+  Repository](https://github.com/usbids/usbids/blob/master/usb.ids). Where
+  verified, retail codes and FCC model identifiers stay distinct from USB IDs.
+  For example, PT3-00001 identifies the US Wireless Desktop 900 bundle and
+  045E:07B2 identifies its receiver. The grid and corridor both support USB
+  identifier and part-number searches.
+
+Twenty-eight local illustrations come from named entries in the Microsoft
+Hardware Timeline, Microsoft's 2008 buyer's guide, product data sheets, or
+Microsoft Support diagrams. The 1999 Explorer gets the period illustration
+from Microsoft's timeline. The previous image had only a generic optical-mouse
+description in its Commons metadata. Images retain their original attribution
+and document or article link. Model-specific gaps such as the earliest Wireless
+IntelliMouse Explorer, IntelliMouse TrackBall and Xbox Wireless Headset remain
+explicitly uncatalogued where an attributable asset was unavailable.
+
+The audit lists more product variants than this batch covers. Examples still
+outside this batch include later Surface prototypes with uncertain identities and
+device IDs that cannot be tied to a particular hardware revision. The catalogue
+uses its existing GitHub review and Spacefast sync workflow.

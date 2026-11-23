@@ -1,3 +1,4 @@
+import { hardwareSearchText } from "../data/metadata";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, KeyboardEvent, PointerEvent } from "react";
 import { Product } from "../types";
@@ -358,7 +359,7 @@ export default function TimeCorridor() {
   const term = query.trim().toLowerCase();
   const matches = term
     ? products.filter((p) =>
-        `${p.name} ${productFamily(p)} ${p.year ?? "unconfirmed"} ${p.aliases?.join(" ") ?? ""}`
+        `${p.name} ${productFamily(p)} ${p.year ?? "unconfirmed"} ${p.aliases?.join(" ") ?? ""} ${hardwareSearchText(p)}`
           .toLowerCase()
           .includes(term),
       )

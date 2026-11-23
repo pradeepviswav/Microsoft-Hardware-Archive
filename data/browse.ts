@@ -1,3 +1,4 @@
+import { hardwareSearchText } from "./metadata";
 import { products, categories } from "./products";
 import { productFamily } from "./families";
 import { slug } from "../seo/urls";
@@ -108,7 +109,7 @@ export function filterProducts(
         (!state.diagramOnly || p.imageKind === "diagram") &&
         (!state.savedOnly || saved.includes(p.id)) &&
         (!state.storeOnly || p.storeListed) &&
-        `${p.name} ${p.category} ${p.year ?? ""} ${productFamily(p)} ${p.description} ${(p.aliases || []).join(" ")}`
+        `${p.name} ${p.category} ${p.year ?? ""} ${productFamily(p)} ${p.description} ${(p.aliases || []).join(" ")} ${hardwareSearchText(p)}`
           .toLowerCase()
           .includes(state.query.trim().toLowerCase()),
     )
