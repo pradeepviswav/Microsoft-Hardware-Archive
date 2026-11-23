@@ -9,6 +9,11 @@
   --tc-lane-ink: color-mix(in srgb, var(--lane, var(--accent)) 22%, var(--ink));
   --tc-inset: clamp(1rem, 3vw, 3rem);
   --tc-rail-space: clamp(5.5rem, 9vw, 9rem);
+  --tc-deck-inset: calc(var(--tc-rail-space) + 0.8rem);
+  --tc-card-image-height: clamp(64px, 13dvh, 135px);
+  --tc-tray-height: 8.6rem;
+  --tc-tray-bottom: max(4.45rem, calc(env(safe-area-inset-bottom) + 3.75rem));
+  --tc-tray-space: calc(var(--tc-tray-height) + var(--tc-tray-bottom));
   min-height: 100dvh;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
@@ -45,7 +50,9 @@
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
-.tc .tc-main :is(.tc-focus, .tc-results, .tc-controls, .tc-family-view),
+.tc
+  .tc-main
+  :is(.tc-focus, .tc-results, .tc-controls, .tc-family-view, .tc-lane-tray),
 .tc dialog {
   background: var(--tc-panel);
   border: 1px solid var(--tc-border);
@@ -218,7 +225,7 @@
 .tc-year {
   position: absolute;
   z-index: 2;
-  inset: 13% auto auto 55%;
+  inset: 13% auto auto 50%;
   transform: translateX(-50%);
   display: grid;
   justify-items: center;
@@ -239,6 +246,14 @@
   border: 1px solid var(--tc-border);
   border-radius: 99px;
   background: var(--tc-panel);
+}
+.tc-year p {
+  width: max-content;
+  max-width: 65vw;
+  margin: 0.35rem 0 0;
+  text-align: center;
+  color: var(--tc-muted);
+  font-size: 0.78rem;
 }
 .tc-scene {
   position: absolute;
@@ -272,18 +287,17 @@
 }
 .tc-depth {
   position: absolute;
-  inset: 0 var(--tc-rail-space) 0 clamp(0px, 10vw, 180px);
+  inset: 0 var(--tc-deck-inset);
   perspective: 900px;
   perspective-origin: 50% 27%;
 }
 .tc-depth-row {
   position: absolute;
-  display: grid;
-  width: calc(100% - 2rem);
-  left: 1rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
   top: 58%;
   gap: 0.55rem;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
   transform: translate3d(
     0,
     calc(-44px - var(--depth) * 78px),
@@ -314,10 +328,10 @@
   pointer-events: none;
 }
 .tc-slot {
+  flex: 0 1 calc((100% - 1.65rem) / 4);
   min-width: 0;
 }
-.tc-card,
-.tc-empty-slot {
+.tc-card {
   width: 100%;
   min-width: 0;
   border: 1px solid var(--tc-border);
@@ -325,14 +339,12 @@
   background: var(--tc-panel);
   backdrop-filter: blur(12px) saturate(1.15);
   overflow: hidden;
-}
-.tc-card {
   display: block;
   padding: 0;
   text-align: left;
   border-top: 2px solid color-mix(in srgb, var(--lane) 60%, var(--accent));
 }
-.tc-card[aria-current="true"] {
+.tc-card:is([aria-current="true"], [aria-expanded="true"]) {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
   box-shadow: 0 0 34px var(--tc-halo);
@@ -344,7 +356,7 @@
 .tc-card .tc-type-image {
   display: block;
   width: 100%;
-  height: clamp(64px, 13dvh, 135px);
+  height: var(--tc-card-image-height);
   object-fit: contain;
   background: color-mix(in srgb, var(--photo) 35%, transparent);
 }
@@ -385,15 +397,90 @@
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
-.tc-empty-slot {
-  padding: 0.75rem 0.55rem;
-  border-style: dashed;
-  color: var(--tc-lane-ink);
-  font-size: 0.86rem;
+.tc-main[data-lane-expanded="true"] .tc-depth-row {
+  top: min(
+    58%,
+    calc(100% - var(--tc-tray-space) - var(--tc-card-image-height) - 2.15rem)
+  );
 }
-.tc-empty-slot small {
-  display: block;
+.tc-lane-tray {
+  position: absolute;
+  z-index: 4;
+  inset: auto var(--tc-deck-inset) var(--tc-tray-bottom);
+  height: var(--tc-tray-height);
+  padding: 0.35rem 0.6rem;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+.tc-overlay-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.35rem;
+}
+.tc-lane-tray h2 {
+  margin: 0;
+  padding-left: 0.3rem;
+  font-size: 0.87rem;
+}
+.tc-lane-tray h2 small {
+  margin-left: 0.4rem;
   color: var(--tc-muted);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+.tc-dismiss {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.125rem;
+  height: 2.125rem;
+  padding: 0;
+  color: var(--tc-text);
+  border: 1px solid var(--tc-border);
+  border-radius: 8px;
+  background: var(--tc-panel);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+.tc-lane-devices {
+  display: flex;
+  gap: 0.5rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  overscroll-behavior-inline: contain;
+}
+.tc-lane-devices li {
+  flex: 0 0 clamp(7rem, 13vw, 10.25rem);
+}
+.tc-lane-devices .tc-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+.tc-lane-devices .tc-card :is(img, .tc-type-image) {
+  flex: 1 1 2.5rem;
+  min-height: 0;
+  padding: 0;
+}
+.tc-lane-devices .tc-type-image strong {
+  font-size: 1rem;
+}
+.tc-lane-devices .tc-type-image small {
+  display: none;
+}
+.tc-lane-devices .tc-card span {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin: 0.23rem 0.4rem;
 }
 #tc-gesture-help {
   position: absolute;
@@ -403,6 +490,9 @@
   text-align: center;
   margin: 0.5rem 0 0.75rem;
   pointer-events: none;
+}
+.tc-main[data-lane-expanded="true"] #tc-gesture-help {
+  opacity: 0;
 }
 .tc-mobile-help {
   display: none;
@@ -417,6 +507,12 @@
   padding: clamp(0.85rem, 1.4vw, 1.15rem);
   overflow: auto;
   overscroll-behavior: contain;
+}
+.tc-main[data-lane-expanded="true"] .tc-focus {
+  max-height: calc(100% - var(--tc-tray-space) - 4.9rem);
+}
+.tc-focus .tc-kicker {
+  margin: 0;
 }
 .tc-kicker {
   margin: 0 0 0.65rem;
@@ -443,14 +539,12 @@
   margin: 0.65rem 0 1rem;
   font-size: 0.92rem;
 }
-.tc-picker,
 .tc-family-view label {
   display: block;
   margin: 0.65rem 0;
   color: var(--tc-muted);
   font-size: 0.78rem;
 }
-.tc-picker select,
 .tc-family-view select {
   margin-top: 0.25rem;
 }
@@ -893,6 +987,8 @@
   .tc {
     --tc-inset: 0.7rem;
     --tc-rail-space: 4.5rem;
+    --tc-card-image-height: clamp(46px, 10dvh, 92px);
+    --tc-tray-bottom: max(3.9rem, calc(env(safe-area-inset-bottom) + 3.1rem));
   }
   .tc > .site-header {
     padding-block: 0.4rem;
@@ -932,9 +1028,6 @@
     max-height: min(47%, 18.25rem);
     padding: 0.65rem;
   }
-  .tc-focus .tc-kicker {
-    margin-bottom: 0.2rem;
-  }
   .tc-focus-meta {
     margin-top: 0.18rem;
   }
@@ -946,8 +1039,7 @@
     font-size: 0.78rem;
     line-height: 1.4;
   }
-  .tc-focus .tc-actions > :is(a, button),
-  .tc-focus select {
+  .tc-focus .tc-actions > :is(a, button) {
     min-height: 36px;
     padding: 0.3rem 0.5rem;
     font-size: 0.75rem;
@@ -959,15 +1051,11 @@
   .tc-focus .tc-peers summary {
     font-size: 0.8rem;
   }
-  .tc-focus .tc-picker {
-    margin: 0.4rem 0;
-  }
   .tc-depth {
     inset-inline: 0.2rem var(--tc-rail-space);
     perspective: 660px;
   }
   .tc-depth-row {
-    grid-template-columns: minmax(0, 1fr);
     width: min(87%, 390px);
     left: 50%;
     top: 64%;
@@ -980,9 +1068,20 @@
   .tc-slot[data-current-lane="false"] {
     display: none;
   }
-  .tc-card img,
-  .tc-card .tc-type-image {
-    height: clamp(46px, 10dvh, 92px);
+  .tc-slot {
+    flex: 1;
+  }
+  .tc-lane-tray {
+    inset-inline-start: var(--tc-inset);
+  }
+  .tc-main[data-lane-expanded="true"] .tc-depth-row {
+    top: min(
+      64%,
+      calc(100% - var(--tc-tray-space) - var(--tc-card-image-height) - 2.8rem)
+    );
+  }
+  .tc-main[data-lane-expanded="true"] .tc-year {
+    inset-block-start: 19%;
   }
   .tc-card-caption strong {
     min-height: 1.2em;
@@ -1069,15 +1168,10 @@
   }
 }
 
-@media (max-height: 720px) and (min-width: 761px) {
-  .tc-depth {
-    inset-inline-start: min(40vw, 22rem);
-  }
-  .tc-year {
-    inset-inline-start: 60%;
-  }
-}
 @media (max-height: 600px) {
+  .tc {
+    --tc-tray-height: 7.4rem;
+  }
   .tc[data-view="corridor"] .tc-main {
     min-height: 300px;
   }
