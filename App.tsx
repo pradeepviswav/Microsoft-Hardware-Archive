@@ -1,13 +1,14 @@
 import { recordedSpecifications } from "./data/metadata";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { products, categories } from "./data/products";
-import { Product, Theme } from "./types";
+import { Product } from "./types";
+import ArchiveHeader, { ArchiveAbout } from "./components/ArchiveHeader";
 import "./styles.css";
 import { productFamily } from "./data/families";
 import { Arrow, Picture, Modal } from "./components/ArchiveUI";
 
 import Directory from "./seo/Directory";
-import { corridorPath, productPath } from "./seo/urls";
+import { productPath } from "./seo/urls";
 import {
   BrowseState,
   defaults,
@@ -76,17 +77,7 @@ export default function App({
   const [comparisonOpen, setComparisonOpen] = useState(false);
   const [about, setAbout] = useState(false);
   const [message, setMessage] = useState("");
-  const [theme, setTheme] = useState<Theme>(() => {
-    const value = readSaved<Theme>("archive-theme", "light");
-    return value === "dark" ? "dark" : "light";
-  });
   const searchRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem("archive-theme", JSON.stringify(theme));
-    } catch {}
-  }, [theme]);
   useEffect(() => {
     try {
       localStorage.setItem("archive-saved", JSON.stringify(saved));
@@ -160,46 +151,16 @@ export default function App({
       <a href="#collection" className="skip-link">
         Skip to collection
       </a>
-      <header className="site-header">
-        <a className="brand" href="/" aria-label="Hardware Archive home">
-          <span className="brand-mark" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-            <i />
-          </span>
-          <span>
-            Microsoft
-            <br />
-            <strong>Hardware Archive</strong>
-          </span>
-        </a>
-        <nav aria-label="Main navigation">
-          <a href="#collection" className="nav-active" onClick={reset}>
-            Collection
-          </a>
-          <button
-            onClick={() => {
-              setSavedOnly(true);
-              document.getElementById("collection")?.scrollIntoView();
-            }}
-          >
-            Saved <span>{saved.length}</span>
-          </button>
-          <a href={corridorPath}>Time Corridor</a>
-          <a href="#categories">Categories</a>
-          <a href="#families">Families</a>
-          <a href="#decades">Decades</a>
-          <button onClick={() => setAbout(true)}>About the archive</button>
-        </nav>
-        <button
-          className="icon-button theme-toggle"
-          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-          aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-        >
-          {theme === "light" ? "◐" : "◑"}
-        </button>
-      </header>
+      <ArchiveHeader
+        active="collection"
+        savedCount={saved.length}
+        onCollection={reset}
+        onAbout={() => setAbout(true)}
+        onSaved={() => {
+          setSavedOnly(true);
+          document.getElementById("collection")?.scrollIntoView();
+        }}
+      />
       <main>
         <section className="hero">
           <div className="hero-copy">
@@ -893,51 +854,7 @@ export default function App({
           </div>
         </Modal>
       )}
-      {about && (
-        <Modal title="About the archive" onClose={() => setAbout(false)}>
-          <div className="detail-content">
-            <h2>Hardware worth remembering.</h2>
-            <p>
-              This independent collection follows Microsoft hardware from early
-              peripherals to modern Surface devices. It also includes partner
-              hardware from the Windows Phone ecosystem.
-            </p>
-            <h3>How we keep it useful</h3>
-            <p>
-              Records link to Microsoft specifications, archived announcements,
-              or Wikipedia. Years refer to release or introduction; an
-              unconfirmed year is labelled explicitly. This is a curated
-              selection, not a complete product catalog.
-            </p>
-            <p>
-              New entries were researched on 9 November 2026. Historical entries
-              are identified separately where their details have not been
-              reverified. Announcement details and availability can vary by
-              market; visit the linked source for context.
-            </p>
-            <h3>Your collection stays with you</h3>
-            <p>
-              Saved devices and your theme preference are stored in this browser
-              when storage is available. There is no account or public review
-              service.
-            </p>
-            <p>
-              Product names and images belong to their respective owners.
-              Photographs and support diagrams include attribution and original
-              source links. A record without a confirmed image is marked “Photo
-              not yet catalogued.”
-            </p>
-            <a
-              className="secondary"
-              href="https://github.com/pradeepviswav/Microsoft-Hardware-Archive"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Visit the project on GitHub <Arrow />
-            </a>
-          </div>
-        </Modal>
-      )}
+      {about && <ArchiveAbout onClose={() => setAbout(false)} />}
     </>
   );
 }
