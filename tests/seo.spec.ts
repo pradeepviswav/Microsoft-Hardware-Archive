@@ -241,3 +241,29 @@ test("complete JSON export is public and release schema uses only verified exact
     else expect(schema).not.toHaveProperty("releaseDate");
   }
 });
+
+test("Time Corridor gives visitors direct archive links without JavaScript", async ({
+  browser,
+}) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto("/");
+  await expect(page.locator(".product-card")).toHaveCount(24);
+  await page.getByRole("link", { name: "Time Corridor", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Time Corridor", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Grid", exact: true }),
+  ).toHaveAttribute("href", "/#collection");
+  await expect(
+    page.getByRole("link", { name: /1980s · \d+ devices/ }),
+  ).toHaveAttribute("href", "/eras/1980s/");
+  await page
+    .getByRole("link", { name: "Specs and history", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Surface Book (2015)", exact: true }),
+  ).toBeVisible();
+  await context.close();
+});

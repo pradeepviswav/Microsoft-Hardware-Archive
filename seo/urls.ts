@@ -1,4 +1,5 @@
 import { Product } from "../types";
+export const corridorPath = "/corridor/";
 export const siteName = "Microsoft Hardware Archive";
 export const slug = (value: string) =>
   value
