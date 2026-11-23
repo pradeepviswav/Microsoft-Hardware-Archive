@@ -254,7 +254,7 @@ test("Time Corridor gives visitors direct archive links without JavaScript", asy
     page.getByRole("heading", { name: "Time Corridor", exact: true }),
   ).toBeVisible();
   await expect(
-    page.getByRole("link", { name: "Grid", exact: true }),
+    page.getByRole("link", { name: "Collection", exact: true }),
   ).toHaveAttribute("href", "/#collection");
   await expect(
     page.getByRole("link", { name: /1980s · \d+ devices/ }),

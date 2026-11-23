@@ -9,6 +9,12 @@ test("corridor supports keyboard travel, decade jumps, undated records and grid 
   await expect(page).toHaveURL(/\/corridor\/$/);
   const stage = page.getByRole("region", { name: "Time corridor stage" });
   const year = page.getByRole("slider", { name: "Timeline year" });
+  await expect(
+    page
+      .getByRole("navigation", { name: "Main navigation" })
+      .getByRole("link", { name: "Time Corridor", exact: true }),
+  ).toHaveAttribute("aria-current", "page");
+  await expect(year).toHaveAttribute("aria-orientation", "vertical");
   const focus = page.getByRole("complementary", { name: "In-focus device" });
   await expect(
     focus.getByRole("heading", { name: "Surface Book", exact: true }),
@@ -29,6 +35,14 @@ test("corridor supports keyboard travel, decade jumps, undated records and grid 
     .getByRole("button", { name: `1980s, ${eighties} devices` })
     .click();
   await expect(year).toHaveValue("1987");
+  const rail = (await year.boundingBox())!;
+  await page.mouse.move(rail.x + rail.width / 2, rail.y + 7);
+  await page.mouse.down();
+  await page.mouse.move(rail.x + rail.width / 2, rail.y + rail.height - 1, {
+    steps: 6,
+  });
+  await page.mouse.up();
+  await expect(year).toHaveValue((await year.getAttribute("min")) as string);
   await page
     .getByRole("button", { name: "Unconfirmed years", exact: true })
     .click();
@@ -49,7 +63,7 @@ test("corridor supports keyboard travel, decade jumps, undated records and grid 
     stage.getByText("Year unconfirmed · Photo not yet catalogued").first(),
   ).toBeVisible();
 
-  await page.getByRole("link", { name: "Grid", exact: true }).click();
+  await page.getByRole("link", { name: "Collection", exact: true }).click();
   await expect(page).toHaveURL(/\/#collection$/);
   await expect(page.locator(".product-card")).toHaveCount(24);
 });
@@ -83,7 +97,7 @@ test("fly-in shows archive media, navigates a family thread and returns focus", 
   await expect(dialog).toHaveCount(0);
   await expect(launch).toBeFocused();
 
-  await page.getByRole("link", { name: "Family tree" }).click();
+  await page.getByRole("button", { name: "Family tree" }).click();
   const family = page.getByRole("region", { name: "Family tree" });
   await expect(family.getByLabel("Product family")).toHaveValue("Surface Book");
   await expect(family.getByRole("listitem")).toHaveCount(3);
@@ -111,10 +125,25 @@ test("mobile shows one lane and swiping up travels to an earlier year", async ({
     390,
   );
 
+  const focusBox = (await page
+    .getByRole("complementary", { name: "In-focus device" })
+    .boundingBox())!;
+  const railBox = (await page
+    .getByRole("slider", { name: "Timeline year" })
+    .boundingBox())!;
+  expect(focusBox.x).toBeLessThan(24);
+  expect(railBox.x + railBox.width).toBeLessThan(391);
+  expect(railBox.x).toBeGreaterThan(340);
+  const nextYear = (await page
+    .getByRole("button", { name: "Go to a later year" })
+    .boundingBox())!;
+  expect(nextYear.x + nextYear.width).toBeLessThan(390);
   const box = (await stage.boundingBox())!;
   const touch = await context.newCDPSession(page);
-  const x = Math.round(box.x + box.width / 2);
-  const y = Math.round(box.y + box.height / 2);
+  expect(box.width).toBe(390);
+  expect(box.y + box.height).toBe(844);
+  const x = Math.round(box.x + box.width * 0.4);
+  const y = Math.round(box.y + box.height * 0.7);
   await touch.send("Input.dispatchTouchEvent", {
     type: "touchStart",
     touchPoints: [{ x, y }],

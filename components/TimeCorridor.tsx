@@ -16,8 +16,9 @@ import {
   undatedCount,
   years,
 } from "../data/corridor";
-import { corridorPath, eraPath, familyPath, productPath } from "../seo/urls";
+import { eraPath, familyPath, productPath } from "../seo/urls";
 import { CorridorImage, FlyIn } from "./CorridorMedia";
+import ArchiveHeader, { ArchiveAbout } from "./ArchiveHeader";
 import "./corridor.css";
 
 const devicesAt = (year: number | null) =>
@@ -25,74 +26,74 @@ const devicesAt = (year: number | null) =>
 const laneStyle = (lane: Lane) =>
   ({ "--lane": lanes.find((l) => l.name === lane)!.color }) as CSSProperties;
 
-function Decades({
+function Timeline({
   year,
   selectYear,
 }: {
   year: number | null;
   selectYear: (year: number | null) => void;
 }) {
-  const max = Math.max(...decades.map((decade) => decade.count));
+  const span = Math.max(1, latest - earliest);
+  const maxCount = Math.max(1, ...decades.map((item) => item.count));
   return (
     <section
       className="tc-timeline tc-interactive"
       aria-label="Timeline and decade density"
     >
-      <div className="tc-timeline-header">
-        <h2>Timeline</h2>
-        <span>
-          {products.length - undatedCount} dated · {undatedCount} unconfirmed
-        </span>
-        <button
-          type="button"
-          aria-pressed={year === null}
-          onClick={() => selectYear(null)}
-        >
-          Unconfirmed years
-        </button>
-      </div>
-      <div className="tc-decade-bars">
-        {decades.map((decade) => (
-          <button
-            type="button"
-            key={decade.year}
-            aria-label={`${decade.year}s, ${decade.count} devices`}
-            aria-pressed={
-              year !== null && Math.floor(year / 10) * 10 === decade.year
-            }
-            onClick={() =>
-              selectYear(
-                years.find((y) => y >= decade.year && y < decade.year + 10) ??
-                  decade.year,
-              )
-            }
-          >
-            <span className="tc-bar-track" aria-hidden="true">
-              <span
-                style={{
-                  height: `${Math.max(4, (decade.count / max) * 100)}%`,
-                }}
-              />
-            </span>
-            <span>
-              {decade.year}s <small>{decade.count}</small>
-            </span>
-          </button>
-        ))}
-      </div>
+      <h2>Timeline</h2>
       <div className="tc-scrubber">
-        <span>{earliest}</span>
         <input
           type="range"
           aria-label="Timeline year"
+          aria-orientation="vertical"
           aria-valuetext={year === null ? "Unconfirmed years" : String(year)}
           min={earliest}
           max={latest}
           value={year ?? latest}
           onChange={(e) => selectYear(Number(e.target.value))}
         />
-        <span>{latest}</span>
+        {decades
+          .slice()
+          .reverse()
+          .map((item) => (
+            <button
+              className="tc-decade-tick"
+              type="button"
+              key={item.year}
+              style={
+                {
+                  "--tick-ratio":
+                    (latest - Math.max(earliest, item.year)) / span,
+                  "--density": `${4 + (14 * item.count) / maxCount}px`,
+                } as CSSProperties
+              }
+              aria-label={`${item.year}s, ${item.count} devices`}
+              title={`${item.count} devices`}
+              aria-pressed={
+                year !== null && Math.floor(year / 10) * 10 === item.year
+              }
+              onClick={() =>
+                selectYear(
+                  years.find((y) => y >= item.year && y < item.year + 10) ??
+                    item.year,
+                )
+              }
+            >
+              {item.year}s
+            </button>
+          ))}
       </div>
+      {undatedCount > 0 && (
+        <button
+          className="tc-undated"
+          type="button"
+          aria-label="Unconfirmed years"
+          aria-pressed={year === null}
+          onClick={() => selectYear(null)}
+        >
+          Undated <span>{undatedCount}</span>
+        </button>
+      )}
     </section>
   );
 }
@@ -330,6 +331,7 @@ export default function TimeCorridor() {
   const [query, setQuery] = useState("");
   const searchInput = useRef<HTMLInputElement>(null);
   const focusPanel = useRef<HTMLElement>(null);
+  const [about, setAbout] = useState(false);
   const [flyIn, setFlyIn] = useState(false);
   const [saved, setSaved] = useState<number[]>([]);
   useEffect(() => {
@@ -404,101 +406,89 @@ export default function TimeCorridor() {
   };
 
   return (
-    <div className="tc" style={laneStyle(lane)}>
+    <div className="tc" data-view={mode} style={laneStyle(lane)}>
       <a className="skip-link" href="#tc-content">
         Skip to Time Corridor
       </a>
-      <header className="tc-header">
-        <a className="tc-brand" href="/">
-          Microsoft <strong>Hardware Archive</strong>
-        </a>
-        <nav aria-label="Archive views">
-          <a
-            className="tc-button"
-            href={corridorPath}
-            aria-current={mode === "corridor" ? "page" : undefined}
-            onClick={(e) => {
-              if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
-              e.preventDefault();
-              setMode("corridor");
-            }}
-          >
-            Corridor
-          </a>
-          <a className="tc-button" href="/#collection">
-            Grid
-          </a>
-          <a
-            className="tc-button"
-            href="/catalogue/#families"
-            aria-current={mode === "family" ? "page" : undefined}
-            onClick={(e) => {
-              if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
-              e.preventDefault();
-              if (focused) setFamily(productFamily(focused));
-              setMode("family");
-            }}
-          >
-            Family tree
-          </a>
-        </nav>
-        <div className="tc-search tc-interactive">
-          <label className="tc-sr-only" htmlFor="tc-search">
-            Search corridor devices
-          </label>
-          <input
-            ref={searchInput}
-            id="tc-search"
-            type="search"
-            value={query}
-            placeholder={`Search ${products.length} devices`}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Escape" && query) setQuery("");
-            }}
-            aria-controls={term ? "tc-results" : undefined}
-          />
-          {term && (
-            <div className="tc-results" id="tc-results">
-              <p role="status">
-                {matches.length
-                  ? `${matches.length} matching devices`
-                  : "No matching devices"}
-              </p>
-              <ul>
-                {matches.map((p) => (
-                  <li key={p.id}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        selectDevice(p);
-                        setMode("corridor");
-                        setQuery("");
-                        searchInput.current?.focus();
-                      }}
-                    >
-                      <span>{p.name}</span>
-                      <small>
-                        {p.year ?? "Unconfirmed"} · {deviceLane(p)}
-                      </small>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-        <a className="tc-button tc-saved" href="/?saved=1#collection">
-          Saved{saved.length > 0 ? ` ${saved.length}` : ""}
-        </a>
-      </header>
-
+      <ArchiveHeader
+        active="corridor"
+        savedCount={saved.length}
+        onAbout={() => setAbout(true)}
+      />
       <main id="tc-content" className="tc-main">
         <div className="tc-heading">
           <h1>Time Corridor</h1>
           <p>
             {earliest}–{latest} <span>·</span> {products.length} devices
           </p>
+        </div>
+        <div className="tc-tools tc-interactive">
+          <div className="tc-search tc-interactive">
+            <label className="tc-sr-only" htmlFor="tc-search">
+              Search corridor devices
+            </label>
+            <input
+              ref={searchInput}
+              id="tc-search"
+              type="search"
+              value={query}
+              placeholder="Search devices"
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Escape" && query) setQuery("");
+              }}
+              aria-controls={term ? "tc-results" : undefined}
+            />
+            {term && (
+              <div className="tc-results" id="tc-results">
+                <p role="status">
+                  {matches.length
+                    ? `${matches.length} matching devices`
+                    : "No matching devices"}
+                </p>
+                <ul>
+                  {matches.map((p) => (
+                    <li key={p.id}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          selectDevice(p);
+                          setMode("corridor");
+                          setQuery("");
+                          searchInput.current?.focus();
+                        }}
+                      >
+                        <span>{p.name}</span>
+                        <small>
+                          {p.year ?? "Unconfirmed"} · {deviceLane(p)}
+                        </small>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+          {mode === "family" ? (
+            <button
+              type="button"
+              className="tc-button"
+              onClick={() => setMode("corridor")}
+            >
+              Back to corridor
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="tc-button"
+              onClick={() => {
+                if (focused) setFamily(productFamily(focused));
+                setMode("family");
+              }}
+            >
+              Family tree
+            </button>
+          )}
         </div>
         {mode === "family" ? (
           <FamilyTree
@@ -508,157 +498,153 @@ export default function TimeCorridor() {
           />
         ) : (
           <>
-            <div className="tc-layout">
-              <div className="tc-corridor">
-                <div className="tc-controls tc-interactive">
-                  <div className="tc-lanes" aria-label="Device lanes">
-                    {lanes.map((item) => (
-                      <button
-                        type="button"
-                        key={item.name}
-                        style={laneStyle(item.name)}
-                        title={item.examples}
-                        aria-pressed={lane === item.name}
-                        onClick={() => changeLane(item.name)}
-                      >
-                        <span aria-hidden="true" />
-                        {item.name}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="tc-year-controls">
+            <aside
+              className="tc-focus"
+              ref={focusPanel}
+              tabIndex={-1}
+              aria-label="In-focus device"
+            >
+              <p className="tc-kicker">
+                In focus <span>·</span> {lane}
+              </p>
+              {focused ? (
+                <>
+                  <p className="tc-focus-meta">
+                    {focused.year ?? "Year unconfirmed"} ·{" "}
+                    {productFamily(focused)}
+                  </p>
+                  <h2>{focused.name}</h2>
+                  <p>{focused.description}</p>
+                  <div className="tc-actions">
                     <button
                       type="button"
-                      aria-label="Go to an earlier year"
-                      disabled={year === null || year <= earliest}
-                      onClick={() => step(1)}
+                      className="tc-primary tc-interactive"
+                      onClick={() => setFlyIn(true)}
                     >
-                      ←
+                      Fly in ↗
                     </button>
-                    <div className="tc-year" aria-live="polite">
-                      <strong>{year ?? "Undated"}</strong>
-                      <small>
-                        {decade
-                          ? `${decade.year}s · ${decade.count} devices`
-                          : `${undatedCount} unconfirmed years`}
-                      </small>
-                    </div>
-                    <button
-                      type="button"
-                      aria-label="Go to a later year"
-                      disabled={year === latest}
-                      onClick={() => step(-1)}
-                    >
-                      →
-                    </button>
+                    <a className="tc-button" href={productPath(focused)}>
+                      Specs and history
+                    </a>
                   </div>
-                </div>
-                <Scene
-                  year={year}
-                  lane={lane}
-                  focused={focused}
-                  step={step}
-                  switchLane={changeLane}
-                  selectDevice={selectDevice}
-                />
-              </div>
-              <aside
-                className="tc-focus"
-                ref={focusPanel}
-                tabIndex={-1}
-                aria-label="In-focus device"
-              >
-                <p className="tc-kicker">
-                  In focus <span>·</span> {lane}
-                </p>
-                {focused ? (
-                  <>
-                    <p className="tc-focus-meta">
-                      {focused.year ?? "Year unconfirmed"} ·{" "}
-                      {productFamily(focused)}
-                    </p>
-                    <h2>{focused.name}</h2>
-                    <p>{focused.description}</p>
-                    <div className="tc-actions">
-                      <button
-                        type="button"
-                        className="tc-primary tc-interactive"
-                        onClick={() => setFlyIn(true)}
+                  {inLane.length > 1 && (
+                    <label className="tc-picker tc-interactive">
+                      Devices in this lane
+                      <select
+                        value={focused.id}
+                        onChange={(e) => setDeviceId(Number(e.target.value))}
                       >
-                        Fly in ↗
-                      </button>
-                      <a className="tc-button" href={productPath(focused)}>
-                        Specs and history
-                      </a>
-                    </div>
-                    {inLane.length > 1 && (
-                      <label className="tc-picker tc-interactive">
-                        Devices in this lane
-                        <select
-                          value={focused.id}
-                          onChange={(e) => setDeviceId(Number(e.target.value))}
-                        >
-                          {inLane.map((p) => (
-                            <option key={p.id} value={p.id}>
+                        {inLane.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  )}
+                  {crossLane.length > 0 && (
+                    <details className="tc-peers">
+                      <summary>Elsewhere in {year}</summary>
+                      <ul>
+                        {crossLane.map((p) => (
+                          <li key={p.id}>
+                            <a
+                              href={productPath(p)}
+                              onClick={(e) => {
+                                if (
+                                  e.ctrlKey ||
+                                  e.metaKey ||
+                                  e.shiftKey ||
+                                  e.altKey
+                                )
+                                  return;
+                                e.preventDefault();
+                                selectDevice(p);
+                                focusPanel.current?.focus();
+                              }}
+                            >
+                              <span style={laneStyle(deviceLane(p))}>
+                                {deviceLane(p)}
+                              </span>
                               {p.name}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                    )}
-                    {crossLane.length > 0 && (
-                      <section className="tc-peers">
-                        <h3>Elsewhere in {year}</h3>
-                        <ul>
-                          {crossLane.map((p) => (
-                            <li key={p.id}>
-                              <a
-                                href={productPath(p)}
-                                onClick={(e) => {
-                                  if (
-                                    e.ctrlKey ||
-                                    e.metaKey ||
-                                    e.shiftKey ||
-                                    e.altKey
-                                  )
-                                    return;
-                                  e.preventDefault();
-                                  selectDevice(p);
-                                  focusPanel.current?.focus();
-                                }}
-                              >
-                                <span style={laneStyle(deviceLane(p))}>
-                                  {deviceLane(p)}
-                                </span>
-                                {p.name}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </section>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <h2>
-                      {year === null
-                        ? "No undated records"
-                        : `No ${lane.toLowerCase()} records in ${year}`}
-                    </h2>
-                    <p>
-                      {atYear.length
-                        ? "Choose another lane to see records for this year."
-                        : "Try an earlier or later year, or pick a decade below."}
-                    </p>
-                  </>
-                )}
-              </aside>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  )}
+                </>
+              ) : (
+                <>
+                  <h2>
+                    {year === null
+                      ? "No undated records"
+                      : `No ${lane.toLowerCase()} records in ${year}`}
+                  </h2>
+                  <p>
+                    {atYear.length
+                      ? "Choose another lane to see records for this year."
+                      : "Try an earlier or later year, or choose a decade on the timeline."}
+                  </p>
+                </>
+              )}
+            </aside>
+            <div className="tc-year" aria-live="polite">
+              <strong>{year ?? "Undated"}</strong>
+              <small>
+                {decade
+                  ? `${decade.year}s · ${decade.count} devices`
+                  : `${undatedCount} unconfirmed years`}
+              </small>
             </div>
-            <Decades year={year} selectYear={selectYear} />
+            <div className="tc-controls tc-interactive">
+              <div className="tc-lanes" aria-label="Device lanes">
+                {lanes.map((item) => (
+                  <button
+                    type="button"
+                    key={item.name}
+                    style={laneStyle(item.name)}
+                    title={item.examples}
+                    aria-pressed={lane === item.name}
+                    onClick={() => changeLane(item.name)}
+                  >
+                    <span aria-hidden="true" />
+                    {item.name}
+                  </button>
+                ))}
+              </div>
+              <div className="tc-year-controls">
+                <button
+                  type="button"
+                  aria-label="Go to an earlier year"
+                  disabled={year === null || year <= earliest}
+                  onClick={() => step(1)}
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  aria-label="Go to a later year"
+                  disabled={year === latest}
+                  onClick={() => step(-1)}
+                >
+                  →
+                </button>
+              </div>
+            </div>
+            <Scene
+              year={year}
+              lane={lane}
+              focused={focused}
+              step={step}
+              switchLane={changeLane}
+              selectDevice={selectDevice}
+            />
+            <Timeline year={year} selectYear={selectYear} />
             <noscript>
               <style>
                 {
-                  ".tc-interactive{display:none!important}.tc-layout{display:block}.tc-corridor{display:none}"
+                  ".tc-interactive,.tc-year{display:none!important}.tc[data-view]{height:auto;overflow:visible}.tc .tc-heading,.tc .tc-focus{position:relative;inset:auto;width:auto;max-height:none;margin:1rem}.tc noscript{display:block;margin:1rem}"
                 }
               </style>
               <p>
@@ -679,6 +665,7 @@ export default function TimeCorridor() {
         )}
       </main>
 
+      {about && <ArchiveAbout onClose={() => setAbout(false)} />}
       {flyIn && focused && (
         <FlyIn
           device={focused}
